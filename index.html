@@ -169,40 +169,70 @@ h2 em{font-style:italic}
 @media (prefers-color-scheme:dark){.col.got h4{color:#7CC48A}.col.miss h4{color:#EE8A7C}.col.you h4{color:#8FAEF0}}
 .skip{margin-top:22px;font-size:15px;color:var(--ink3)}
 
-/* Bento */
-.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
-.tile{background:var(--card);border:1px solid var(--rule);border-radius:24px;padding:26px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+/* Features */
+.features-intro{
+  display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:32px;align-items:end;
+  border-bottom:1px solid var(--rule);padding-bottom:26px;margin-bottom:20px;
+}
+.features-intro h2{margin:10px 0 0;max-width:13ch;text-wrap:initial}
+.features-intro h2 em{white-space:nowrap}
+.features-intro > p{margin:0 0 3px;font:19px/1.5 var(--serif);color:var(--ink2);max-width:35ch;text-wrap:pretty}
+.feature-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.tile{
+  grid-column:span 6;min-width:0;display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:clamp(20px,2.55vw,32px);
+}
 .tile h3{font:600 22px/1.2 var(--serif);margin:0 0 6px}
-.tile p{color:var(--ink2);font-size:15.5px}
-.t-today{grid-column:span 2}.t-dep{grid-column:span 4}.t-sub{grid-column:span 3}.t-rev{grid-column:span 3}
-@media (max-width:900px){.bento{grid-template-columns:1fr}.tile{grid-column:auto!important}}
-.ring{display:flex;align-items:center;gap:18px;margin-top:22px}
-.ring svg{width:108px;height:108px;flex:none}
-.ring .big{font:400 44px/1 var(--serif)}
-.ring small{display:block;color:var(--ink3);font-size:13px;margin-top:4px}
-.streak{display:flex;gap:6px;margin-top:20px}
-.streak i{flex:1;height:30px;border-radius:8px;background:var(--ball);border:1.5px solid var(--ink)}
-.streak i.off{background:var(--paper2);border-color:var(--rule)}
-.dep{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:end;margin-top:20px}
-@media (max-width:560px){.dep{grid-template-columns:1fr}}
-.dep .score{font:400 88px/.9 var(--serif);letter-spacing:-.03em}
-.dep .score small{display:block;font:600 13px var(--sans);color:var(--green);letter-spacing:0;margin-top:10px}
-.dep svg{width:100%;height:140px;overflow:visible}
-.bars{display:grid;gap:12px;margin-top:22px}
-.bars div{display:grid;grid-template-columns:84px 1fr 40px;gap:12px;align-items:center;font-size:14.5px}
-.bars span{height:12px;border-radius:6px;background:var(--paper2);overflow:hidden}
-.bars span i{display:block;height:100%;border-radius:6px;background:var(--ink);width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
-.bars div:nth-child(1) span i{background:var(--ball);box-shadow:inset 0 0 0 1.5px var(--ink)}
-.bars b{font:600 13px var(--mono);text-align:right;color:var(--ink2)}
-.cards{position:relative;height:170px;margin-top:22px}
-.rc{position:absolute;inset:0 8% 0 0;background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:16px 18px;box-shadow:3px 3px 0 var(--ink);transition:transform .5s}
-.rc:nth-child(1){transform:rotate(5deg) translate(30px,6px);background:var(--paper2)}
-.rc:nth-child(2){transform:rotate(-3deg) translate(14px,2px);background:var(--paper2)}
-.tile:hover .rc:nth-child(1){transform:rotate(9deg) translate(52px,4px)}
-.tile:hover .rc:nth-child(2){transform:rotate(-5deg) translate(26px,0)}
-.rc small{font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
-.rc p{font:500 18px/1.35 var(--serif);color:var(--ink);margin-top:8px}
-.rc .flip{position:absolute;right:16px;bottom:12px;font:600 12px var(--sans);color:var(--ink3)}
+.tile > p{color:var(--ink2);font-size:15px;line-height:1.45;text-wrap:pretty}
+.t-today{grid-column:span 5;background:var(--ball);border-color:transparent;color:#1F1B16}
+.ring small{color:#494923}
+.t-dep{grid-column:span 7}
+.ring{display:flex;align-items:center;gap:18px;flex:1;margin:20px 0}
+.ring svg{width:82px;height:82px;flex:none}
+#ringArc{transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)}
+.ring .big,.dep .score{font:400 clamp(48px,5.6vw,72px)/.92 var(--serif);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.ring .total{font-size:.54em;color:#494923;margin-left:2px}
+.ring small{display:block;font-size:13px;margin-top:6px}
+.streak{margin-top:auto;padding-top:12px;border-top:1px solid #1F1B1633;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.streak strong{font-size:13px;font-weight:680}
+.streak-days{display:flex;gap:4px}
+.streak-days i{width:14px;height:7px;border-radius:9px;background:#1F1B16}
+.streak-days .off{background:#1F1B162e}
+.dep{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:end;flex:1;margin-top:20px}
+.dep .score small{display:block;font:650 13px/1.35 var(--sans);color:var(--green);letter-spacing:0;margin-top:10px}
+.dep-chart{margin:0;min-width:0}
+.dep-chart svg{display:block;width:100%;height:114px}
+.dep-chart figcaption{display:flex;justify-content:space-between;margin-top:4px;font-size:12px;color:var(--ink2)}
+.chart-guides{fill:none;stroke:var(--rule);stroke-width:1;stroke-dasharray:3 5}
+.chart-line{color:var(--ink);transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)}
+.bars{display:grid;gap:12px;margin-top:auto;padding-top:24px}
+.bars div{display:grid;grid-template-columns:72px minmax(0,1fr) 38px;gap:12px;align-items:center;font-size:14px}
+.bars span{height:7px;border-radius:9px;background:var(--paper2);overflow:hidden}
+.bars span i{display:block;height:100%;border-radius:inherit;background:var(--ink2);width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.bars div:first-child i{background:#687219}
+.bars b{font-size:13px;font-weight:650;font-variant-numeric:tabular-nums;text-align:right;color:var(--ink2)}
+.review-card{
+  cursor:pointer;width:100%;margin-top:22px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;
+  padding:15px 17px;min-height:126px;background:var(--paper2);color:var(--ink);font:inherit;text-align:left;
+  border:1px solid var(--rule);border-radius:12px;transition:background .2s,border-color .2s;
+}
+.review-card:hover{background:var(--paper);border-color:var(--ink3)}
+.review-card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.review-card small{font-size:12px;font-weight:650;color:var(--ink2)}
+.review-text{font:500 18px/1.35 var(--serif);text-wrap:pretty}
+.review-action{margin-top:auto;align-self:flex-end;font-size:12px;font-weight:650;color:var(--ink2)}
+@media (prefers-color-scheme:dark){
+  .dep .score small{color:#7CC48A}
+  .chart-line{color:var(--ball)}
+  .bars div:first-child i{background:var(--ball)}
+}
+@media (max-width:720px){
+  .features-intro{grid-template-columns:1fr;gap:12px}
+  .features-intro > p{max-width:40ch}
+  .feature-grid{grid-template-columns:1fr}
+  .tile{grid-column:1/-1}
+}
+@media (max-width:400px){.dep{grid-template-columns:1fr;gap:12px}}
 
 /* Wardrobe */
 .ward{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#1F1B16;color:#F2ECDF;border:1px solid var(--rule);border-radius:32px;overflow:hidden;box-shadow:var(--shadow)}
@@ -227,7 +257,6 @@ h2 em{font-style:italic}
 .opt:focus-visible,.sw:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 
 @media (prefers-color-scheme:dark){
-  .rc{border-color:#5A5146;box-shadow:4px 4px 0 #0E0C0A}
   .bubble,.art .card2{border-color:#5A5146;box-shadow:2px 2px 0 #0E0C0A}
   .try{border-color:#5A5146}
   .ward .stage{background:radial-gradient(circle at 50% 62%,#3A3227,#141210 70%)}
@@ -296,7 +325,7 @@ footer .sp{margin-left:auto;color:#4C4733}
   .rv{opacity:1;transform:none;transition:none}
   h1 em svg path{animation:none;stroke-dashoffset:0}
   .track .dog{animation:none;left:calc(50% - 65px)}
-  .msg,.try,.chip{transition:none}
+  .msg,.try,.chip,#ringArc,.chart-line,.bars span i{transition:none}
 }
 </style>
 </head>
@@ -397,33 +426,49 @@ footer .sp{margin-left:auto;color:#4C4733}
     </div>
   </section>
 
-  <section id="features">
-    <div class="head rv">
-      <p class="eyebrow">Build the habit</p>
-      <h2>Watch yourself <em>think more</em>.</h2>
+  <section id="features" aria-labelledby="features-title">
+    <div class="features-intro rv">
+      <div>
+        <p class="eyebrow">Build the habit</p>
+        <h2 id="features-title">Watch yourself <em>think more.</em></h2>
+      </div>
       <p>Simple numbers that show how you study, and where you lean on AI the most.</p>
     </div>
-    <div class="bento">
+    <div class="feature-grid">
       <div class="tile t-today rv">
         <h3>Today</h3>
-        <p>How often you tried first, and your streak.</p>
         <div class="ring">
-          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--paper2)" stroke-width="12"/><circle id="ringArc" cx="50" cy="50" r="40" fill="none" stroke="var(--ball)" stroke-width="12" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)"/><circle cx="50" cy="50" r="46.5" fill="none" stroke="var(--ink)" stroke-width="1.2" opacity=".2"/></svg>
-          <div><span class="big">8<span style="color:var(--ink3)">/10</span></span><small>tried first today</small></div>
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-opacity=".17" stroke-width="9"/>
+            <circle id="ringArc" cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" transform="rotate(-90 50 50)"/>
+          </svg>
+          <div><span class="big">8<span class="total">/10</span></span><small>tried first today</small></div>
         </div>
-        <div class="streak" title="5-day streak"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div>
+        <div class="streak">
+          <strong>5-day streak</strong>
+          <div class="streak-days" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div>
+        </div>
       </div>
       <div class="tile t-dep rv">
         <h3>Dependency Index</h3>
         <p>One number for how much you lean on AI, week by week.</p>
         <div class="dep">
           <div class="score">31<small>↓ 18 since September</small></div>
-          <svg viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
-            <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#CFDD3C" stop-opacity=".55"/><stop offset="1" stop-color="#CFDD3C" stop-opacity="0"/></linearGradient></defs>
-            <path d="M0 30 C40 26 60 44 100 40 S160 58 200 64 S270 70 300 88 S370 98 400 104 L400 140 L0 140Z" fill="url(#g)"/>
-            <path id="depLine" d="M0 30 C40 26 60 44 100 40 S160 58 200 64 S270 70 300 88 S370 98 400 104" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" style="transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)"/>
-            <circle cx="400" cy="104" r="6" fill="var(--ball)" stroke="var(--ink)" stroke-width="2.5"/>
-          </svg>
+          <figure class="dep-chart" aria-hidden="true">
+            <svg viewBox="0 0 400 126" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="dep-fill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="var(--ball)" stop-opacity=".38"/>
+                  <stop offset="1" stop-color="var(--ball)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="chart-guides" d="M0 22H400 M0 56H400 M0 90H400 M0 124H400" vector-effect="non-scaling-stroke"/>
+              <path d="M3 26 C40 22 60 40 100 36 S160 54 200 60 S270 66 300 84 S370 94 393 100 L393 124 H3Z" fill="url(#dep-fill)"/>
+              <path id="depLine" class="chart-line" d="M3 26 C40 22 60 40 100 36 S160 54 200 60 S270 66 300 84 S370 94 393 100" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" vector-effect="non-scaling-stroke"/>
+              <circle cx="393" cy="100" r="4" fill="var(--ball)" stroke="var(--ink)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <figcaption><span>September</span><span>Now</span></figcaption>
+          </figure>
         </div>
       </div>
       <div class="tile t-sub rv">
@@ -439,10 +484,11 @@ footer .sp{margin-left:auto;color:#4C4733}
       <div class="tile t-rev rv">
         <h3>Review</h3>
         <p>Every point you missed becomes a card, so you don’t miss it twice.</p>
-        <div class="cards">
-          <div class="rc"></div><div class="rc"></div>
-          <div class="rc"><small>Biology · missed on Tuesday</small><p>What colours are hidden in a leaf underneath the green?</p><span class="flip">Tap to flip</span></div>
-        </div>
+        <button class="review-card" id="review-card" type="button">
+          <small>Biology · missed on Tuesday</small>
+          <span class="review-text" aria-live="polite">What colours are hidden in a leaf underneath the green?</span>
+          <span class="review-action">Show answer <span aria-hidden="true">↻</span></span>
+        </button>
       </div>
     </div>
   </section>
@@ -789,13 +835,19 @@ footer .sp{margin-left:auto;color:#4C4733}
   dress(false);
 
   // Review card flip
-  var top = document.querySelector('.rc:last-child'), flipped = false;
-  top.style.cursor = 'pointer';
-  top.onclick = function () {
+  var review = $('review-card'), flipped = false;
+  var reviewLabel = review.querySelector('small');
+  var reviewText = review.querySelector('.review-text');
+  var reviewAction = review.querySelector('.review-action').firstChild;
+  var reviewQuestion = reviewText.textContent;
+  var reviewTopic = reviewLabel.textContent;
+  review.onclick = function () {
     flipped = !flipped;
-    top.innerHTML = flipped
-      ? '<small>Answer</small><p>Yellow and orange pigments (carotenoids). They show once the green breaks down.</p><span class="flip">Tap to flip back</span>'
-      : '<small>Biology · missed on Tuesday</small><p>What colours are hidden in a leaf underneath the green?</p><span class="flip">Tap to flip</span>';
+    reviewLabel.textContent = flipped ? 'Answer' : reviewTopic;
+    reviewText.textContent = flipped
+      ? 'Yellow and orange pigments (carotenoids). They show once the green breaks down.'
+      : reviewQuestion;
+    reviewAction.nodeValue = flipped ? 'Show question ' : 'Show answer ';
   };
 
   // What's new. Newest first; add an entry with each release.
