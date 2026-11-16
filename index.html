@@ -250,6 +250,27 @@ h2 em{font-style:italic}
 .ins p strong{color:var(--ink)}
 .req{margin-top:22px;text-align:center;font:600 13px var(--mono);color:var(--ink3)}
 
+/* What's new */
+.log{max-width:760px;margin:0 auto;position:relative}
+.log::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:2px;background:var(--rule)}
+.ver{position:relative;padding:0 0 30px 46px}
+.ver::before{content:"";position:absolute;left:4px;top:7px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:2px solid var(--ink3)}
+.ver.latest::before{background:var(--ball);border-color:var(--ink);box-shadow:0 0 0 5px color-mix(in srgb,var(--ball) 35%,transparent)}
+.ver header{position:static;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;backdrop-filter:none;-webkit-backdrop-filter:none;background:none;border:0}
+.ver h3{font:600 24px/1.2 var(--serif);margin:0}
+.ver time{font:600 12.5px var(--mono);color:var(--ink3)}
+.badge{font:800 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--ball);color:#1F1B16;border:1.5px solid #1F1B16;border-radius:999px;padding:2px 9px}
+.ver ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.ver li{position:relative;padding-left:18px;color:var(--ink2);font-size:16px}
+.ver li::before{content:"";position:absolute;left:0;top:10px;width:7px;height:7px;border-radius:2px;background:var(--ink3);transform:rotate(45deg)}
+.ver.latest li{color:var(--ink)}
+.ver.latest{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:22px 24px 24px 46px;margin:0 0 30px -16px;box-shadow:var(--shadow)}
+.ver.latest::before{left:20px;top:29px}
+.more{display:block;margin:4px auto 0;font:600 15px var(--sans);color:var(--ink);background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:10px 20px;cursor:pointer;box-shadow:var(--shadow)}
+.more:hover{transform:translateY(-1px)}
+.more:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+@media (max-width:560px){.ver.latest{margin-left:0;padding-left:50px}.ver.latest::before{left:14px}}
+
 /* Final */
 .final{margin:120px 0 0;padding:80px 24px 0;text-align:center;position:relative;overflow:hidden;border-radius:40px 40px 0 0;background:var(--ball);color:#1F1B16}
 .final h2{color:#1F1B16;margin:0 auto 14px;max-width:760px}
@@ -283,7 +304,7 @@ footer .sp{margin-left:auto;color:#4C4733}
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="#"><span class="dog proud" id="navDog"></span>Think First</a>
-    <div class="links"><a href="#how">How it works</a><a href="#features">Features</a><a href="#noodle">Noodle</a><a href="#privacy">Privacy</a></div>
+    <div class="links"><a href="#how">How it works</a><a href="#features">Features</a><a href="#noodle">Noodle</a><a href="#privacy">Privacy</a><a href="#changes">What’s new</a></div>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
 </header>
@@ -464,6 +485,16 @@ footer .sp{margin-left:auto;color:#4C4733}
       <div class="ins rv"><b>4</b><p><strong>Allow</strong> the two permissions he asks for, then ask an AI anything.</p></div>
     </div>
     <p class="req">macOS on Apple Silicon (M1 or newer) · Updates itself</p>
+  </section>
+
+  <section id="changes">
+    <div class="head rv">
+      <p class="eyebrow">What’s new</p>
+      <h2>Noodle keeps <em>learning</em>.</h2>
+      <p>Every update, and what changed. Think First installs new versions by itself.</p>
+    </div>
+    <div class="log" id="log"></div>
+    <button class="more" id="moreLog" hidden>Show all versions</button>
   </section>
 </div>
 
@@ -766,6 +797,34 @@ footer .sp{margin-left:auto;color:#4C4733}
       ? '<small>Answer</small><p>Yellow and orange pigments (carotenoids). They show once the green breaks down.</p><span class="flip">Tap to flip back</span>'
       : '<small>Biology · missed on Tuesday</small><p>What colours are hidden in a leaf underneath the green?</p><span class="flip">Tap to flip</span>';
   };
+
+  // What's new. Newest first; add an entry with each release.
+  var CHANGES = [
+    ['0.7.1', '2026-11-16', ['Noodle fetches answers much faster. He keeps an eye on the AI while you write, so if the answer is already finished he brings it back in about 3 seconds instead of up to 15.', 'A blinking text cursor in the AI app no longer makes him think the answer is still being written.']],
+    ['0.7.0', '2026-11-16', ['New setting: <b>Between questions</b>. Noodle can play around, sit still, or hide until you ask an AI something. Find it in Settings, or in the Noodle menu in the menu bar.']],
+    ['0.6.9', '2026-11-14', ['The welcome guide waits on the permissions step until both are on, and comes back each time Think First opens until they are.']],
+    ['0.6.8', '2026-11-14', ['Think First is now signed and checked by Apple, so it opens without the “unidentified developer” warning.', 'Because the signature changed, macOS asks once more for the two permissions.']],
+    ['0.6.7', '2026-11-14', ['A What’s new page in the app. It opens once after each update.', 'Settings shows which version you have.']],
+    ['0.6.6', '2026-11-02', ['Updated the contact email on the legal pages.']],
+    ['0.6.5', '2026-11-02', ['Privacy, Terms of Service and Copyright pages, under Settings → Legal.']],
+    ['0.6.4', '2026-11-01', ['Noodle reads the AI’s answer as text from its window, so bookmarks and cut-off words stay out of your comparison.', 'Long answers that run off the screen can be read in full.']],
+    ['0.6.3', '2026-11-01', ['Noodle reads your exact question from the chat box.', 'Short replies like “ok thanks” no longer bring up the “your turn first” screen.', 'Edit or remove any question in History.']],
+    ['0.6.2', '2026-11-01', ['A softer dark mode, and an Appearance setting: Automatic, Light or Dark.', 'Noodle stays on the ground when you swipe between desktops.']],
+    ['0.6.1', '2026-11-01', ['On a new install, the welcome guide opens first.']],
+    ['0.6.0', '2026-11-01', ['Think First updates itself. New versions download in the background and install when you restart.']],
+    ['0.5.0', '2026-11-01', ['Think First becomes a full app: Today, the AI Dependency Index, History, Review cards, Subjects and Settings.', 'Dress Noodle up: name, fur, collar and outfits you unlock with tricks and streaks.', 'Noodle learns to play ball, bury bones, chase butterflies and howl at night.']]
+  ];
+  var SHOW = 4;
+  function fmt(d) { return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+  function drawLog(all) {
+    $('log').innerHTML = CHANGES.slice(0, all ? CHANGES.length : SHOW).map(function (c, i) {
+      return '<article class="ver' + (i === 0 ? ' latest' : '') + '"><header><h3>Version ' + c[0] + '</h3>' + (i === 0 ? '<span class="badge">Latest</span>' : '') +
+        '<time datetime="' + c[1] + '">' + fmt(c[1]) + '</time></header><ul>' + c[2].map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul></article>';
+    }).join('');
+    $('moreLog').hidden = all || CHANGES.length <= SHOW;
+  }
+  $('moreLog').onclick = function () { drawLog(true); };
+  drawLog(false);
 
   // Download link, version and count from GitHub.
   fetch('https://api.github.com/repos/ThinkFirstNoodle/think-first/releases?per_page=100')
