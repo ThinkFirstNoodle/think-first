@@ -14,7 +14,7 @@
   --paper:#F7F3EA;--paper2:#EFE8DA;--card:#FFFDF8;--ink:#1F1B16;--ink2:#5E574C;--ink3:#8C8475;--rule:#E2D9C7;
   --ball:#CFDD3C;--ball2:#E6EE8F;--gold:#E2B574;--red:#C4402F;--blue:#2A4F9E;--green:#2E6B3A;--pink:#E0607E;
   --shadow:0 1px 0 rgba(31,27,22,.04),0 12px 32px -12px rgba(31,27,22,.18);
-  --serif:ui-serif,"New York","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --serif:"Times New Roman",Times,serif;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,monospace;
 }
@@ -68,7 +68,7 @@ nav .links a:hover{color:var(--ink)}
 .tag{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:6px 14px 6px 8px;font-size:14px;color:var(--ink2);box-shadow:var(--shadow)}
 .tag i{width:18px;height:18px;border-radius:50%;background:var(--ball);border:1.5px solid var(--ink);display:inline-block}
 h1{font:400 clamp(48px,7.4vw,92px)/.98 var(--serif);letter-spacing:-.025em;margin:22px 0 22px;text-wrap:balance}
-h1 em{font-style:italic;position:relative;white-space:nowrap}
+h1 em{font-style:normal;position:relative;white-space:nowrap}
 h1 em svg{position:absolute;left:-4%;bottom:-.12em;width:108%;height:.34em;overflow:visible}
 h1 em svg path{stroke:var(--ball);stroke-width:9;fill:none;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1s .5s cubic-bezier(.6,0,.2,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -134,7 +134,7 @@ h1 em svg path{stroke:var(--ball);stroke-width:9;fill:none;stroke-linecap:round;
 section{padding:110px 0 0}
 .head{max-width:720px;margin:0 auto 54px;text-align:center}
 h2{font:400 clamp(36px,5vw,58px)/1.05 var(--serif);letter-spacing:-.02em;margin:14px 0 16px;text-wrap:balance}
-h2 em{font-style:italic}
+h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,60,.6) 68%,rgba(207,221,60,.6) 92%,transparent 92%);padding:0 .06em}
 .head p{font:19px/1.5 var(--serif);color:var(--ink2);text-wrap:pretty}
 
 /* Steps */
