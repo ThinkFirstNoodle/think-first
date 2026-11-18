@@ -50,6 +50,14 @@ nav .links a:hover{color:var(--ink)}
   padding:9px 16px;border-radius:999px;transition:transform .15s}
 .pill:hover{transform:translateY(-1px)}
 @media (max-width:760px){nav .links{display:none}nav .pill{margin-left:auto}}
+.theme{display:inline-grid;place-items:center;width:38px;height:38px;margin-right:-14px;border-radius:50%;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer;padding:0;transition:transform .2s,border-color .2s}
+.theme:hover{transform:rotate(-12deg);border-color:var(--ink3)}
+.theme:focus-visible{outline:3px solid var(--ball);outline-offset:3px}
+.theme svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme .moon{fill:currentColor;stroke:none}
+.theme .sun{display:none}
+@media (prefers-color-scheme:dark){.theme .sun{display:block}.theme .moon{display:none}}
+@media (max-width:760px){.theme{margin-left:auto;margin-right:-16px}nav .pill{margin-left:0}}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--ink);color:var(--paper);font-weight:700;font-size:17px;
@@ -341,12 +349,30 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   .msg,.try,.chip,#ringArc,.chart-line,.bars span i{transition:none}
 }
 </style>
+<script>
+/* Theme: follows the Mac unless the visitor picks light or dark. Flips the page's own dark-mode rules. */
+(function(){
+  function apply(t){
+    for (var i=0;i<document.styleSheets.length;i++){var r;try{r=document.styleSheets[i].cssRules}catch(e){continue}
+      for (var j=0;j<r.length;j++){var m=r[j];if(!m.media)continue;
+        if(m.__orig===undefined){if(!/prefers-color-scheme:\s*dark/.test(m.media.mediaText))continue;m.__orig=m.media.mediaText}
+        m.media.mediaText=t==='dark'?'all':t==='light'?'not all':m.__orig}}
+    document.documentElement.dataset.theme=t||'';
+  }
+  function current(){var t=document.documentElement.dataset.theme;return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+  var saved=null;try{saved=localStorage.getItem('tf-theme')}catch(e){}
+  apply(saved);
+  window.TFTheme={apply:apply,current:current,toggle:function(){var t=current()==='dark'?'light':'dark';apply(t);try{localStorage.setItem('tf-theme',t)}catch(e){}return t},
+    reapply:function(){apply(document.documentElement.dataset.theme||null)}};
+})();
+</script>
 </head>
 <body>
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="#"><span class="dog proud" id="navDog"></span>Think First</a>
     <div class="links"><a href="#how">How it works</a><a href="#features">Features</a><a href="#noodle">Noodle</a><a href="#privacy">Privacy</a><a href="#changes">What’s new</a></div>
+    <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
 </header>
@@ -767,6 +793,11 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   var draw = function (id, mood, look) { $(id).innerHTML = TF.dogSVG(mood || 'proud', 'Noodle the dog', look || {}); };
   ['navDog', 'holdDog', 'stepDog', 'runner'].forEach(function (id) { draw(id); });
   draw('trackDog', 'proud', { accessory: 'party' });
+  TFTheme.reapply();
+  var themeBtn = $('themeBtn');
+  function themeLabel() { themeBtn.setAttribute('aria-label', TFTheme.current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); themeBtn.title = themeBtn.getAttribute('aria-label'); }
+  themeBtn.onclick = function () { TFTheme.toggle(); themeLabel(); };
+  themeLabel();
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   $('phone').hidden = !/iPhone|iPad|Android/i.test(navigator.userAgent);
