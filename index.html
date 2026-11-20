@@ -169,6 +169,63 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .art .mini-chips{display:grid;gap:5px;width:78%}
 .art .mini-chips span{display:block;height:13px;border-radius:5px}
 
+/* Exploded view: scroll and the window comes apart into Noodle's layers */
+.explode{position:relative;height:420vh;margin-top:60px;padding:0}
+.pin{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.pin-grid{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:40px;align-items:center;width:100%}
+.steps-copy h2{margin:14px 0 26px}
+.layers-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;counter-reset:l}
+.layers-list li{counter-increment:l;display:grid;grid-template-columns:28px 1fr;column-gap:12px;padding:12px 14px;border-radius:16px;color:var(--ink3);transition:background .35s,color .35s}
+.layers-list li::before{content:counter(l);grid-row:span 2;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 12px var(--mono);border:1px solid var(--rule);transition:background .35s,border-color .35s,color .35s}
+.layers-list b{font-size:17px;font-weight:650}
+.layers-list span{font-size:15px;line-height:1.45}
+.layers-list li.on{background:var(--paper2);color:var(--ink)}
+.layers-list li.on span{color:var(--ink2)}
+.layers-list li.on::before{background:var(--ball);border-color:var(--ball);color:#1D1D1F}
+.rig-wrap{perspective:2400px;perspective-origin:50% 30%;display:grid;place-items:center;height:100vh}
+.rig{--rx:0deg;--rz:0deg;--s:0;position:relative;width:560px;height:370px;transform-style:preserve-3d;transform:translateY(calc(var(--s) * 150px)) scale(calc(1 - var(--s) * .08)) rotateX(var(--rx)) rotateZ(var(--rz));will-change:transform}
+.layer{position:absolute;inset:0;transform-style:preserve-3d;transform:translateZ(calc(var(--i) * var(--s) * 66px));transition:opacity .4s}
+.tag-l{position:absolute;left:-14px;top:-14px;font:700 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;font-style:normal;background:var(--ink);color:var(--paper);padding:6px 9px;border-radius:999px;opacity:0;transition:opacity .35s;white-space:nowrap}
+.layer.on .tag-l{opacity:calc(var(--s) * 1)}
+.l-hold .tag-l{left:6px;top:80px}
+.l-try .tag-l{left:78px;top:auto;bottom:150px}
+.l-dog .tag-l{left:auto;right:6px;top:96px}
+.l-gap .tag-l{left:28px;top:26px}
+.layer.on .hold-sheet,.layer.on .try-card,.layer.on .gap-card,.layer.on.l-app{box-shadow:0 0 0 3px var(--ball),0 30px 60px -30px rgba(0,0,0,.4)}
+.l-app{background:var(--card);border:1px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.3)}
+.lw-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--paper2);border-bottom:1px solid var(--rule)}
+.lw-bar i{width:9px;height:9px;border-radius:50%;background:#FF5F57}.lw-bar i:nth-child(2){background:#FEBC2E}.lw-bar i:nth-child(3){background:#28C840}
+.lw-bar span{margin:0 auto;font:600 11px var(--sans);color:var(--ink3);padding-right:30px}
+.lw-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px;height:calc(100% - 32px)}
+.lw-q{align-self:flex-end;background:var(--ink);color:var(--paper);font-size:13px;padding:8px 12px;border-radius:14px 14px 4px 14px}
+.lw-a{align-self:flex-start;width:78%;background:var(--paper2);border-radius:14px;padding:14px;display:grid;gap:8px}
+.lw-a span{display:block;height:8px;border-radius:4px;background:var(--rule)}
+.lw-box{margin-top:auto;border:1px solid var(--rule);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--ink3)}
+.hold-sheet{position:absolute;left:14px;right:150px;top:92px;height:118px;border-radius:14px;background:color-mix(in srgb,var(--paper2) 92%,transparent);border:1px solid var(--rule);display:grid;place-items:start center;padding-top:14px}
+.hold-sheet p{font:700 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.try-card{position:absolute;left:90px;right:90px;bottom:26px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:14px 16px;display:grid;gap:8px;box-shadow:0 20px 40px -24px rgba(0,0,0,.35)}
+.try-card small{font:700 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.try-card p{font-size:13.5px;line-height:1.4}
+.try-card .tb{justify-self:end;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px}
+.l-dog .dog{position:absolute;width:118px;right:22px;top:110px}
+.l-gap{opacity:0}
+.l-gap.show{opacity:1}
+.gap-card{position:absolute;left:40px;right:40px;top:40px;background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:14px 16px;display:grid;gap:8px}
+.gap-card div{display:grid;grid-template-columns:86px 1fr;gap:10px;font-size:13px;align-items:center}
+.gap-card b{font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.gap-card .g{color:var(--green)}.gap-card .m{color:var(--red)}.gap-card .y{color:var(--blue)}
+@media (prefers-color-scheme:dark){.gap-card .y{color:#6E9BFF}.gap-card .g{color:#7CC48A}.gap-card .m{color:#EE8A7C}}
+@media (max-width:960px){
+  .explode{height:auto;margin-top:0}
+  .pin{position:relative;height:auto;padding:120px 0 0;display:block}
+  .pin-grid{grid-template-columns:1fr}
+  .rig-wrap{height:auto;padding:40px 0 60px;perspective:1600px}
+  .rig{width:min(460px,86vw);height:320px;--rx:52deg;--rz:-32deg;--s:.75}
+  .tag-l{opacity:1!important}
+  .l-gap{opacity:1}
+}
+@media (max-width:520px){.rig{height:280px}.hold-sheet{right:110px}.try-card{left:30px;right:30px}.l-dog .dog{width:90px}.gap-card{left:14px;right:14px}}
+
 /* Comparison spotlight */
 .split{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center;background:var(--paper2);border-radius:32px;padding:64px}
 @media (max-width:900px){.split{grid-template-columns:1fr;padding:32px 24px}}
@@ -360,6 +417,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   h1 em svg path{animation:none;stroke-dashoffset:0}
   .track .dog{animation:none;left:calc(50% - 65px)}
   .msg,.try,.chip,#ringArc,.chart-line,.bars span i{transition:none}
+  .explode{height:auto}.pin{position:relative;height:auto;padding:120px 0 40px}.rig{--rx:52deg;--rz:-32deg;--s:.8}.l-gap{opacity:1}.layer .tag-l{opacity:1}
 }
 </style>
 <script>
@@ -439,30 +497,62 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     <span>ChatGPT</span><i class="dot"></i><span>Claude</span><i class="dot"></i><span>Gemini</span><i class="dot"></i><span>Perplexity</span>
   </div>
 
-  <section id="how">
-    <div class="head rv">
-      <p class="eyebrow">How it works</p>
-      <h2>Three steps. <em>One</em> good habit.</h2>
-      <p>You keep asking AI as much as you like. Noodle just makes sure your own brain gets the first go.</p>
-    </div>
-    <div class="steps">
-      <div class="step rv">
-        <div class="art"><span class="mini q">How does a vaccine work?</span></div>
-        <h3>Ask as usual</h3>
-        <p>Type a question into your AI app and press Enter, the way you always do.</p>
-      </div>
-      <div class="step rv">
-        <div class="art"><div class="dog proud sit" id="stepDog"></div><span class="card2">You first!</span></div>
-        <h3>Noodle holds the answer</h3>
-        <p>He sits on the reply and asks what you think. A rough guess is fine. Nobody’s marking it.</p>
-      </div>
-      <div class="step rv">
-        <div class="art"><div class="mini-chips"><span style="background:color-mix(in srgb,var(--green) 40%,transparent)"></span><span style="background:color-mix(in srgb,var(--red) 35%,transparent);width:80%"></span><span style="background:color-mix(in srgb,var(--blue) 35%,transparent);width:60%"></span></div></div>
-        <h3>See how you did</h3>
-        <p>Throw it to him and he fetches the answer, side by side with yours.</p>
+  </div>
+  <section id="how" class="explode" aria-labelledby="how-title">
+    <div class="pin">
+      <div class="wrap pin-grid">
+        <div class="steps-copy">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">What’s <em>inside</em> a question.</h2>
+          <ol class="layers-list" id="layersList">
+            <li data-i="0"><b>Your AI app</b><span>Ask ChatGPT, Claude or Gemini as usual and press Enter.</span></li>
+            <li data-i="1"><b>The answer, on hold</b><span>Noodle covers the reply before you can read it.</span></li>
+            <li data-i="2"><b>Your turn first</b><span>Write what you already think. A rough guess is fine.</span></li>
+            <li data-i="3"><b>Noodle</b><span>Throw it to him. He fetches the answer.</span></li>
+            <li data-i="4"><b>How yours compares</b><span>What you got, what you missed, and what only you said.</span></li>
+          </ol>
+        </div>
+        <div class="rig-wrap" aria-hidden="true">
+          <div class="rig" id="rig">
+            <div class="layer l-app" style="--i:0">
+              <div class="lw-bar"><i></i><i></i><i></i><span>Your AI app</span></div>
+              <div class="lw-body">
+                <div class="lw-q">How does a vaccine work?</div>
+                <div class="lw-a"><span></span><span></span><span style="width:84%"></span><span style="width:62%"></span></div>
+                <div class="lw-box">Ask anything</div>
+              </div>
+              <em class="tag-l">Your AI app</em>
+            </div>
+            <div class="layer l-hold" style="--i:1">
+              <div class="hold-sheet"><p>Answer on hold</p></div>
+              <em class="tag-l">The answer, on hold</em>
+            </div>
+            <div class="layer l-try" style="--i:2">
+              <div class="try-card">
+                <small>Your turn first</small>
+                <p>It trains your body to recognise the germ, so it’s ready next time?</p>
+                <span class="tb">Throw it to Noodle</span>
+              </div>
+              <em class="tag-l">Your turn first</em>
+            </div>
+            <div class="layer l-dog" style="--i:3">
+              <div class="dog proud sit" id="explodeDog"></div>
+              <em class="tag-l">Noodle</em>
+            </div>
+            <div class="layer l-gap" style="--i:4">
+              <div class="gap-card">
+                <div><b class="g">You got</b><span>It trains your immune system</span></div>
+                <div><b class="m">You missed</b><span>Memory cells remember the germ</span></div>
+                <div><b class="y">Only you</b><span>Ready for next time</span></div>
+              </div>
+              <em class="tag-l">How yours compares</em>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+<div class="wrap">
 
   <section>
     <div class="split rv">
@@ -823,7 +913,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   document.head.appendChild(css);
   var $ = function (id) { return document.getElementById(id); };
   var draw = function (id, mood, look) { $(id).innerHTML = TF.dogSVG(mood || 'proud', 'Noodle the dog', look || {}); };
-  ['navDog', 'holdDog', 'stepDog', 'runner'].forEach(function (id) { draw(id); });
+  ['navDog', 'holdDog', 'runner'].forEach(function (id) { draw(id); });
   draw('trackDog', 'proud', { accessory: 'party' });
   TFTheme.reapply();
   var themeBtn = $('themeBtn');
@@ -909,6 +999,34 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     var started = false;
     new IntersectionObserver(function (es, o) { if (es[0].isIntersecting && !started) { started = true; play(true); o.disconnect(); } }).observe($('chat'));
   }
+
+  // Exploded view: tilt, then lift the layers apart, one caption at a time.
+  draw('explodeDog');
+  var ex = document.querySelector('.explode'), rig = $('rig');
+  var items = Array.prototype.slice.call(document.querySelectorAll('#layersList li'));
+  var layers = Array.prototype.slice.call(rig.querySelectorAll('.layer'));
+  var clamp = function (v) { return Math.max(0, Math.min(1, v)); };
+  var ease = function (t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
+  function explode() {
+    var wide = matchMedia('(min-width: 961px)').matches;
+    var r = ex.getBoundingClientRect();
+    var p = wide && !reduce ? clamp(-r.top / (r.height - innerHeight)) : 1;
+    if (wide && !reduce) {
+      var tilt = ease(clamp(p / 0.2)), spread = ease(clamp((p - 0.12) / 0.5));
+      rig.style.setProperty('--rx', (tilt * 54) + 'deg');
+      rig.style.setProperty('--rz', (tilt * -34) + 'deg');
+      rig.style.setProperty('--s', spread.toFixed(3));
+    }
+    // Which layer is being explained: five steps across the middle of the scroll.
+    var step = wide && !reduce ? Math.min(4, Math.floor(clamp((p - 0.18) / 0.72) * 5)) : -1;
+    if (wide && !reduce && p < 0.18) step = 0;
+    items.forEach(function (li, i) { li.classList.toggle('on', step === -1 ? false : i === step); });
+    layers.forEach(function (l, i) { l.classList.toggle('on', i === step); });
+    layers[4].classList.toggle('show', step === -1 || step >= 4);
+  }
+  addEventListener('scroll', function () { requestAnimationFrame(explode); }, { passive: true });
+  addEventListener('resize', explode);
+  explode();
 
   // Wardrobe
   var ACC = [['none', 'Nothing'], ['party', 'Party hat'], ['glasses', 'Glasses'], ['crown', 'Crown'], ['scarf', 'Scarf'], ['bowtie', 'Bow tie'], ['headphones', 'Headphones'], ['flower', 'Flower'], ['bandana', 'Bandana']];
