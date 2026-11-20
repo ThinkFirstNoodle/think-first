@@ -205,8 +205,38 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 /* 3D rigs: a stack of layers that tilts, then lifts apart */
 .rig{position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
 .rig .layer{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
-.xp:not([data-step="0"]) .rig{transform:translateY(var(--drop,120px)) rotateX(56deg) rotateZ(-34deg)}
-.xp:not([data-step="0"]) .rig .layer{transform:translateZ(calc(var(--i) * var(--gap,120px)))}
+.rig .layer{transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .6s}
+/* One sequence: whole → split into the app, Noodle interface and Noodle → the interface's own layers */
+.xp[data-phase="whole"] .g-app{transform:translate3d(70px,-56px,-2px)}
+.xp[data-phase="whole"] .lyr{transform:translateZ(calc(var(--i) * 1px))}
+.xp[data-phase="whole"] .l-gapL,.xp[data-phase="split"] .l-gapL{opacity:0}
+.xp[data-phase="split"] .rig{transform:translateY(150px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="split"] .g-app{transform:translate3d(-40px,40px,0)}
+.xp[data-phase="split"] .lyr{transform:translateZ(calc(190px + var(--i) * 3px))}
+.xp[data-phase="split"] .lyr.l-dogL{transform:translateZ(380px)}
+.xp[data-phase="inside"] .rig{transform:translateY(165px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="inside"] .g-app{transform:translateZ(-260px);opacity:0}
+.xp[data-phase="inside"] .lyr{transform:translateZ(calc(var(--i) * 118px))}
+.xp .ph-b{display:none}
+.xp[data-phase="inside"] .ph-a{display:none}
+.xp[data-phase="inside"] .ph-b{display:revert}
+.xp[data-phase="inside"] ol.ph-b{display:grid}
+.xp-list.all li{background:var(--paper2);color:var(--ink)}
+.xp-list.all li span{color:var(--ink2)}
+.xp-list.all li::before{background:var(--ball);border-color:var(--ball);color:#1D1D1F}
+.anc{position:absolute;right:0;top:50%;width:1px;height:1px;pointer-events:none}
+.dog-chip .anc{right:8px;top:40%}
+/* The app, in one piece */
+.rig.combo{width:540px;height:350px}
+.c-app.part{position:absolute;inset:0;background:var(--card);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:118px 1fr}
+.c-main{padding:16px}
+.c-main h4{margin:0 0 12px;font:400 21px var(--serif)}
+.c-cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.c-cards > div{background:var(--paper2);border-radius:12px;padding:10px 12px;min-height:104px;display:grid;align-content:start;gap:4px}
+.c-cards small{font:700 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.c-cards b{font:400 34px/1 var(--serif)}.c-cards b i{font-style:normal;font-size:.5em;color:var(--ink3)}
+.c-cards p{font:400 14px/1.3 var(--serif)}
+.bars-mini{display:grid;gap:6px;margin-top:6px}.bars-mini i{display:block;height:6px;border-radius:6px;background:var(--ink2)}
 .layer > .part{box-shadow:0 30px 50px -28px rgba(0,0,0,.45)}
 
 /* The interface rig */
@@ -565,29 +595,59 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   </div>
 
   </div>
-  <section id="how" class="xp" style="--n:6" aria-labelledby="how-title">
-    <div class="xp-snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <section id="how" class="xp" style="--n:7" data-phase="whole" aria-labelledby="how-title">
+    <div class="xp-snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="xp-pin">
       <div class="wrap xp-grid">
         <div class="xp-copy">
           <p class="eyebrow">How it works</p>
-          <h2 id="how-title">What’s <em>inside</em> a question.</h2>
-          <ol class="xp-list"><li><b>Your AI app</b><span>Ask ChatGPT, Claude or Gemini as usual and press Enter.</span></li><li><b>The answer, on hold</b><span>Noodle covers the reply before you can read it.</span></li><li><b>Your turn first</b><span>Write what you already think. A rough guess is fine.</span></li><li><b>Noodle</b><span>Throw it to him. He fetches the answer.</span></li><li><b>How yours compares</b><span>What you got, what you missed, and what only you said.</span></li></ol>
+          <h2 id="how-title">What’s <em>inside</em><span class="ph-a"> Think First.</span><span class="ph-b"> a question.</span></h2>
+          <ol class="xp-list ph-a" id="listA">
+            <li><b>The app</b><span>Your history, streaks, review cards and settings.</span></li>
+            <li><b>Noodle interface</b><span>What sits on top of your AI app when you ask something.</span></li>
+            <li><b>Noodle</b><span>The dog who holds the answer until you try.</span></li>
+          </ol>
+          <ol class="xp-list ph-b" id="listB">
+            <li><b>Your AI app</b><span>Ask ChatGPT, Claude or Gemini as usual and press Enter.</span></li>
+            <li><b>The answer, on hold</b><span>Noodle covers the reply before you can read it.</span></li>
+            <li><b>Your turn first</b><span>Write what you already think. A rough guess is fine.</span></li>
+            <li><b>Noodle</b><span>Throw it to him. He fetches the answer.</span></li>
+            <li><b>How yours compares</b><span>What you got, what you missed, and what only you said.</span></li>
+          </ol>
           <p class="xp-hint">Scroll to take it apart ↓</p>
         </div>
         <div class="xp-stage" aria-hidden="true">
-          <div class="rig ui">
-            <div class="layer" style="--i:0"><div class="l-app part xp-edge" data-part="0" data-label="Your AI app">
+          <div class="rig combo">
+            <div class="layer g-app"><div class="c-app part xp-edge">
+              <div class="a-side"><span class="cur">Today</span><span>History</span><span>Review</span><span>Subjects</span><span>Noodle</span><span>Settings</span></div>
+              <div class="c-main">
+                <h4>Good evening.</h4>
+                <div class="c-cards">
+                  <div><small>Today</small><b>8<i>/10</i></b></div>
+                  <div><small>Dependency Index</small><b>31</b></div>
+                  <div><small>Subjects</small><p class="bars-mini"><i style="width:86%"></i><i style="width:72%"></i><i style="width:58%"></i></p></div>
+                  <div><small>Review</small><p>What colours hide in a leaf?</p></div>
+                </div>
+              </div>
+              <i class="anc" data-when="split" data-label="The app"></i>
+            </div></div>
+            <div class="layer lyr" style="--i:0"><div class="l-app part xp-edge">
               <div class="lw-bar"><i></i><i></i><i></i><span>Your AI app</span></div>
               <div class="lw-body"><div class="lw-q">How does a vaccine work?</div><div class="lw-a"><span></span><span></span><span style="width:84%"></span><span style="width:62%"></span></div><div class="lw-box">Ask anything</div></div>
+              <i class="anc" data-when="split" data-label="Noodle interface"></i>
+              <i class="anc" data-when="inside" data-k="0" data-label="Your AI app"></i>
             </div></div>
-            <div class="layer" style="--i:1"><div class="hold-sheet part xp-edge" data-part="1" data-label="The answer, on hold"><p>Answer on hold</p></div></div>
-            <div class="layer" style="--i:2"><div class="try-card part xp-edge" data-part="2" data-label="Your turn first"><small>Your turn first</small><p>It trains your body to recognise the germ, so it’s ready next time?</p><span class="tb">Throw it to Noodle</span></div></div>
-            <div class="layer" style="--i:3"><div class="dog-chip part" data-part="3" data-label="Noodle"><div class="dog proud sit" id="xpDog"></div></div></div>
-            <div class="layer" style="--i:4"><div class="gap-card part xp-edge" data-part="4" data-label="How yours compares">
+            <div class="layer lyr" style="--i:1"><div class="hold-sheet part xp-edge"><p>Answer on hold</p><i class="anc" data-when="inside" data-k="1" data-label="The answer, on hold"></i></div></div>
+            <div class="layer lyr" style="--i:2"><div class="try-card part xp-edge"><small>Your turn first</small><p>It trains your body to recognise the germ, so it’s ready next time?</p><span class="tb">Throw it to Noodle</span><i class="anc" data-when="inside" data-k="2" data-label="Your turn first"></i></div></div>
+            <div class="layer lyr l-dogL" style="--i:3"><div class="dog-chip part"><div class="dog proud sit" id="xpDog"></div>
+              <i class="anc" data-when="split" data-label="Noodle"></i>
+              <i class="anc" data-when="inside" data-k="3" data-label="Noodle"></i>
+            </div></div>
+            <div class="layer lyr l-gapL" style="--i:4"><div class="gap-card part xp-edge">
               <div><b class="g">You got</b><span>It trains your immune system</span></div>
               <div><b class="m">You missed</b><span>Memory cells remember the germ</span></div>
               <div><b class="y">Only you</b><span>Ready for next time</span></div>
+              <i class="anc" data-when="inside" data-k="4" data-label="How yours compares"></i>
             </div></div>
           </div>
           <div class="xp-callouts"><svg></svg></div>
@@ -613,51 +673,6 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     </div>
   </section>
 
-</div>
-  <section id="features" class="xp" style="--n:6" aria-labelledby="features-title">
-    <div class="xp-snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="xp-pin">
-      <div class="wrap xp-grid">
-        <div class="xp-copy">
-          <p class="eyebrow">The app</p>
-          <h2 id="features-title">Watch yourself <em>think more</em>.</h2>
-          <ol class="xp-list"><li><b>History and settings</b><span>Every question you asked, and whether you tried first.</span></li><li><b>Today</b><span>How many you tried first, and your streak.</span></li><li><b>Dependency Index</b><span>One number for how much you lean on AI, week by week.</span></li><li><b>Subjects</b><span>Where you think for yourself, and where you outsource.</span></li><li><b>Review cards</b><span>Every point you missed comes back, so you don’t miss it twice.</span></li></ol>
-          <p class="xp-hint">Scroll to take it apart ↓</p>
-        </div>
-        <div class="xp-stage" aria-hidden="true">
-          <div class="rig app">
-            <div class="layer" style="--i:0"><div class="a-win part xp-edge" data-part="0" data-label="Your history and settings">
-              <div class="a-side"><span class="cur">Today</span><span>History</span><span>Review</span><span>Subjects</span><span>Noodle</span><span>Settings</span></div>
-              <div class="a-main"><h4>Good evening.</h4></div>
-            </div></div>
-            <div class="layer" style="--i:1"><div class="a-card a-today part xp-edge" data-part="1" data-label="Today"><small>Today</small><div class="big">8<i>/10</i></div><div class="dots"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div></div></div>
-            <div class="layer" style="--i:2"><div class="a-card a-dep part xp-edge" data-part="2" data-label="Dependency Index"><small>Dependency Index</small><div class="big">31</div><svg viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M0 6 C40 4 60 16 100 15 S160 28 200 34" fill="none" stroke="currentColor" stroke-width="2"/></svg></div></div>
-            <div class="layer" style="--i:3"><div class="a-card a-sub part xp-edge" data-part="3" data-label="Subjects"><small>Subjects</small><div>History<i style="width:86%"></i></div><div>Biology<i style="width:72%"></i></div><div>Maths<i style="width:58%"></i></div><div>Coding<i style="width:34%"></i></div></div></div>
-            <div class="layer" style="--i:4"><div class="a-card a-rev part xp-edge" data-part="4" data-label="Review cards"><small>Review · Biology</small><p>What colours are hidden in a leaf underneath the green?</p></div></div>
-          </div>
-          <div class="xp-callouts"><svg></svg></div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="anatomy" class="xp" style="--n:6" aria-labelledby="anatomy-title">
-    <div class="xp-snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="xp-pin">
-      <div class="wrap xp-grid">
-        <div class="xp-copy">
-          <p class="eyebrow">Meet Noodle</p>
-          <h2 id="anatomy-title">Every part of him <em>reacts</em>.</h2>
-          <ol class="xp-list"><li><b>Tail</b><span>Wags when you try first.</span></li><li><b>Ears</b><span>Droop a little when you skip a lot.</span></li><li><b>Face</b><span>Proud, neutral or mopey, depending on how you’re doing.</span></li><li><b>Collar</b><span>Pick the colour in Settings.</span></li><li><b>Outfit</b><span>Hats and more, earned with tricks and streaks.</span></li></ol>
-          <p class="xp-hint">Scroll to take it apart ↓</p>
-        </div>
-        <div class="xp-stage" aria-hidden="true">
-          <div class="dogx dog proud" id="dogX"></div>
-          <div class="xp-callouts"><svg></svg></div>
-        </div>
-      </div>
-    </div>
-  </section>
-<div class="wrap">
 
   <section id="noodle">
     <div class="ward rv">
@@ -1022,68 +1037,51 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     new IntersectionObserver(function (es, o) { if (es[0].isIntersecting && !started) { started = true; play(true); o.disconnect(); } }).observe($('chat'));
   }
 
-  // Exploded views: which step each one is on, decided by scroll; CSS does the moving.
+  // "What's inside": one scroll sequence, a step per snap.
+  // Step 0 whole · step 1 split into the app, Noodle interface and Noodle · steps 2–6 the interface's layers.
   draw('xpDog');
-  $('dogX').innerHTML = TF.dogSVG('proud', 'Noodle the dog', { accessory: 'party' });
-  (function () {
-    // Name Noodle's parts so they can be moved apart and labelled.
-    var svg = $('dogX').querySelector('svg'), head = svg.querySelector('.head');
-    head.querySelector('path').classList.add('collar');
-    head.querySelector('circle').classList.add('tag');
-    [['.tail', 'Tail'], ['.ear', 'Ears'], ['.eyes', 'Face'], ['.collar', 'Collar'], ['.acc', 'Outfit']].forEach(function (p, i) {
-      var el = svg.querySelector(p[0]); el.dataset.part = i; el.dataset.label = p[1];
-    });
-  })();
-  var wideMQ = matchMedia('(min-width: 961px)');
-  var xps = Array.prototype.slice.call(document.querySelectorAll('.xp')).map(function (sec) {
-    var parts = Array.prototype.slice.call(sec.querySelectorAll('[data-part]')).sort(function (a, b) { return a.dataset.part - b.dataset.part; });
-    var box = sec.querySelector('.xp-callouts'), svg = box.querySelector('svg');
-    var labels = parts.map(function (p) { var l = document.createElement('span'); l.className = 'xp-label'; l.textContent = p.dataset.label; box.appendChild(l); return l; });
-    return { sec: sec, n: +getComputedStyle(sec).getPropertyValue('--n') || parts.length + 1, parts: parts, labels: labels, svg: svg, box: box,
-      items: Array.prototype.slice.call(sec.querySelectorAll('.xp-list li')), step: -1 };
-  });
+  var xsec = document.getElementById('how'), xbox = xsec.querySelector('.xp-callouts'), xsvg = xbox.querySelector('svg');
+  var anchors = Array.prototype.slice.call(xsec.querySelectorAll('.anc'));
+  var xlabels = anchors.map(function (a) { var l = document.createElement('span'); l.className = 'xp-label'; l.textContent = a.dataset.label; l.hidden = true; xbox.appendChild(l); return l; });
+  var listA = Array.prototype.slice.call(document.querySelectorAll('#listA li')), listB = Array.prototype.slice.call(document.querySelectorAll('#listB li'));
+  var wideMQ = matchMedia('(min-width: 961px)'), xstep = -1;
+  function phaseOf(st) { return st === 0 ? 'whole' : st === 1 ? 'split' : 'inside'; }
   // Labels sit in a column on the right, at the height of their part, with a line to it.
-  function callouts(x) {
-    var br = x.box.getBoundingClientRect(), min = 34;
-    var pts = x.parts.map(function (p, i) {
-      var r = p.getBoundingClientRect(), svgPart = p instanceof SVGElement;
-      var cx = r.left + r.width / 2 - br.left;
-      // Parts left of the middle (only on Noodle) get their label on the left.
-      var left = svgPart && cx < br.width * 0.38;
-      return { i: i, left: left, x: svgPart ? cx : r.right - Math.min(24, r.width / 4) - br.left, y: r.top + r.height / 2 - br.top };
+  function callouts() {
+    var br = xbox.getBoundingClientRect(), ph = xsec.dataset.phase, active = xstep - 2, last = -1e9, html = '';
+    var pts = [];
+    anchors.forEach(function (a, i) {
+      var vis = a.dataset.when === ph;
+      xlabels[i].hidden = !vis;
+      if (!vis) return;
+      var r = a.getBoundingClientRect();
+      pts.push({ i: i, x: r.left - br.left, y: r.top - br.top, on: ph === 'inside' && +a.dataset.k === active });
     });
-    [true, false].forEach(function (side) {
-      var col = pts.filter(function (p) { return p.left === side; }).sort(function (a, b) { return a.y - b.y; }), last = -1e9;
-      col.forEach(function (p) { p.ly = Math.max(p.y, last + min, 18); last = p.ly; });
-      var over = col.length ? last - (br.height - 18) : 0;
-      if (over > 0) col.forEach(function (p) { p.ly -= over; });
-    });
-    var html = '';
+    pts.sort(function (p, q) { return p.y - q.y; }).forEach(function (p) { p.ly = Math.max(p.y, last + 36, 18); last = p.ly; });
+    var over = pts.length ? last - (br.height - 18) : 0;
     pts.forEach(function (p) {
-      var l = x.labels[p.i], w = l.offsetWidth, on = x.parts[p.i].classList.contains('on') ? ' class="on"' : '';
-      var lx = p.left ? 10 : br.width - w - 10, ex = p.left ? lx + w : lx;
-      l.style.left = lx + 'px'; l.style.top = p.ly + 'px';
-      html += '<line' + on + ' x1="' + ex + '" y1="' + p.ly + '" x2="' + p.x + '" y2="' + p.y + '"/><circle' + on + ' r="4" cx="' + p.x + '" cy="' + p.y + '"/>';
+      if (over > 0) p.ly -= over;
+      var l = xlabels[p.i], lx = br.width - l.offsetWidth - 10, on = p.on ? ' class="on"' : '';
+      l.classList.toggle('on', p.on); l.style.left = lx + 'px'; l.style.top = p.ly + 'px';
+      html += '<line' + on + ' x1="' + lx + '" y1="' + p.ly + '" x2="' + p.x + '" y2="' + p.y + '"/><circle' + on + ' r="4" cx="' + p.x + '" cy="' + p.y + '"/>';
     });
-    x.svg.innerHTML = html;
+    xsvg.innerHTML = html;
   }
-  function follow(x, ms) { var end = performance.now() + ms; (function f() { callouts(x); if (performance.now() < end) requestAnimationFrame(f); })(); }
+  function follow(ms) { var end = performance.now() + ms; (function f() { callouts(); if (performance.now() < end) requestAnimationFrame(f); })(); }
   function steps() {
-    var wide = wideMQ.matches && !reduce;
-    xps.forEach(function (x) {
-      var st = x.n - 1;
-      if (wide) { var r = x.sec.getBoundingClientRect(); st = Math.max(0, Math.min(x.n - 1, Math.round(-r.top / innerHeight))); }
-      if (st === x.step) return;
-      x.step = st; x.sec.dataset.step = st;
-      var on = wide ? st - 1 : -1;
-      x.parts.forEach(function (p, i) { p.classList.toggle('on', i === on); });
-      x.labels.forEach(function (l, i) { l.classList.toggle('on', i === on); });
-      x.items.forEach(function (li, i) { li.classList.toggle('on', i === on); });
-      follow(x, 1200);
-    });
+    var wide = wideMQ.matches && !reduce, n = 7, st = n - 1;
+    if (wide) { var r = xsec.getBoundingClientRect(); st = Math.max(0, Math.min(n - 1, Math.round(-r.top / innerHeight))); }
+    if (st === xstep) return;
+    xstep = st; xsec.dataset.step = st; xsec.dataset.phase = phaseOf(st);
+    var active = wide ? st - 2 : -1;
+    // The interface piece being explained gets a lime outline, here and in the list.
+    xsec.querySelectorAll('.lyr .part').forEach(function (p, i) { p.classList.toggle('on', i === active); });
+    listB.forEach(function (li, i) { li.classList.toggle('on', i === active); });
+    document.getElementById('listA').classList.toggle('all', st === 1);
+    follow(1200);
   }
   addEventListener('scroll', steps, { passive: true });
-  addEventListener('resize', function () { xps.forEach(function (x) { x.step = -1; }); steps(); });
+  addEventListener('resize', function () { xstep = -1; steps(); });
   steps();
 
   // Wardrobe
