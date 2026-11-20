@@ -536,6 +536,15 @@ footer a:hover{text-decoration:underline}
 footer .sp{margin-left:auto;color:var(--ink3)}
 @media (max-width:640px){footer .sp{margin-left:0}}
 
+/* A big Noodle beside the headline */
+.hero{position:relative}
+.big-noodle{position:absolute;right:calc((100vw - 1160px) / -2 + 28px);top:50%;width:clamp(250px,22vw,370px);transform:translateY(-38%);cursor:pointer;z-index:0}
+.big-noodle .dog{position:relative;width:100%;filter:drop-shadow(0 30px 30px rgba(0,0,0,.10))}
+.big-disc{position:absolute;left:4%;right:4%;aspect-ratio:1;top:-18%;border-radius:50%;background:radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--ball) 34%,var(--paper)),var(--paper) 70%)}
+.big-noodle .dog.drop .ball{display:none}
+.hero > div:not(.big-noodle){position:relative;z-index:1}
+@media (max-width:1320px){.big-noodle{display:none}}
+
 /* Noodle on the first screen */
 .ground{position:relative;width:min(760px,92vw);height:118px;margin:34px auto 0;cursor:pointer}
 .ground::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:linear-gradient(90deg,transparent,var(--rule) 15%,var(--rule) 85%,transparent)}
@@ -619,6 +628,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 <main>
 <div class="wrap">
   <div class="hero">
+    <div class="big-noodle" id="bigWrap" aria-label="Noodle, holding his ball. Click him."><span class="big-disc" aria-hidden="true"></span><div class="dog proud flip carry-ball" id="bigDog"></div></div>
     <div>
       <span class="tag"><i></i>A study habit for the AI age</span>
       <h1>Try <em>first<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M4 14 C50 4 120 4 196 12"/></svg></em>,<br>then ask the&nbsp;AI.</h1>
@@ -1296,6 +1306,25 @@ Colder weather plays a part.</textarea>
       }
       d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
       setTimeout(function () { d.classList.remove('hop'); }, 500);
+    });
+  })();
+
+  // The big Noodle: watches your cursor, tilts now and then, hops when clicked.
+  (function () {
+    var w = $('bigWrap'), d = $('bigDog');
+    d.innerHTML = TF.dogSVG('proud', 'Noodle the dog', {});
+    if (reduce) return;
+    addEventListener('mousemove', function (e) {
+      var head = d.querySelector('.head'), r = d.getBoundingClientRect();
+      if (!head || r.bottom < 0) return;
+      // He faces left (flipped), so turn the head toward the cursor in mirror image.
+      var dx = (r.left + r.width * 0.3 - e.clientX) / innerWidth, dy = (e.clientY - (r.top + r.height * 0.35)) / innerHeight;
+      head.style.transform = 'rotate(' + Math.max(-20, Math.min(20, dy * 40 - dx * 10)).toFixed(1) + 'deg)';
+    });
+    setInterval(function () { if (!document.hidden && !d.classList.contains('hop')) { d.classList.add('tilt'); setTimeout(function () { d.classList.remove('tilt'); }, 1300); } }, 6500);
+    w.addEventListener('click', function () {
+      d.classList.add('drop'); d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
+      setTimeout(function () { d.classList.remove('hop', 'drop'); }, 900);
     });
   })();
 
