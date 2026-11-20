@@ -536,6 +536,12 @@ footer a:hover{text-decoration:underline}
 footer .sp{margin-left:auto;color:var(--ink3)}
 @media (max-width:640px){footer .sp{margin-left:0}}
 
+/* Noodle on the first screen */
+.ground{position:relative;width:min(760px,92vw);height:118px;margin:34px auto 0;cursor:pointer}
+.ground::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:1px;background:linear-gradient(90deg,transparent,var(--rule) 15%,var(--rule) 85%,transparent)}
+#heroDog{position:absolute;bottom:4px;left:-130px;width:118px}
+.ground .heart{z-index:2}
+
 /* Try it yourself */
 .tryit{display:grid;gap:12px}
 .tq{font:400 24px/1.25 var(--serif)}
@@ -624,6 +630,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
       </div>
       <p class="meta" id="meta">Free · Apple Silicon (M1 or newer)</p>
       <div class="proof" id="countBox" hidden><b id="count"></b><span>downloads so far.<br>No account, no ads, no tracking.</span></div>
+      <div class="ground" id="ground" aria-label="Noodle the dog, playing. Click him."><div class="dog proud" id="heroDog"></div></div>
     </div>
   </div>
 
@@ -1238,6 +1245,59 @@ Colder weather plays a part.</textarea>
   function snapZone() { document.documentElement.classList.toggle('snap', exitStop.getBoundingClientRect().top > 2); }
   addEventListener('scroll', snapZone, { passive: true });
   snapZone();
+
+  // Noodle on the first screen: trots in, then plays by himself. Near your cursor he gets happy;
+  // click him for a hop and hearts.
+  (function () {
+    var g = $('ground'), d = $('heroDog'), x = 0, busy = false, near = false;
+    draw('heroDog');
+    var W = function () { return g.clientWidth - d.offsetWidth; };
+    function pose(cls, ms) { d.classList.add(cls); return new Promise(function (r) { setTimeout(function () { d.classList.remove(cls); r(); }, ms); }); }
+    function go(to, gait) {
+      return new Promise(function (r) {
+        var from = x, dist = Math.abs(to - from); x = to;
+        if (reduce || dist < 2) { d.style.left = to + 'px'; return r(); }
+        d.classList.toggle('flip', to < from); d.classList.add(gait);
+        d.animate([{ left: from + 'px' }, { left: to + 'px' }], { duration: dist * (gait === 'run' ? 2.6 : 6), easing: 'ease-in-out', fill: 'forwards' }).onfinish = function () {
+          d.style.left = to + 'px'; d.classList.remove(gait); r();
+        };
+      });
+    }
+    var ACTS = [
+      function () { return pose('tilt', 1300); },
+      function () { return pose('sniff', 1800); },
+      function () { return pose('happy', 1400); },
+      function () { return go(Math.random() * W(), 'walk').then(function () { return pose('sit', 2200); }); },
+      function () { return pose('sit', 2600); },
+      function () { return pose('dig', 1200); },
+    ];
+    function idle() {
+      if (busy || near || document.hidden) return setTimeout(idle, 1500);
+      busy = true;
+      ACTS[Math.floor(Math.random() * ACTS.length)]().then(function () { busy = false; setTimeout(idle, 1800 + Math.random() * 2500); });
+    }
+    x = -130; d.style.left = x + 'px';
+    if (reduce) { x = W() * 0.62; d.style.left = x + 'px'; d.classList.add('sit'); return; }
+    setTimeout(function () { go(W() * 0.62, 'run').then(function () { pose('sit', 2000).then(idle); }); }, 900);
+    // He notices your cursor.
+    document.querySelector('.hero').addEventListener('mousemove', function (e) {
+      var r = d.getBoundingClientRect(), close = Math.abs(e.clientX - (r.left + r.width / 2)) < 220 && Math.abs(e.clientY - (r.top + r.height / 2)) < 160;
+      if (close === near) return;
+      near = close; d.classList.toggle('happy', close);
+      if (close && !busy) d.classList.toggle('flip', e.clientX < r.left + r.width / 2);
+    });
+    g.addEventListener('click', function (e) {
+      var r = g.getBoundingClientRect();
+      for (var i = 0; i < 5; i++) {
+        var h = document.createElement('span'); h.className = 'heart';
+        h.style.left = (e.clientX - r.left - 9 + (Math.random() * 40 - 20)) + 'px'; h.style.top = (e.clientY - r.top - 9) + 'px';
+        h.style.setProperty('--hx', (Math.random() * 60 - 30) + 'px'); h.style.animationDelay = i * 80 + 'ms';
+        g.appendChild(h); setTimeout(function (el) { el.remove(); }, 1400, h);
+      }
+      d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
+      setTimeout(function () { d.classList.remove('hop'); }, 500);
+    });
+  })();
 
   // Try it yourself: the same idea as the app, simplified. A point counts if you used any of its words.
   var POINTS = [
