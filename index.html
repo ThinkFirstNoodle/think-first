@@ -23,7 +23,7 @@
   --paper:#FFFFFF;--paper2:#F5F5F7;--card:#FFFFFF;--ink:#1D1D1F;--ink2:#6E6E73;--ink3:#86868B;--rule:#E5E5EA;
   --ball:#CFDD3C;--ball2:#E6EE8F;--gold:#E2B574;--red:#C9412E;--blue:#2F5BD3;--green:#2E7D45;--pink:#E0607E;
   --shadow:none;
-  --serif:"Times New Roman",Times,serif;
+  --serif:-apple-system,"SF Pro Display",BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,monospace;
 }
@@ -49,7 +49,7 @@ header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.4) blur(14px)
   background:color-mix(in srgb,var(--paper) 78%,transparent);border-bottom:1px solid transparent;transition:border-color .3s}
 header.scrolled{border-bottom-color:var(--rule)}
 nav{display:flex;align-items:center;gap:28px;height:64px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:600 19px var(--serif)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px var(--serif);letter-spacing:-.02em}
 .brand .dog{width:46px;margin-top:-4px}
 @media (max-width:420px){.brand{white-space:nowrap}}
 nav .links{display:flex;gap:24px;margin-left:auto;font-size:15px;color:var(--ink2)}
@@ -83,7 +83,7 @@ nav .links a:hover{color:var(--ink)}
 @media (max-width:760px){.hero{padding-top:56px}}
 .tag{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--ink2)}
 .tag i{width:18px;height:18px;border-radius:50%;background:var(--ball);border:1.5px solid var(--ink);display:inline-block}
-h1{font:400 clamp(54px,8.6vw,112px)/.96 var(--serif);letter-spacing:-.035em;margin:20px 0 26px;text-wrap:balance}
+h1{font:700 clamp(52px,8vw,104px)/.98 var(--serif);letter-spacing:-.045em;margin:20px 0 26px;text-wrap:balance}
 h1 em{font-style:normal;position:relative;white-space:nowrap}
 h1 em svg{position:absolute;left:-4%;bottom:-.12em;width:108%;height:.34em;overflow:visible}
 h1 em svg path{stroke:var(--ball);stroke-width:9;fill:none;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1s .5s cubic-bezier(.6,0,.2,1) forwards}
@@ -151,7 +151,7 @@ h1 em svg path{stroke:var(--ball);stroke-width:9;fill:none;stroke-linecap:round;
 /* Sections */
 section{padding:140px 0 0}
 .head{max-width:720px;margin:0 auto 54px;text-align:center}
-h2{font:400 clamp(36px,5vw,58px)/1.05 var(--serif);letter-spacing:-.02em;margin:14px 0 16px;text-wrap:balance}
+h2{font:700 clamp(34px,4.6vw,56px)/1.05 var(--serif);letter-spacing:-.035em;margin:14px 0 16px;text-wrap:balance}
 h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,60,.6) 68%,rgba(207,221,60,.6) 92%,transparent 92%);padding:0 .06em}
 .head p{font:20px/1.5 var(--sans);color:var(--ink2);text-wrap:pretty}
 
@@ -466,7 +466,7 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .priv{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .faq{max-width:820px;margin:0 auto;border-top:1px solid var(--rule)}
 .qa{border-bottom:1px solid var(--rule)}
-.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font:400 23px/1.3 var(--serif);color:var(--ink)}
+.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font:600 21px/1.3 var(--serif);letter-spacing:-.015em;color:var(--ink)}
 .qa summary::-webkit-details-marker{display:none}
 .qa summary::after{content:"";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--rule);background:linear-gradient(var(--ink),var(--ink)) center/12px 1.6px no-repeat,linear-gradient(var(--ink),var(--ink)) center/1.6px 12px no-repeat;transition:transform .25s,background-color .2s}
 .qa[open] summary::after{transform:rotate(45deg);background-color:var(--ball);border-color:var(--ball)}
@@ -544,6 +544,18 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 .big-noodle .dog.drop .ball{display:none}
 .hero > div:not(.big-noodle){position:relative;z-index:1}
 @media (max-width:1320px){.big-noodle{display:none}}
+
+/* The ball on the left: click it and Noodle catches it */
+.big-ball{position:absolute;left:calc((100vw - 1160px) / -2 + 110px);top:44%;width:clamp(96px,9vw,140px);aspect-ratio:1;padding:0;border:0;background:none;cursor:pointer;z-index:2;
+  filter:drop-shadow(0 26px 22px rgba(0,0,0,.12));animation:bob 3.2s ease-in-out infinite}
+.big-ball svg{display:block;width:100%;height:100%;animation:spin 14s linear infinite}
+.big-ball:hover{animation-play-state:paused}
+.big-ball.gone{opacity:0;pointer-events:none;animation:none}
+.big-ball.back{animation:back .6s cubic-bezier(.3,1.5,.5,1),bob 3.2s .6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes back{from{opacity:0;transform:scale(.4)}}
+@media (max-width:1320px){.big-ball{display:none}}
 
 /* Noodle on the first screen */
 .ground{position:relative;width:min(760px,92vw);height:118px;margin:34px auto 0;cursor:pointer}
@@ -628,7 +640,8 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 <main>
 <div class="wrap">
   <div class="hero">
-    <div class="big-noodle" id="bigWrap" aria-label="Noodle, holding his ball. Click him."><span class="big-disc" aria-hidden="true"></span><div class="dog proud flip carry-ball" id="bigDog"></div></div>
+    <div class="big-noodle" id="bigWrap" aria-label="Noodle, holding his ball. Click him."><span class="big-disc" aria-hidden="true"></span><div class="dog proud flip" id="bigDog"></div></div>
+    <button class="big-ball" id="bigBall" type="button" aria-label="Throw the ball to Noodle"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#CFDD3C" stroke="#1D1D1F" stroke-width="3"/><path d="M14 30 C38 46 38 66 18 82 M86 18 C62 34 62 58 84 74" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg></button>
     <div>
       <span class="tag"><i></i>A study habit for the AI age</span>
       <h1>Try <em>first<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M4 14 C50 4 120 4 196 12"/></svg></em>,<br>then ask the&nbsp;AI.</h1>
@@ -1322,6 +1335,22 @@ Colder weather plays a part.</textarea>
       head.style.transform = 'rotate(' + Math.max(-20, Math.min(20, dy * 40 - dx * 10)).toFixed(1) + 'deg)';
     });
     setInterval(function () { if (!document.hidden && !d.classList.contains('hop')) { d.classList.add('tilt'); setTimeout(function () { d.classList.remove('tilt'); }, 1300); } }, 6500);
+    var ball = $('bigBall');
+    ball.addEventListener('click', function () {
+      if (d.classList.contains('carry-ball')) return;
+      var a = ball.getBoundingClientRect(), mouth = d.getBoundingClientRect();
+      var fly = ball.cloneNode(true); fly.removeAttribute('id'); fly.className = 'big-ball flying';
+      fly.style.cssText = 'position:fixed;left:' + a.left + 'px;top:' + a.top + 'px;width:' + a.width + 'px;animation:none;z-index:60;pointer-events:none';
+      document.body.appendChild(fly); ball.classList.add('gone');
+      var tx = mouth.left + mouth.width * 0.08 - a.left, ty = mouth.top + mouth.height * 0.42 - a.top;
+      fly.animate([{ transform: 'translate(0,0) scale(1) rotate(0)' }, { transform: 'translate(' + tx / 2 + 'px,' + (Math.min(0, ty) - 220) + 'px) scale(.75) rotate(300deg)' }, { transform: 'translate(' + tx + 'px,' + ty + 'px) scale(.16) rotate(720deg)' }],
+        { duration: 900, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards' }).onfinish = function () {
+        fly.remove(); d.classList.add('carry-ball'); d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
+        setTimeout(function () { d.classList.remove('hop'); }, 600);
+        // A few seconds later he drops it and a new ball floats back in.
+        setTimeout(function () { d.classList.remove('carry-ball'); ball.classList.remove('gone'); ball.classList.add('back'); setTimeout(function () { ball.classList.remove('back'); }, 700); }, 3200);
+      };
+    });
     w.addEventListener('click', function () {
       d.classList.add('drop'); d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
       setTimeout(function () { d.classList.remove('hop', 'drop'); }, 900);
