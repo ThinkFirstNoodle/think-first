@@ -328,12 +328,25 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
   .xp{height:auto}.xp-snaps{display:none}.xp-pin{position:relative;height:auto;padding:130px 0 40px}
   .rig,.rig .layer,.dogx,.dogx *{transition:none!important}
 }
-/* Hard snapping, one step at a time, on wide screens */
-@media (min-width:961px) and (prefers-reduced-motion:no-preference){
+.demo-slide{display:flex;flex-direction:column;align-items:center}
+/* Hard snapping on wide screens: every part of the page is one full screen, and each
+   scroll lands on the next one (the exploded view has a stop for each of its steps). */
+@media (min-width:961px) and (min-height:620px) and (prefers-reduced-motion:no-preference){
   html{scroll-snap-type:y mandatory}
-  .hero,main > .wrap > section,.final{scroll-snap-align:start}
-  footer{scroll-snap-align:end}
+  .hero,.demo-slide,main > .wrap > section:not(.xp),.final-slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    scroll-snap-align:start;scroll-snap-stop:always}
+  .hero{padding:64px 0 0}
+  .demo-slide{padding:84px 0 24px}
+  .demo-slide .scene{margin-top:0;width:min(820px,100%)}
+  .demo-slide .chat{min-height:0;height:min(430px,calc(100vh - 330px))}
+  main > .wrap > section:not(.xp){padding:76px 0 24px}
+  main > .wrap > section:not(.xp) > .head{margin-bottom:36px}
+  .qa summary{padding:18px 4px}
+  .xp{margin-top:0}
   .xp-snaps i{scroll-snap-align:start;scroll-snap-stop:always}
+  .final-slide{padding:84px 24px 0}
+  .final-slide .final{margin:0 auto;width:100%}
+  .final-slide footer{margin-top:auto}
 }
 
 /* Comparison spotlight */
@@ -572,7 +585,9 @@ footer .sp{margin-left:auto;color:var(--ink3)}
       <p class="meta" id="meta">Free · Apple Silicon (M1 or newer)</p>
       <div class="proof" id="countBox" hidden><b id="count"></b><span>downloads so far.<br>No account, no ads, no tracking.</span></div>
     </div>
+  </div>
 
+  <div class="demo-slide">
     <div class="scene rv" aria-label="Animated example: Noodle holds an AI answer until you try first">
       <span class="sticker">Woof. You first.</span>
       <div class="win">
@@ -599,11 +614,11 @@ footer .sp{margin-left:auto;color:var(--ink3)}
       </div>
       <p class="hint" id="hint">Go on, throw the ball yourself.</p>
     </div>
-  </div>
 
   <div class="works rv">
     <p class="eyebrow">Sits on top of the apps you already use</p>
     <span>ChatGPT</span><i class="dot"></i><span>Claude</span><i class="dot"></i><span>Gemini</span><i class="dot"></i><span>Perplexity</span>
+  </div>
   </div>
 
   </div>
@@ -754,6 +769,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   </section>
 </div>
 
+<div class="final-slide">
 <div class="final rv">
   <p class="eyebrow">Free for Mac</p>
   <h2>Your brain first. <em>Then</em> the AI.</h2>
@@ -762,8 +778,6 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   <p class="meta" id="meta2">Free · Apple Silicon (M1 or newer)</p>
   <div class="track"><div class="dog run carry-ball" id="trackDog"></div></div>
 </div>
-</main>
-
 <footer>
   <div class="wrap">
     <a href="#">Think First: Noodle</a>
@@ -772,6 +786,8 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     <span class="sp">Independent, and not affiliated with OpenAI, Anthropic, Google or Perplexity.</span>
   </div>
 </footer>
+</div>
+</main>
 <script>
 // Noodle, drawn side-on in ink so he can run, carry things and change mood.
 // Parts are grouped so CSS can move legs, tail and head (see noodle-css.js / app.css).
@@ -1166,7 +1182,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     ['0.6.0', '2026-11-01', ['Think First updates itself. New versions download in the background and install when you restart.']],
     ['0.5.0', '2026-11-01', ['Think First becomes a full app: Today, the AI Dependency Index, History, Review cards, Subjects and Settings.', 'Dress Noodle up: name, fur, collar and outfits you unlock with tricks and streaks.', 'Noodle learns to play ball, bury bones, chase butterflies and howl at night.']]
   ];
-  var SHOW = 4;
+  var SHOW = 3;
   function fmt(d) { return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
   function drawLog(all) {
     $('log').innerHTML = CHANGES.slice(0, all ? CHANGES.length : SHOW).map(function (c, i) {
