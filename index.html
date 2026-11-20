@@ -542,20 +542,34 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 .big-noodle .dog{position:relative;width:100%;filter:drop-shadow(0 30px 30px rgba(0,0,0,.10))}
 .big-disc{position:absolute;left:4%;right:4%;aspect-ratio:1;top:-18%;border-radius:50%;background:radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--ball) 34%,var(--paper)),var(--paper) 70%)}
 .big-noodle .dog.drop .ball{display:none}
-.hero > div:not(.big-noodle){position:relative;z-index:1}
+.hero > div:not(.big-noodle):not(.toys){position:relative;z-index:1}
 @media (max-width:1320px){.big-noodle{display:none}}
 
-/* The ball on the left: click it and Noodle catches it */
-.big-ball{position:absolute;left:calc((100vw - 1160px) / -2 + 110px);top:44%;width:clamp(96px,9vw,140px);aspect-ratio:1;padding:0;border:0;background:none;cursor:pointer;z-index:2;
-  filter:drop-shadow(0 26px 22px rgba(0,0,0,.12));animation:bob 3.2s ease-in-out infinite}
-.big-ball svg{display:block;width:100%;height:100%;animation:spin 14s linear infinite}
-.big-ball:hover{animation-play-state:paused}
-.big-ball.gone{opacity:0;pointer-events:none;animation:none}
-.big-ball.back{animation:back .6s cubic-bezier(.3,1.5,.5,1),bob 3.2s .6s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+/* Toys on the left: click one and Noodle leaps over to get it */
+.toys{position:absolute;left:calc((100vw - 1160px) / -2 + 60px);top:16%;width:250px;height:64%;z-index:2}
+.toy{position:absolute;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 18px 16px rgba(0,0,0,.12));animation:bob 3.2s ease-in-out infinite;transition:opacity .3s}
+.toy svg{display:block;width:100%;height:100%}
+.toy:hover{animation-play-state:paused;transform:scale(1.08) rotate(-6deg)}
+.toy.gone{opacity:0;pointer-events:none;animation:none}
+.toy.back{animation:back .6s cubic-bezier(.3,1.5,.5,1),bob 3.2s .6s ease-in-out infinite}
+.t-ball{left:50px;top:30%;width:clamp(96px,8.6vw,128px);aspect-ratio:1}
+.t-ball svg{animation:spin 14s linear infinite}
+.t-ball::before{content:"";position:absolute;inset:-6%;border-radius:50%;border:3px solid var(--ball);animation:pulse 1.6s ease-out infinite}
+.t-bone{left:0;top:4%;width:96px;height:40px;animation-delay:-1.1s;transform:rotate(-14deg)}
+.t-hat{left:170px;top:0;width:58px;height:66px;animation-delay:-2s}
+.t-glasses{left:130px;top:78%;width:92px;height:40px;animation-delay:-.6s}
+.click-me{position:absolute;left:50%;top:calc(100% + 14px);transform:translateX(-50%);white-space:nowrap;font:600 13px var(--sans);background:var(--ink);color:var(--paper);padding:5px 11px;border-radius:999px;animation:nudge 1.6s ease-in-out infinite}
+.click-me::before{content:"";position:absolute;left:50%;top:-5px;width:10px;height:10px;background:inherit;transform:translateX(-50%) rotate(45deg);border-radius:2px}
+.toys.used .click-me{display:none}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -14px}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+@keyframes nudge{0%,100%{translate:0 0}50%{translate:0 4px}}
 @keyframes back{from{opacity:0;transform:scale(.4)}}
-@media (max-width:1320px){.big-ball{display:none}}
+.big-noodle.flying{z-index:5;cursor:default}
+.big-disc{transition:opacity .3s}
+.big-noodle.flying .big-disc{opacity:0}
+@media (max-width:1320px){.toys{display:none}}
 
 /* Noodle on the first screen */
 .ground{position:relative;width:min(760px,92vw);height:118px;margin:34px auto 0;cursor:pointer}
@@ -641,7 +655,12 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 <div class="wrap">
   <div class="hero">
     <div class="big-noodle" id="bigWrap" aria-label="Noodle, holding his ball. Click him."><span class="big-disc" aria-hidden="true"></span><div class="dog proud flip" id="bigDog"></div></div>
-    <button class="big-ball" id="bigBall" type="button" aria-label="Throw the ball to Noodle"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#CFDD3C" stroke="#1D1D1F" stroke-width="3"/><path d="M14 30 C38 46 38 66 18 82 M86 18 C62 34 62 58 84 74" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg></button>
+    <div class="toys" id="toys">
+      <button class="toy t-ball" data-toy="ball" type="button" aria-label="Throw the ball to Noodle" title="Ball"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#CFDD3C" stroke="#1D1D1F" stroke-width="3"/><path d="M14 30 C38 46 38 66 18 82 M86 18 C62 34 62 58 84 74" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg><span class="click-me">Click on it</span></button>
+      <button class="toy t-bone" data-toy="bone" type="button" aria-label="Give Noodle the bone" title="Bone"><svg viewBox="0 0 120 50" aria-hidden="true"><path d="M22 14 a11 11 0 1 1 -2 18 L100 32 a11 11 0 1 1 -2 -18 a11 11 0 1 1 0 22 L22 36 a11 11 0 1 1 0 -22Z" fill="#FBF8F1" stroke="#1D1D1F" stroke-width="3" stroke-linejoin="round"/></svg></button>
+      <button class="toy t-hat" data-toy="party" type="button" aria-label="Give Noodle the party hat" title="Party hat"><svg viewBox="0 0 80 90" aria-hidden="true"><path d="M8 82 L40 8 L72 82 Z" fill="#2A4F9E" stroke="#1D1D1F" stroke-width="3" stroke-linejoin="round"/><path d="M22 56 L58 44 M17 70 L64 58" stroke="#E8B530" stroke-width="6"/><circle cx="40" cy="8" r="8" fill="#E0607E" stroke="#1D1D1F" stroke-width="3"/></svg></button>
+      <button class="toy t-glasses" data-toy="glasses" type="button" aria-label="Give Noodle the glasses" title="Glasses"><svg viewBox="0 0 120 50" aria-hidden="true"><circle cx="30" cy="27" r="18" fill="rgba(255,255,255,.6)" stroke="#1D1D1F" stroke-width="4"/><circle cx="90" cy="27" r="18" fill="rgba(255,255,255,.6)" stroke="#1D1D1F" stroke-width="4"/><path d="M48 25 Q60 18 72 25 M12 24 L2 18 M108 24 L118 18" fill="none" stroke="#1D1D1F" stroke-width="4" stroke-linecap="round"/></svg></button>
+    </div>
     <div>
       <span class="tag"><i></i>A study habit for the AI age</span>
       <h1>Try <em>first<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M4 14 C50 4 120 4 196 12"/></svg></em>,<br>then ask the&nbsp;AI.</h1>
@@ -1335,21 +1354,46 @@ Colder weather plays a part.</textarea>
       head.style.transform = 'rotate(' + Math.max(-20, Math.min(20, dy * 40 - dx * 10)).toFixed(1) + 'deg)';
     });
     setInterval(function () { if (!document.hidden && !d.classList.contains('hop')) { d.classList.add('tilt'); setTimeout(function () { d.classList.remove('tilt'); }, 1300); } }, 6500);
-    var ball = $('bigBall');
-    ball.addEventListener('click', function () {
-      if (d.classList.contains('carry-ball')) return;
-      var a = ball.getBoundingClientRect(), mouth = d.getBoundingClientRect();
-      var fly = ball.cloneNode(true); fly.removeAttribute('id'); fly.className = 'big-ball flying';
-      fly.style.cssText = 'position:fixed;left:' + a.left + 'px;top:' + a.top + 'px;width:' + a.width + 'px;animation:none;z-index:60;pointer-events:none';
-      document.body.appendChild(fly); ball.classList.add('gone');
-      var tx = mouth.left + mouth.width * 0.08 - a.left, ty = mouth.top + mouth.height * 0.42 - a.top;
-      fly.animate([{ transform: 'translate(0,0) scale(1) rotate(0)' }, { transform: 'translate(' + tx / 2 + 'px,' + (Math.min(0, ty) - 220) + 'px) scale(.75) rotate(300deg)' }, { transform: 'translate(' + tx + 'px,' + ty + 'px) scale(.16) rotate(720deg)' }],
-        { duration: 900, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards' }).onfinish = function () {
-        fly.remove(); d.classList.add('carry-ball'); d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
-        setTimeout(function () { d.classList.remove('hop'); }, 600);
-        // A few seconds later he drops it and a new ball floats back in.
-        setTimeout(function () { d.classList.remove('carry-ball'); ball.classList.remove('gone'); ball.classList.add('back'); setTimeout(function () { ball.classList.remove('back'); }, 700); }, 3200);
-      };
+    // Toys: Noodle leaps over in an arc, bites (or puts on) the toy, and leaps back with it.
+    // A few seconds later he puts it back on the pile.
+    var wearing = '', busy = false;
+    function redraw(acc) { d.innerHTML = TF.dogSVG('proud', 'Noodle the dog', acc ? { accessory: acc } : {}); }
+    function leap(dx, dy, ms) {
+      return w.animate([{ translate: w._x + 'px ' + w._y + 'px' }, { translate: (w._x + dx) / 2 + 'px ' + (Math.min(w._y, dy) - 200) + 'px' }, { translate: dx + 'px ' + dy + 'px' }],
+        { duration: ms, easing: 'cubic-bezier(.4,.1,.3,1)', fill: 'forwards' }).finished.then(function () { w._x = dx; w._y = dy; });
+    }
+    w._x = 0; w._y = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('.toy'), function (toy) {
+      toy.addEventListener('click', function () {
+        if (busy) return;
+        busy = true; $('toys').classList.add('used');
+        var kind = toy.dataset.toy, t = toy.getBoundingClientRect(), r = d.getBoundingClientRect();
+        // Noodle faces left: his mouth is near the left of his box, his head near the top.
+        var mx = r.left + r.width * 0.1, my = r.top + r.height * (kind === 'party' || kind === 'glasses' ? 0.25 : 0.5);
+        var dx = t.left + t.width / 2 - mx, dy = t.top + t.height / 2 - my;
+        w.classList.add('flying'); d.classList.add('run');
+        leap(dx, dy, 900).then(function () {
+          toy.classList.add('gone');
+          if (kind === 'ball' || kind === 'bone') { d.classList.add('carry-' + kind); }
+          else { wearing = kind; redraw(kind); }
+          d.classList.remove('run'); d.classList.add('happy');
+          return new Promise(function (ok) { setTimeout(ok, 350); });
+        }).then(function () {
+          d.classList.remove('flip'); d.classList.add('run'); // turn round and head home
+          return leap(0, 0, 900);
+        }).then(function () {
+          d.classList.remove('run', 'happy'); d.classList.add('flip');
+          w.classList.remove('flying'); w.getAnimations().forEach(function (a) { a.cancel(); }); w._x = 0; w._y = 0;
+          d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
+          setTimeout(function () { d.classList.remove('hop'); busy = false; }, 600);
+          setTimeout(function () {
+            if (kind === 'ball' || kind === 'bone') d.classList.remove('carry-' + kind);
+            else if (wearing === kind) { wearing = ''; redraw(''); }
+            toy.classList.remove('gone'); toy.classList.add('back');
+            setTimeout(function () { toy.classList.remove('back'); }, 700);
+          }, kind === 'ball' || kind === 'bone' ? 3500 : 6000);
+        });
+      });
     });
     w.addEventListener('click', function () {
       d.classList.add('drop'); d.classList.remove('hop'); void d.offsetWidth; d.classList.add('hop');
