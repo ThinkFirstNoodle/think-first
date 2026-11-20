@@ -188,6 +188,9 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .xp-hint{margin-top:18px;font:600 12.5px var(--mono);color:var(--ink3);transition:opacity .4s}
 .xp:not([data-step="0"]) .xp-hint{opacity:0}
 .xp-stage{position:relative;height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding-right:210px;perspective:2600px;perspective-origin:50% 35%}
+/* Zoomed-in parts fade out at the edges instead of covering the list */
+.xp-stage{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 70px,#000 100%),linear-gradient(to bottom,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 70px,#000 100%),linear-gradient(to bottom,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%);mask-composite:intersect}
+@media (max-width:960px){.xp-stage{overflow:visible;-webkit-mask-image:none;mask-image:none}}
 /* Callouts: flat labels on the right, a dotted line to each part */
 .xp-callouts{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s .25s}
 .xp:not([data-step="0"]) .xp-callouts{opacity:1}
@@ -198,23 +201,32 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .xp-callouts circle.on{fill:var(--ball);stroke:var(--ink)}
 .xp-label{position:absolute;transform:translateY(-50%);font:600 13.5px var(--sans);color:var(--ink2);background:var(--paper);padding:5px 12px;border-radius:999px;border:1px solid var(--rule);white-space:nowrap;transition:color .3s,background .3s,border-color .3s}
 .xp-label.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.part.on{box-shadow:0 0 0 3px var(--ball),0 40px 60px -30px rgba(0,0,0,.45)!important}
+.part.on{box-shadow:0 0 0 3px var(--ball),0 40px 60px -30px rgba(0,0,0,.45)!important;animation:focus 1.2s .5s ease-out}
+@keyframes focus{0%{box-shadow:0 0 0 3px var(--ball),0 0 0 0 color-mix(in srgb,var(--ball) 70%,transparent),0 40px 60px -30px rgba(0,0,0,.45)}
+  100%{box-shadow:0 0 0 3px var(--ball),0 0 0 26px color-mix(in srgb,var(--ball) 0%,transparent),0 40px 60px -30px rgba(0,0,0,.45)}}
+.dog-chip.part.on{box-shadow:none!important;animation:none}
+.dog-chip.on .dog{animation:pophop .7s .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pophop{0%,100%{transform:none}40%{transform:translateY(-26px) scale(1.08)}}
+.xp[data-phase="inside"] .lyr:not(.focus) .part{opacity:.55;transition:opacity .6s}
+.xp[data-phase="inside"] .lyr .part{transition:opacity .6s}
 .xp-edge{border:1px solid var(--rule)}
 @media (prefers-color-scheme:dark){.xp-edge{border-color:rgba(255,255,255,.14)}}
 
 /* 3D rigs: a stack of layers that tilts, then lifts apart */
-.rig{position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.rig{position:relative;transform-style:preserve-3d;transform-origin:50% 50%;transition:transform 1.2s cubic-bezier(.65,0,.3,1)}
 .rig .layer{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
-.rig .layer{transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity .6s}
+/* Layers burst out one after another and overshoot a little before settling */
+.rig .layer{transition:transform 1.15s cubic-bezier(.3,1.5,.45,1) calc(var(--d,0) * 70ms),opacity .6s}
+.xp[data-phase="whole"] .rig .layer{transition-timing-function:cubic-bezier(.65,0,.3,1);--d:0}
 /* One sequence: whole → split into the app, Noodle interface and Noodle → the interface's own layers */
 .xp[data-phase="whole"] .g-app{transform:translate3d(70px,-56px,-2px)}
 .xp[data-phase="whole"] .lyr{transform:translateZ(calc(var(--i) * 1px))}
 .xp[data-phase="whole"] .l-gapL,.xp[data-phase="split"] .l-gapL{opacity:0}
-.xp[data-phase="split"] .rig{transform:translateY(150px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="split"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(var(--zoom,1)) translateY(105px) rotateX(56deg) rotateZ(-34deg)}
 .xp[data-phase="split"] .g-app{transform:translate3d(-40px,40px,0)}
 .xp[data-phase="split"] .lyr{transform:translateZ(calc(190px + var(--i) * 3px))}
 .xp[data-phase="split"] .lyr.l-dogL{transform:translateZ(380px)}
-.xp[data-phase="inside"] .rig{transform:translateY(165px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="inside"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(var(--zoom,1)) translateY(165px) rotateX(56deg) rotateZ(-34deg)}
 .xp[data-phase="inside"] .g-app{transform:translateZ(-260px);opacity:0}
 .xp[data-phase="inside"] .lyr{transform:translateZ(calc(var(--i) * 118px))}
 .xp .ph-b{display:none}
@@ -1051,7 +1063,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     var br = xbox.getBoundingClientRect(), ph = xsec.dataset.phase, active = xstep - 2, last = -1e9, html = '';
     var pts = [];
     anchors.forEach(function (a, i) {
-      var vis = a.dataset.when === ph;
+      var vis = a.dataset.when === ph && (ph !== 'inside' || !wideMQ.matches || reduce || +a.dataset.k === active);
       xlabels[i].hidden = !vis;
       if (!vis) return;
       var r = a.getBoundingClientRect();
@@ -1068,17 +1080,46 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     xsvg.innerHTML = html;
   }
   function follow(ms) { var end = performance.now() + ms; (function f() { callouts(); if (performance.now() < end) requestAnimationFrame(f); })(); }
+  // Where a part ends up on screen (relative to the rig's centre) once the rig is tilted:
+  // turn it -34° in the plane, tip it back 56°, lift it by its layer's height, add perspective.
+  var rig = xsec.querySelector('.rig');
+  function onScreen(part, z, drop) {
+    var w = rig.offsetWidth, h = rig.offsetHeight;
+    var x = part.offsetLeft + part.offsetWidth / 2 - w / 2, y = part.offsetTop + part.offsetHeight / 2 - h / 2;
+    var a = -34 * Math.PI / 180, t = 56 * Math.PI / 180;
+    var x1 = x * Math.cos(a) - y * Math.sin(a), y1 = x * Math.sin(a) + y * Math.cos(a);
+    var y2 = y1 * Math.cos(t) - z * Math.sin(t), depth = y1 * Math.sin(t) + z * Math.cos(t), k = 2600 / (2600 - depth);
+    return { x: x1 * k, y: y2 * k + drop };
+  }
+  function camera(st) {
+    var tx = 0, ty = 0, zoom = 1;
+    if (st >= 2 && wideMQ.matches && !reduce) {
+      var i = st - 2, layer = rig.querySelectorAll('.lyr')[i], part = layer.querySelector('.part');
+      var p = onScreen(part, i * 118, 165);
+      zoom = 1.42; tx = -p.x * zoom; ty = -p.y * zoom;
+    }
+    rig.style.setProperty('--tx', tx.toFixed(1) + 'px');
+    rig.style.setProperty('--ty', ty.toFixed(1) + 'px');
+    rig.style.setProperty('--zoom', zoom);
+  }
   function steps() {
     var wide = wideMQ.matches && !reduce, n = 7, st = n - 1;
     if (wide) { var r = xsec.getBoundingClientRect(); st = Math.max(0, Math.min(n - 1, Math.round(-r.top / innerHeight))); }
     if (st === xstep) return;
+    var from = xstep;
     xstep = st; xsec.dataset.step = st; xsec.dataset.phase = phaseOf(st);
     var active = wide ? st - 2 : -1;
-    // The interface piece being explained gets a lime outline, here and in the list.
-    xsec.querySelectorAll('.lyr .part').forEach(function (p, i) { p.classList.toggle('on', i === active); });
+    // Layers burst out bottom-first when it comes apart, top-first when it goes back together.
+    rig.querySelectorAll('.layer').forEach(function (l) {
+      var i = l.classList.contains('g-app') ? 0 : +getComputedStyle(l).getPropertyValue('--i') + 1;
+      l.style.setProperty('--d', st > from ? i : 5 - i);
+    });
+    camera(st);
+    // The interface piece being explained: lime ring, label, list item; the rest dims.
+    xsec.querySelectorAll('.lyr').forEach(function (l, i) { l.classList.toggle('focus', i === active); l.querySelector('.part').classList.toggle('on', i === active); });
     listB.forEach(function (li, i) { li.classList.toggle('on', i === active); });
     document.getElementById('listA').classList.toggle('all', st === 1);
-    follow(1200);
+    follow(1500);
   }
   addEventListener('scroll', steps, { passive: true });
   addEventListener('resize', function () { xstep = -1; steps(); });
