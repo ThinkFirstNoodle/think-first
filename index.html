@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://thinkfirstnoodle.github.io/think-first/og.png?v=2">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="only light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23CFDD3C' stroke='%231F1B16' stroke-width='6'/%3E%3Cpath d='M18 40 q32 22 64 0' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -634,9 +634,9 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   }
   function current(){var t=document.documentElement.dataset.theme;return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
   // White by default; dark only if the visitor picked it with the moon button.
-  var saved=null;try{saved=localStorage.getItem('tf-theme')}catch(e){}
+  var saved=null;try{saved=localStorage.getItem('tf-theme-v2')}catch(e){}
   apply(saved||'light');
-  window.TFTheme={apply:apply,current:current,toggle:function(){var t=current()==='dark'?'light':'dark';apply(t);try{localStorage.setItem('tf-theme',t)}catch(e){}return t},
+  window.TFTheme={apply:apply,current:current,toggle:function(){var t=current()==='dark'?'light':'dark';apply(t);try{localStorage.setItem('tf-theme-v2',t)}catch(e){}return t},
     reapply:function(){apply(document.documentElement.dataset.theme||'light')}};
 })();
 </script>
