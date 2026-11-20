@@ -3,8 +3,8 @@
 <title>Think First Privacy Policy</title>
 <meta name="description" content="How Think First handles your data: it stays on your Mac.">
 <style>
-:root{--paper:#F7F3EA;--card:#FBF8F1;--ink:#1F1B16;--ink2:#5E574C;--rule:#DED6C6;--ball:#CFDD3C;--serif:"Times New Roman",Times,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
-@media (prefers-color-scheme:dark){:root{--paper:#1E1A15;--card:#26211B;--ink:#F2ECDF;--ink2:#C2B9AB;--rule:#3A342B;color-scheme:dark}}
+:root{--paper:#FFFFFF;--card:#F5F5F7;--ink:#1D1D1F;--ink2:#6E6E73;--rule:#E5E5EA;--ball:#CFDD3C;--serif:"Times New Roman",Times,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+@media (prefers-color-scheme:dark){:root{--paper:#000000;--card:#161617;--ink:#F5F5F7;--ink2:#A1A1A6;--rule:#2C2C2E;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
 main{max-width:720px;margin:0 auto;padding:56px 20px 80px}
@@ -21,7 +21,7 @@ nav{margin-bottom:28px;font-size:15px}
 </head><body><main>
 <nav><a href="./">← Think First</a></nav>
 <h1>Privacy Policy</h1>
-<p class="meta">Last updated 14 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:noodle1thinkfirst@gmail.com">noodle1thinkfirst@gmail.com</a></p>
+<p class="meta">Last updated 20 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:noodle1thinkfirst@gmail.com">noodle1thinkfirst@gmail.com</a></p>
 <p>Think First comes in two editions. Both keep everything on your Mac. The <a href="#app-store">Mac App Store edition</a> doesn't connect to the internet at all; the <a href="#download">edition downloaded from this site</a> only checks GitHub for updates.</p>
 <h3 id="app-store">Mac App Store edition</h3>
 
@@ -38,7 +38,7 @@ nav{margin-bottom:28px;font-size:15px}
     <p>The file is <code>~/Library/Containers/com.thinkfirst.noodle.appstore/Data/Library/Application Support/think-first/thinkfirst.json</code>. It isn't encrypted, so anyone or any app with access to your Mac user account could read it, and your own backups, such as Time Machine, may copy it.</p>
     <h2>What the permissions are used for</h2>
     <ul>
-      <li><b>Input Monitoring:</b> notices when you press Enter, so it can tell when you send a message. It only learns whether a key was Enter or some other key, never which key or what you type, and it ignores keys unless an AI app is in front. It doesn't save your key presses; only the question you sent is kept.</li>
+      <li><b>Noticing a question:</b> while an AI app is in front, Think First looks at that app's window a few times a second, and reads its chat box with Apple's on-device text recognition, to notice when you send a message. It doesn't use your keyboard. Nothing it sees is saved except the question you sent.</li>
       <li><b>Screen Recording:</b> takes pictures of the AI chat window to see when the answer has finished and, to read your question and the AI's answer from them. Reading is done on your Mac. The pictures are held in memory and are never saved or sent.</li>
       <li><b>Front window:</b> checks the name and title of the window in front to tell whether it's an AI chat. It only keeps the title of AI chat windows.</li>
     </ul>
