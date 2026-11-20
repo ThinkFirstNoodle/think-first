@@ -185,6 +185,14 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .xp-list li.on{background:var(--paper2);color:var(--ink)}
 .xp-list li.on span{color:var(--ink2)}
 .xp-list li.on::before{background:var(--ball);border-color:var(--ball);color:#1D1D1F}
+/* Progress: a line through the numbers that fills as you go */
+.xp-list{position:relative}
+.xp-list li{position:relative;z-index:1}
+.xp-list li::before{background:var(--paper)}
+.xp-list li.on::before{background:var(--ball)}
+.xp-list li.done::before{border-color:var(--ball);color:var(--ink)}
+.xp-track{position:absolute;left:27px;width:2px;border-radius:2px;background:var(--rule);z-index:0}
+.xp-track i{display:block;width:100%;height:0;border-radius:2px;background:var(--ball);transition:height .9s cubic-bezier(.65,0,.3,1)}
 .xp-hint{margin-top:18px;font:600 12.5px var(--mono);color:var(--ink3);transition:opacity .4s}
 .xp:not([data-step="0"]) .xp-hint{opacity:0}
 .xp-stage{position:relative;height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding-right:210px;perspective:2600px;perspective-origin:50% 35%}
@@ -1160,6 +1168,20 @@ Colder weather plays a part.</textarea>
     rig.style.setProperty('--ty', ty.toFixed(1) + 'px');
     rig.style.setProperty('--zoom', zoom);
   }
+  // The progress line runs from the first number to the last and fills up to the current one.
+  [listA, listB].forEach(function (items) {
+    var t = document.createElement('span'); t.className = 'xp-track'; t.innerHTML = '<i></i>';
+    items[0].parentNode.insertBefore(t, items[0]);
+  });
+  function progress(items, upto) {
+    var ol = items[0].parentNode, track = ol.querySelector('.xp-track');
+    if (!ol.offsetParent) return; // the list that isn't showing
+    var top = items[0].offsetTop + 24, bottom = items[items.length - 1].offsetTop + 24;
+    track.style.top = top + 'px'; track.style.height = (bottom - top) + 'px';
+    var at = upto < 0 ? top : items[Math.min(upto, items.length - 1)].offsetTop + 24;
+    track.firstChild.style.height = (at - top) + 'px';
+    items.forEach(function (li, i) { li.classList.toggle('done', upto >= 0 && i < upto); });
+  }
   function steps() {
     var wide = wideMQ.matches && !reduce, n = 7, st = n - 1;
     if (wide) { var r = xsec.getBoundingClientRect(); st = Math.max(0, Math.min(n - 1, Math.round(-r.top / innerHeight))); }
@@ -1177,6 +1199,8 @@ Colder weather plays a part.</textarea>
     xsec.querySelectorAll('.lyr').forEach(function (l, i) { l.classList.toggle('focus', i === active); l.querySelector('.part').classList.toggle('on', i === active); });
     listB.forEach(function (li, i) { li.classList.toggle('on', i === active); });
     document.getElementById('listA').classList.toggle('all', st === 1);
+    progress(listA, st === 0 ? -1 : 2);
+    progress(listB, active);
     follow(1500);
   }
   addEventListener('scroll', steps, { passive: true });
