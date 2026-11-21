@@ -228,14 +228,15 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .rig .layer{transition:transform 1.15s cubic-bezier(.3,1.5,.45,1) calc(var(--d,0) * 70ms),opacity .6s}
 .xp[data-phase="whole"] .rig .layer{transition-timing-function:cubic-bezier(.65,0,.3,1);--d:0}
 /* One sequence: whole → split into the app, Noodle interface and Noodle → the interface's own layers */
+.xp[data-phase="whole"] .rig{transform:scale(var(--fit,1))}
 .xp[data-phase="whole"] .g-app{transform:translate3d(70px,-56px,-2px)}
 .xp[data-phase="whole"] .lyr{transform:translateZ(calc(var(--i) * 1px))}
 .xp[data-phase="whole"] .l-gapL,.xp[data-phase="split"] .l-gapL{opacity:0}
-.xp[data-phase="split"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(var(--zoom,1)) translateY(105px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="split"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(calc(var(--zoom,1) * var(--fit,1))) translateY(105px) rotateX(56deg) rotateZ(-34deg)}
 .xp[data-phase="split"] .g-app{transform:translate3d(-40px,40px,0)}
 .xp[data-phase="split"] .lyr{transform:translateZ(calc(190px + var(--i) * 3px))}
 .xp[data-phase="split"] .lyr.l-dogL{transform:translateZ(380px)}
-.xp[data-phase="inside"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(var(--zoom,1)) translateY(165px) rotateX(56deg) rotateZ(-34deg)}
+.xp[data-phase="inside"] .rig{transform:translate(var(--tx,0px),var(--ty,0px)) scale(calc(var(--zoom,1) * var(--fit,1))) translateY(165px) rotateX(56deg) rotateZ(-34deg)}
 .xp[data-phase="inside"] .g-app{transform:translateZ(-260px);opacity:0}
 .xp[data-phase="inside"] .lyr{transform:translateZ(calc(var(--i) * 118px))}
 .xp .ph-b{display:none}
@@ -321,17 +322,23 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
 .xp:not([data-step="0"]) .dogx .back-near,.xp:not([data-step="0"]) .dogx .back-far{translate:-6px 14px}
 .dogx .on{filter:drop-shadow(0 0 3px var(--ball)) drop-shadow(0 0 6px var(--ball))}
 
-/* Small screens and reduced motion: no pinning, shown apart, the list explains */
+/* Phones and tablets: the same pinned sequence, stacked. The copy sits on top (only the
+   current step's words show), the 3D stage fills the rest and is scaled to fit by the script. */
 @media (max-width:960px){
-  .xp{height:auto;margin-top:0}
-  .xp-snaps{display:none}
-  .xp-pin{position:relative;height:auto;padding:130px 0 0;display:block}
-  .xp-grid{grid-template-columns:1fr}
-  .xp-stage{height:auto;padding:40px 0 30px;perspective:1600px}
-  .xp-callouts,.xp-hint{display:none}
-  .rig.ui{width:min(440px,84vw);height:300px}
-  .rig.app{width:min(480px,86vw);height:320px}
-  .rig.ui,.rig.app{transform:scale(.82)}
+  .xp{margin-top:40px}
+  .xp-pin{height:100vh;height:100svh;padding-top:64px;display:block}
+  .xp-grid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:0;height:100%;align-items:stretch}
+  .xp-copy{padding-top:10px}
+  .xp-copy h2{font-size:clamp(28px,7.4vw,38px);margin:6px 0 10px}
+  .xp-list{gap:2px}
+  .xp-list li{padding:6px 10px;border-radius:12px}
+  .xp-list b{font-size:15px;line-height:26px}
+  .xp-list li span{display:none;font-size:13.5px}
+  .xp-list li.on span,.xp-list.all li span{display:block}
+  .xp-track{left:23px}
+  .xp-hint{margin-top:8px}
+  .xp-stage{height:auto;min-height:0;padding:0;overflow:hidden;-webkit-mask-image:none;mask-image:none}
+  .xp-callouts{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   .xp{height:auto}.xp-snaps{display:none}.xp-pin{position:relative;height:auto;padding:130px 0 40px}
@@ -350,6 +357,11 @@ h2 em{font-style:normal;background:linear-gradient(transparent 68%,rgba(207,221,
   .xp{margin-top:0}
   .xp-snaps i{scroll-snap-align:start;scroll-snap-stop:always}
   /* the way out: one last stop at the start of the next part */
+  .after-snap{scroll-snap-align:start}
+}
+@media (max-width:960px) and (prefers-reduced-motion:no-preference){
+  html.snap{scroll-snap-type:y proximity}
+  .xp-snaps i{scroll-snap-align:start;scroll-snap-stop:always}
   .after-snap{scroll-snap-align:start}
 }
 
@@ -1227,12 +1239,20 @@ Colder weather plays a part.</textarea>
     var y2 = y1 * Math.cos(t) - z * Math.sin(t), depth = y1 * Math.sin(t) + z * Math.cos(t), k = 2600 / (2600 - depth);
     return { x: x1 * k, y: y2 * k + drop };
   }
+  // On a narrow screen the whole rig is scaled down to fit the stage under the copy.
+  var stage = xsec.querySelector('.xp-stage');
+  function fitScale(st) {
+    if (wideMQ.matches || reduce) return 1;
+    var w = st === 0 ? 600 : 700, h = st === 0 ? 420 : 640; // in one piece it needs less room
+    return Math.max(.3, Math.min(1, stage.clientWidth / w, stage.clientHeight / h));
+  }
   function camera(st) {
-    var tx = 0, ty = 0, zoom = 1;
-    if (st >= 2 && wideMQ.matches && !reduce) {
+    var tx = 0, ty = 0, zoom = 1, fit = fitScale(st);
+    rig.style.setProperty('--fit', fit.toFixed(3));
+    if (st >= 2 && !reduce) {
       var i = st - 2, layer = rig.querySelectorAll('.lyr')[i], part = layer.querySelector('.part');
       var p = onScreen(part, i * 118, 165);
-      zoom = 1.42; tx = -p.x * zoom; ty = -p.y * zoom;
+      zoom = 1.42; tx = -p.x * zoom * fit; ty = -p.y * zoom * fit;
     }
     rig.style.setProperty('--tx', tx.toFixed(1) + 'px');
     rig.style.setProperty('--ty', ty.toFixed(1) + 'px');
@@ -1246,15 +1266,16 @@ Colder weather plays a part.</textarea>
   function progress(items, upto) {
     var ol = items[0].parentNode, track = ol.querySelector('.xp-track');
     if (!ol.offsetParent) return; // the list that isn't showing
-    var top = items[0].offsetTop + 24, bottom = items[items.length - 1].offsetTop + 24;
+    var c = parseFloat(getComputedStyle(items[0]).paddingTop) + 13;
+    var top = items[0].offsetTop + c, bottom = items[items.length - 1].offsetTop + c;
     track.style.top = top + 'px'; track.style.height = (bottom - top) + 'px';
-    var at = upto < 0 ? top : items[Math.min(upto, items.length - 1)].offsetTop + 24;
+    var at = upto < 0 ? top : items[Math.min(upto, items.length - 1)].offsetTop + c;
     track.firstChild.style.height = (at - top) + 'px';
     items.forEach(function (li, i) { li.classList.toggle('done', upto >= 0 && i < upto); });
   }
   function steps() {
-    var wide = wideMQ.matches && !reduce, n = 7, st = n - 1;
-    if (wide) { var r = xsec.getBoundingClientRect(); st = Math.max(0, Math.min(n - 1, Math.round(-r.top / innerHeight))); }
+    var wide = !reduce, n = 7, st = n - 1;
+    if (wide) { var r = xsec.getBoundingClientRect(), h = xsec.querySelector('.xp-snaps i').offsetHeight || innerHeight; st = Math.max(0, Math.min(n - 1, Math.round(-r.top / h))); }
     if (st === xstep) return;
     var from = xstep;
     xstep = st; xsec.dataset.step = st; xsec.dataset.phase = phaseOf(st);
