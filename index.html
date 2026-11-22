@@ -55,6 +55,11 @@ nav{display:flex;align-items:center;gap:28px;height:64px}
 nav .links{display:flex;gap:24px;margin-left:auto;font-size:15px;color:var(--ink2)}
 nav .links a{text-decoration:none}
 nav .links a:hover{color:var(--ink)}
+nav .links a.sch-link{display:inline-flex;align-items:center;gap:7px;padding:7px 14px 7px 12px;border-radius:999px;background:#F3F7D4;border:1px solid #DCE59A;color:#1D1D1F;font-weight:600;transition:background .2s,transform .2s}
+nav .links a.sch-link:hover{background:#E9F0B4;transform:translateY(-1px)}
+nav .links a.sch-link .nw{font:700 10px/1 var(--mono);letter-spacing:.08em;background:#1D1D1F;color:#CFDD3C;border-radius:999px;padding:3px 6px}
+@media (prefers-color-scheme:dark){nav .links a.sch-link{background:rgba(207,221,60,.14);border-color:rgba(207,221,60,.4);color:#F2F2EE}nav .links a.sch-link:hover{background:rgba(207,221,60,.22)}nav .links a.sch-link .nw{background:#CFDD3C;color:#1D1D1F}}
+
 .pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:14px;
   padding:7px 15px;border-radius:999px;transition:opacity .15s}
 .pill:hover{opacity:.82}
@@ -693,7 +698,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="#"><span class="dog proud" id="navDog"></span>Think First</a>
-    <div class="links"><a href="schools.html">Schools</a></div>
+    <div class="links"><a href="schools.html" class="sch-link">🎓 For schools <span class="nw">NEW</span></a></div>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
