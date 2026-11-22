@@ -771,6 +771,16 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     </div>
   </section>
 
+  <section id="changes">
+    <div class="head rv">
+      <p class="eyebrow">What’s new</p>
+      <h2>Noodle keeps <em>learning</em>.</h2>
+      <p>Every update to Think First for Schools and the Teacher Dashboard. New versions of the app are downloaded from this page.</p>
+    </div>
+    <div class="log" id="log"></div>
+    <button class="more" id="moreLog" hidden>Show all versions</button>
+  </section>
+
   <section>
     <div class="head rv"><p class="eyebrow">Questions</p><h2>Good to <em>know</em>.</h2></div>
     <div class="sfaq">
@@ -975,6 +985,27 @@ footer .sp{margin-left:auto;color:var(--ink3)}
   TFTheme.reapply();
   var b = $('themeBtn'); function lab() { b.setAttribute('aria-label', TFTheme.current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'); b.title = b.getAttribute('aria-label'); }
   b.onclick = function () { TFTheme.toggle(); lab(); }; lab();
+
+  // What's new for the School edition. Newest first: [version, date, notes].
+  var CHANGES = [
+    ['0.7.3', '2026-11-23', [
+      'The first pilot of <strong>Think First for Schools</strong>, the classroom edition of Think First.',
+      'Join your teacher\'s class on the new <strong>Class</strong> page with a 6-letter code. You see exactly what\'s shared before you join, and you can leave, or leave and delete what you shared, at any time.',
+      'Only numbers are shared with your teacher: when you asked, whether you tried first, the subject, which AI, and counts. Never your questions, what you wrote or the AI\'s answers.',
+      'Works with AI apps and AI websites, in English and Korean, just like Think First 0.7.2.',
+      'New <strong>Teacher Dashboard</strong>: make a class and share its code, then see tried-first rates, each student\'s Dependency Index, which AIs they use, in which subjects and when. Sign in with Google or an email link.'
+    ]]
+  ];
+  var SHOW = 4, fmt = function (d) { return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
+  function drawLog(all) {
+    $('log').innerHTML = CHANGES.slice(0, all ? CHANGES.length : SHOW).map(function (c, i) {
+      return '<article class="ver' + (i === 0 ? ' latest' : '') + '"><header><h3>Version ' + c[0] + '</h3>' + (i === 0 ? '<span class="badge">Latest</span>' : '') +
+        '<time datetime="' + c[1] + '">' + fmt(c[1]) + '</time></header><ul>' + c[2].map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul></article>';
+    }).join('');
+    $('moreLog').hidden = all || CHANGES.length <= SHOW;
+  }
+  $('moreLog').onclick = function () { drawLog(true); };
+  drawLog(false);
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12 });
   document.querySelectorAll('.rv').forEach(function (e) { io.observe(e); });
 })();
