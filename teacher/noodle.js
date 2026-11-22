@@ -1,0 +1,175 @@
+
+// Noodle, drawn side-on in ink so he can run, carry things and change mood.
+// Parts are grouped so CSS can move legs, tail and head (see noodle-css.js / app.css).
+(function () {
+  const TF = (globalThis.TF = globalThis.TF || {});
+  const INK = '#1F1B16';
+  // Fur colours and collars: TF.FURS / TF.COLLARS (insights.js) when loaded, else golden + red.
+  const fursOf = (id) => (TF.FURS && TF.FURS[id]) || { fur: '#E2B574', ear: '#8E5B2C', belly: '#F4DDB5' };
+  const collarOf = (id) => (TF.COLLARS && TF.COLLARS[id]) || '#C4402F';
+
+  const leg = (cls, x, y, FUR) =>
+    `<g class="leg ${cls}"><rect x="${x}" y="${y}" width="9" height="25" rx="4.5" fill="${FUR}" stroke="${INK}" stroke-width="2.4"/>` +
+    `<path d="M${x - 1} ${y + 24} h12" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/></g>`;
+
+  const EYES = {
+    proud: `<path d="M99 34 q4 -5 8 0" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`,
+    neutral: `<circle cx="103" cy="33" r="3" fill="${INK}"/><circle cx="104" cy="32" r="1" fill="#fff"/>`,
+    mope: `<path d="M99 35 h8" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/><path d="M98 29 l9 2" stroke="${INK}" stroke-width="1.8" stroke-linecap="round"/>`,
+  };
+  const MOUTH = {
+    proud: `<path d="M108 49 q5 5 11 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M111 51 q2 8 6 0" fill="#E0607E" stroke="${INK}" stroke-width="1.6"/>`,
+    neutral: `<path d="M109 49 q5 3 10 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    mope: `<path d="M109 51 q5 -3 10 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  };
+  // Things he can wear, drawn on his head so they move with it.
+  const WEAR = {
+    none: '',
+    flower: `<g class="acc"><circle cx="89" cy="22" r="3.4" fill="#F7C6D9" stroke="${INK}" stroke-width="1.3"/><circle cx="95" cy="21" r="3.4" fill="#F7C6D9" stroke="${INK}" stroke-width="1.3"/><circle cx="92" cy="17" r="3.4" fill="#F7C6D9" stroke="${INK}" stroke-width="1.3"/><circle cx="92" cy="21" r="2.4" fill="#E8B530" stroke="${INK}" stroke-width="1.2"/></g>`,
+    party: `<g class="acc"><path d="M90 24 L99 2 L108 23 Z" fill="#2A4F9E" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><path d="M93 17 L104 12 M95 22 L106 18" stroke="#E8B530" stroke-width="2.4"/><circle cx="99" cy="2" r="3.2" fill="#E0607E" stroke="${INK}" stroke-width="1.4"/></g>`,
+    bandana: `<g class="acc"><path d="M84 47 C90 52 96 53 100 52 L91 66 Z" fill="#2A4F9E" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><circle cx="90" cy="54" r="1.2" fill="#fff"/><circle cx="94" cy="56" r="1.2" fill="#fff"/><circle cx="91" cy="60" r="1.2" fill="#fff"/></g>`,
+    glasses: `<g class="acc"><circle cx="104" cy="33" r="6" fill="rgba(255,255,255,.25)" stroke="${INK}" stroke-width="2.2"/><path d="M98 32 L90 30" stroke="${INK}" stroke-width="2"/></g>`,
+    scarf: `<g class="acc"><path d="M84 45 C88 56 92 61 96 60" stroke="#C4402F" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M85 48 l4 -2 M87 53 l4 -2 M90 57 l4 -2" stroke="#FBF8F1" stroke-width="2"/><path d="M88 58 L84 72 L90 72 L93 60" fill="#C4402F" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/></g>`,
+    bowtie: `<g class="acc"><path d="M85 56 L80 50 L80 63 Z M95 56 L100 50 L100 63 Z" fill="#7A3E9D" stroke="${INK}" stroke-width="1.8" stroke-linejoin="round" transform="rotate(-20 90 56)"/><circle cx="90" cy="56" r="2.6" fill="#7A3E9D" stroke="${INK}" stroke-width="1.6"/></g>`,
+    crown: `<g class="acc"><path d="M90 24 L91 11 L96 18 L100 8 L104 18 L109 11 L109 24 Z" fill="#E8B530" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><circle cx="100" cy="20" r="1.8" fill="#C4402F"/></g>`,
+    headphones: `<g class="acc"><path d="M88 34 C86 14 112 12 112 28" stroke="${INK}" stroke-width="3.4" fill="none" stroke-linecap="round"/><ellipse cx="89" cy="37" rx="5" ry="7" fill="#2E6B3A" stroke="${INK}" stroke-width="2"/></g>`,
+  };
+
+  // mood: proud | neutral | mope. look: { fur, collar, accessory } (see TF.look).
+  TF.dogSVG = function (mood = 'neutral', label = 'Noodle the dog', look = {}) {
+    const { fur: FUR, ear: EAR, belly: BELLY } = fursOf(look.fur);
+    const COLLAR = collarOf(look.collar);
+    return `<svg class="dog-svg" viewBox="0 0 140 100" role="img" aria-label="${label}" overflow="visible">
+  <ellipse class="shadow" cx="64" cy="95" rx="40" ry="4" fill="${INK}" opacity=".12"/>
+  <g class="tail"><path d="M34 52 C24 48 18 40 16 30" stroke="${INK}" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M34 52 C24 48 18 40 16 30" stroke="${FUR}" stroke-width="4.5" fill="none" stroke-linecap="round"/></g>
+  <g class="bob">
+    ${leg('back-far', 44, 64, FUR)}${leg('front-far', 84, 64, FUR)}
+    <path d="M30 58 C30 42 48 40 66 41 C84 42 96 44 96 58 C96 72 82 74 64 74 C46 74 30 72 30 58Z" fill="${FUR}" stroke="${INK}" stroke-width="2.6"/>
+    <path d="M52 72 C60 76 74 76 84 71" fill="none" stroke="${BELLY}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M48 46 c6 -3 14 -2 16 4 c-5 4 -13 4 -16 -4Z" fill="${EAR}" opacity=".55"/>
+    ${leg('back-near', 36, 66, FUR)}${leg('front-near', 76, 66, FUR)}
+    <g class="head">
+      <path d="M86 44 C90 54 92 60 90 64" stroke="${COLLAR}" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="91" cy="63" r="3" fill="#E8B530" stroke="${INK}" stroke-width="1.4"/>
+      <circle cx="100" cy="38" r="17" fill="${FUR}" stroke="${INK}" stroke-width="2.6"/>
+      <path d="M104 38 C112 37 122 38 124 43 C125 49 116 51 106 50Z" fill="${BELLY}" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <ellipse cx="123" cy="40" rx="4" ry="3.2" fill="${INK}"/>
+      <g class="eyes">${EYES[mood] || EYES.neutral}</g>
+      <g class="eyes-sleep"><path d="M99 34 q4 4 8 0" stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>
+      ${MOUTH[mood] || MOUTH.neutral}
+      <g class="carry">
+        <g class="paper"><rect x="110" y="44" width="26" height="9" rx="4" fill="#FBF8F1" stroke="${INK}" stroke-width="2" transform="rotate(-8 123 48)"/>
+          <path d="M116 47 h12 M116 50 h9" stroke="${INK}" stroke-width="1.2" opacity=".6" transform="rotate(-8 123 48)"/></g>
+        <g class="ball"><circle cx="122" cy="50" r="7" fill="#CFDD3C" stroke="${INK}" stroke-width="2"/><path d="M116 47 q6 4 12 0" stroke="#fff" stroke-width="1.6" fill="none"/></g>
+        <g class="bone"><path d="M110 50 h18" stroke="#FBF8F1" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="48" r="3" fill="#FBF8F1" stroke="${INK}" stroke-width="1.4"/><circle cx="110" cy="52" r="3" fill="#FBF8F1" stroke="${INK}" stroke-width="1.4"/><circle cx="128" cy="48" r="3" fill="#FBF8F1" stroke="${INK}" stroke-width="1.4"/><circle cx="128" cy="52" r="3" fill="#FBF8F1" stroke="${INK}" stroke-width="1.4"/></g>
+      </g>
+      <path class="ear" d="M92 24 C84 22 80 30 82 42 C83 50 88 54 92 52 C96 46 97 34 92 24Z" fill="${EAR}" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      ${WEAR[look.accessory] || ''}
+    </g>
+  </g>
+</svg>`;
+  };
+
+  // Poses: wrapper .dog gets a mood class plus optional run | walk | flip | trick | carry-paper | carry-ball.
+  TF.DOG_CSS = `
+.dog-svg{display:block;width:100%;height:auto;overflow:visible}
+.dog-svg .leg,.dog-svg .tail,.dog-svg .head,.dog-svg .bob{transform-box:fill-box}
+.dog-svg .leg{transform-origin:50% 10%}
+.dog-svg .tail{transform-origin:100% 100%;transition:transform .4s}
+.dog-svg .head{transform-origin:10% 75%;transition:transform .4s}
+.dog-svg .carry>g{display:none}
+.dog.carry-paper .paper,.dog.carry-ball .ball,.dog.carry-bone .bone{display:inline}
+.dog.proud .tail{animation:tf-wag .28s ease-in-out infinite alternate}
+.dog.neutral .tail{animation:tf-wag 1.1s ease-in-out infinite alternate}
+.dog.mope .tail{transform:rotate(-85deg)}
+.dog.mope .head{transform:rotate(14deg)}
+.dog-svg .ear{transform-box:fill-box;transform-origin:60% 5%;transition:transform .4s}
+.dog.mope .ear{transform:rotate(18deg) scaleY(1.12)}
+.dog-svg .eyes-sleep{display:none}
+.dog.sleep .eyes{display:none}.dog.sleep .eyes-sleep{display:inline}
+.dog.sleep .head{transform:rotate(24deg)}
+.dog.sleep .tail{animation:none;transform:rotate(-100deg)}
+.dog.sleep .bob{animation:tf-breathe 2.6s ease-in-out infinite}
+.dog-svg .bob{transform-origin:20% 100%}
+.dog.stretch .bob{animation:tf-stretch 1.8s ease-in-out}
+.dog.stretch .tail{animation:tf-wag .3s ease-in-out infinite alternate}
+@keyframes tf-breathe{50%{transform:scaleY(.97)}}
+@keyframes tf-stretch{0%,100%{transform:none}35%,65%{transform:rotate(12deg)}}
+.dog.proud .head{transform:rotate(-6deg)}
+.dog.run .front-near,.dog.run .back-far{animation:tf-legA .24s ease-in-out infinite alternate}
+.dog.run .front-far,.dog.run .back-near{animation:tf-legB .24s ease-in-out infinite alternate}
+.dog.run .bob{animation:tf-bob .12s ease-in-out infinite alternate}
+.dog.run .tail{animation:none;transform:rotate(35deg)}
+.dog.run .head{transform:rotate(-4deg)}
+.dog.walk .front-near,.dog.walk .back-far{animation:tf-legA2 .42s ease-in-out infinite alternate}
+.dog.walk .front-far,.dog.walk .back-near{animation:tf-legB2 .42s ease-in-out infinite alternate}
+.dog.walk .bob{animation:tf-bob .21s ease-in-out infinite alternate}
+.dog.flip .dog-svg{transform:scaleX(-1)}
+.dog.trick .dog-svg{animation:tf-spin .9s cubic-bezier(.3,.7,.3,1)}
+.dog.flip.trick .dog-svg{animation:tf-spin-flip .9s cubic-bezier(.3,.7,.3,1)}
+@keyframes tf-wag{from{transform:rotate(-12deg)}to{transform:rotate(16deg)}}
+@keyframes tf-legA{from{transform:rotate(-40deg)}to{transform:rotate(36deg)}}
+@keyframes tf-legB{from{transform:rotate(36deg)}to{transform:rotate(-40deg)}}
+@keyframes tf-legA2{from{transform:rotate(-20deg)}to{transform:rotate(18deg)}}
+@keyframes tf-legB2{from{transform:rotate(18deg)}to{transform:rotate(-20deg)}}
+@keyframes tf-bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+@keyframes tf-spin{0%{transform:none}45%{transform:translateY(-26px) rotate(-200deg)}85%{transform:rotate(-360deg)}100%{transform:none}}
+@keyframes tf-spin-flip{0%{transform:scaleX(-1)}45%{transform:scaleX(-1) translateY(-26px) rotate(-200deg)}85%{transform:scaleX(-1) rotate(-360deg)}100%{transform:scaleX(-1)}}
+/* Things he does on his own */
+.dog.look-up .head{transform:rotate(-14deg)}
+.dog.tilt .head{animation:tf-tilt 1.3s ease-in-out}
+.dog.sniff .head{animation:tf-sniff .32s ease-in-out infinite alternate}
+.dog.sniff .tail{animation:tf-wag .5s ease-in-out infinite alternate}
+.dog.sit .bob{transform:rotate(-13deg)}
+.dog.sit .back-near,.dog.sit .back-far{transform:rotate(-62deg)}
+.dog.scratch .back-near{animation:tf-scratch .11s linear infinite alternate}
+.dog.scratch .head{transform:rotate(12deg)}
+.dog.dig .front-near,.dog.dig .front-far{animation:tf-dig .13s linear infinite alternate}
+.dog.dig .front-far{animation-delay:.065s}
+.dog.dig .head{transform:rotate(22deg)}
+.dog.dig .tail{animation:tf-wag .2s infinite alternate}
+.dog.bark .head{animation:tf-bark .28s ease-out 2}
+.dog.happy .tail{animation:tf-wag .13s ease-in-out infinite alternate}
+.dog.happy .head{transform:rotate(-8deg)}
+.dog.zoom .front-near,.dog.zoom .back-far{animation:tf-legA .15s ease-in-out infinite alternate}
+.dog.zoom .front-far,.dog.zoom .back-near{animation:tf-legB .15s ease-in-out infinite alternate}
+.dog.zoom .bob{animation:tf-bob .075s ease-in-out infinite alternate}
+.dog.zoom .ear{animation:tf-flap .15s ease-in-out infinite alternate}
+.dog.zoom .tail{transform:rotate(45deg)}
+.dog.hop .dog-svg{animation:tf-hop .42s cubic-bezier(.3,.7,.4,1)}
+.dog.flip.hop .dog-svg{animation:tf-hop-flip .42s cubic-bezier(.3,.7,.4,1)}
+@keyframes tf-tilt{0%,100%{transform:none}30%,70%{transform:rotate(-16deg) translateY(-1px)}}
+@keyframes tf-sniff{from{transform:rotate(18deg)}to{transform:rotate(26deg)}}
+@keyframes tf-scratch{from{transform:rotate(-95deg)}to{transform:rotate(-55deg)}}
+@keyframes tf-dig{from{transform:rotate(-55deg)}to{transform:rotate(25deg)}}
+@keyframes tf-bark{0%,100%{transform:none}40%{transform:rotate(-16deg)}}
+@keyframes tf-flap{from{transform:rotate(-30deg)}to{transform:rotate(6deg)}}
+@keyframes tf-hop{0%,100%{transform:none}45%{transform:translateY(-22px)}}
+@keyframes tf-hop-flip{0%,100%{transform:scaleX(-1)}45%{transform:scaleX(-1) translateY(-22px)}}
+/* More things he does */
+.dog.lie .bob{transform:translateY(9px)}
+.dog.lie .leg{transform:rotate(-80deg)}
+.dog.lie .front-near,.dog.lie .front-far{transform:rotate(-95deg)}
+.dog.shake .bob{animation:tf-shake .09s linear infinite alternate}
+.dog.shake .ear{animation:tf-flap .09s linear infinite alternate}
+.dog.sneeze .head{animation:tf-sneeze .5s ease-in}
+.dog.paw .front-near{transform:rotate(-70deg)}
+.dog.paw .head{transform:rotate(-8deg)}
+.dog.roll .dog-svg{animation:tf-roll 1.1s ease-in-out}
+.dog.flip.roll .dog-svg{animation:tf-roll-flip 1.1s ease-in-out}
+.dog.dead .bob{transform-origin:50% 50%;transform:rotate(180deg) translateY(-30px)}
+.dog.dead .leg{animation:tf-twitch 1.4s ease-in-out infinite}
+.dog.howl .head{transform:rotate(-34deg)}
+.dog.howl .bob{transform:rotate(-8deg)}
+@keyframes tf-shake{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes tf-sneeze{0%{transform:none}55%{transform:rotate(-18deg)}70%{transform:rotate(16deg)}100%{transform:none}}
+@keyframes tf-roll{0%{transform:none}50%{transform:translateY(10px) rotate(180deg)}100%{transform:rotate(360deg)}}
+@keyframes tf-roll-flip{0%{transform:scaleX(-1)}50%{transform:scaleX(-1) translateY(10px) rotate(180deg)}100%{transform:scaleX(-1) rotate(360deg)}}
+@keyframes tf-twitch{0%,90%,100%{transform:none}95%{transform:rotate(10deg)}}
+@media (prefers-reduced-motion:reduce){.dog *,.dog .dog-svg{animation:none!important}}
+`;
+})();
+
+
+;(function(){var c=document.createElement('style');c.textContent=TF.DOG_CSS;document.head.appendChild(c)})();
