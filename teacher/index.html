@@ -17,6 +17,7 @@ button,input,select{font:inherit;color:inherit}
 a{color:var(--blue)}
 .shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
 @media (max-width:980px){.shell{grid-template-columns:1fr}.side{display:none}}
+.side[hidden]{display:none!important}
 .side{position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 16px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:750;letter-spacing:-.01em;padding:4px 8px 18px}
 .logo i{width:30px;height:30px;border-radius:9px;background:var(--ink);display:grid;place-items:center;color:var(--lime);font:800 13px var(--sans);font-style:normal}
