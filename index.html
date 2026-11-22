@@ -58,7 +58,7 @@ nav .links a:hover{color:var(--ink)}
 .pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:14px;
   padding:7px 15px;border-radius:999px;transition:opacity .15s}
 .pill:hover{opacity:.82}
-@media (max-width:760px){nav .links{display:none}nav .pill{margin-left:auto}}
+@media (max-width:760px){nav .links{gap:14px;font-size:14px}}
 .theme{display:inline-grid;place-items:center;width:38px;height:38px;margin-right:-14px;border-radius:50%;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer;padding:0;transition:transform .2s,border-color .2s}
 .theme:hover{transform:rotate(-12deg);border-color:var(--ink3)}
 .theme:focus-visible{outline:3px solid var(--ball);outline-offset:3px}
@@ -693,7 +693,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="#"><span class="dog proud" id="navDog"></span>Think First</a>
-    <div class="links"><a href="#how">How it works</a><a href="#features">Features</a><a href="#noodle">Noodle</a><a href="#privacy">Privacy</a><a href="#schools">Schools</a><a href="#changes">What’s new</a><a href="#faq">FAQ</a></div>
+    <div class="links"><a href="schools.html">Schools</a></div>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
@@ -883,33 +883,6 @@ Colder weather plays a part.</textarea>
       <div class="ins rv"><b>4</b><p><strong>Allow</strong> the two permissions he asks for, then ask an AI anything.</p></div>
     </div>
     <p class="req">macOS on Apple Silicon (M1 or newer) · Updates itself · Or <a href="https://apps.apple.com/app/think-first-noodle/id6834817114">get it on the Mac App Store</a></p>
-  </section>
-
-  <section id="schools">
-    <div class="head rv">
-      <p class="eyebrow">For schools · pilot</p>
-      <h2>Think First, <em>for the classroom</em>.</h2>
-      <p class="lede">A separate edition for classes. Students keep Noodle, and their teacher sees how the class uses AI: who tries first, and in which subjects. Only numbers are shared, never the questions or answers.</p>
-    </div>
-    <div class="sch">
-      <div class="sc rv">
-        <div class="art"><img src="schools/student-app.png" alt="Think First for Schools app icon" width="104" height="104"></div>
-        <span class="who">For students</span>
-        <h3>Think First for Schools</h3>
-        <p>The Mac app, with a 🎓. Join your class with the 6-letter code from your teacher.</p>
-        <ul><li>Same Noodle, for AI apps and AI websites</li><li>You see exactly what's shared, and can leave any time</li><li>Separate from your own Think First</li></ul>
-        <div class="go"><a class="btn dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/download/school-v0.7.3/Think-First-for-Schools-0.7.3.dmg">Download for students</a><small>Mac · Apple Silicon</small></div>
-      </div>
-      <div class="sc rv">
-        <div class="art"><div class="dog proud sit" id="teachDog"></div></div>
-        <span class="who">For teachers</span>
-        <h3>Teacher Dashboard</h3>
-        <p>Make a class, share the code, and watch your class's AI habits, live in your browser.</p>
-        <ul><li>Tried-first rate and Dependency Index per student</li><li>Which AIs they use, in which subjects, and when</li><li>Nothing to install. Sign in with your school email</li></ul>
-        <div class="go"><a class="btn" href="teacher/">Open the dashboard</a><a href="teacher/?demo"><small>or see a sample class →</small></a></div>
-      </div>
-    </div>
-    <p class="sch-note">Shared with teachers: when a question was asked, whether the student tried first, the subject, which AI, and counts. Never shared: questions, attempts, AI answers or screenshots. Please check with your school before using it with a class.</p>
   </section>
 
   <section id="changes">
