@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="robots" content="noindex">
+<title>Think First · Teacher Dashboard</title>
+<meta name="description" content="See how your class uses AI: who tries first, who leans on it, and in which subjects.">
+<style>
+:root{--ink:#1D1D1F;--ink2:#4A4A50;--ink3:#86868B;--line:#E4E4E8;--bg:#F6F6F8;--card:#FFFFFF;--lime:#CFDD3C;--lime2:#9AA81F;--good:#2F8A43;--ok:#B58A12;--warn:#D9731E;--bad:#C9372C;--blue:#3A6FD8;
+  --sans:-apple-system,"SF Pro Text","SF Pro Display",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--blue)}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:14px 28px;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:var(--lime);font:800 14px var(--sans);font-style:normal}
+.logo span{color:var(--ink3);font-weight:500}
+.top .sp{flex:1}
+.who{font-size:13px;color:var(--ink3)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:14px}
+.btn:hover{border-color:#cfcfd4}
+.btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.lime{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.btn.ghost{border-color:transparent;background:none;color:var(--ink2)}
+.btn.danger{color:var(--bad)}
+.wrap{max-width:1240px;margin:0 auto;padding:28px}
+h1{font-size:30px;letter-spacing:-.025em;margin:0 0 4px}
+h2{font-size:19px;letter-spacing:-.015em;margin:0 0 14px}
+.sub{color:var(--ink3);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid{display:grid;gap:16px}
+.k4{grid-template-columns:repeat(4,1fr)}.k2{grid-template-columns:1.4fr 1fr}.k3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.k4{grid-template-columns:1fr 1fr}.k2,.k3{grid-template-columns:1fr}}
+.kpi .l{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-size:36px;font-weight:750;letter-spacing:-.03em;margin-top:6px}
+.kpi .d{font-size:13px;color:var(--ink3)}
+.up{color:var(--bad)}.down{color:var(--good)}
+.mono{font-family:var(--mono)}
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:13px;font-weight:600}
+.tabs button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none}
+th.num,td.num{text-align:right}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.row{cursor:pointer}tr.row:hover td{background:#FAFAFB}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600}
+.band-good{background:#E6F4EA;color:var(--good)}.band-ok{background:#FBF3DC;color:var(--ok)}.band-warn{background:#FCEBDD;color:var(--warn)}.band-bad{background:#FBE4E2;color:var(--bad)}.band-none{background:#F0F0F2;color:var(--ink3)}
+.bar{position:relative;height:8px;border-radius:8px;background:#EFEFF2;overflow:hidden;min-width:90px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--ink)}
+.tag{display:inline-block;font-size:12px;color:var(--ink2);background:#F2F2F5;border-radius:6px;padding:1px 7px;margin:1px 2px 1px 0}
+.muted{color:var(--ink3)}
+.small{font-size:13px}
+.flag{color:var(--bad);font-weight:600}
+.code{font:800 64px/1 var(--mono);letter-spacing:.14em;margin:10px 0}
+.notice{border:1px solid #E7E1B8;background:#FCFBEF;border-radius:12px;padding:12px 16px;font-size:14px;margin-bottom:20px}
+.empty{text-align:center;padding:60px 20px;color:var(--ink3)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:600;color:var(--ink2)}
+.field input{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+.login{max-width:420px;margin:80px auto}
+.back{border:0;background:none;color:var(--ink3);cursor:pointer;padding:0;margin-bottom:14px;font-weight:600}
+svg text{font-family:var(--sans)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--ink3);margin-top:8px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.privacy{font-size:12px;color:var(--ink3);margin-top:28px;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;opacity:0;transition:opacity .2s}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo"><i>TF</i>Think First <span>· Teacher Dashboard</span></div>
+  <div class="sp"></div>
+  <span class="who" id="who"></span>
+  <button class="btn ghost" id="signOut" hidden>Sign out</button>
+</header>
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  const C = window.TF_SCHOOL || {};
+  const DEMO = new URLSearchParams(location.search).has('demo') || !(C.url && C.anonKey);
+  const sb = !DEMO && window.supabase ? window.supabase.createClient(C.url, C.anonKey) : null;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const DAY = 864e5;
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) : null);
+  const ago = (ts) => { if (!ts) return 'never'; const m = (Date.now() - ts) / 6e4; return m < 2 ? 'just now' : m < 60 ? `${Math.round(m)} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const toast = (t) => { const e = $('toast'); e.textContent = t; e.style.opacity = 1; clearTimeout(toast.t); toast.t = setTimeout(() => (e.style.opacity = 0), 2200); };
+
+  /* ---------- the Dependency Index, same formula as the app (src/shared/insights.js) ---------- */
+  function depIndex(evs, now) {
+    evs = evs.filter((e) => e.ts >= now - 14 * DAY).sort((a, b) => a.ts - b.ts);
+    if (evs.length < 3) return null;
+    const w = (e) => Math.pow(0.5, (now - e.ts) / (7 * DAY));
+    const acc = { o: [0, 0], e: [0, 0], r: [0, 0], x: [0, 0] }, add = (k, v, wt) => { acc[k][0] += v * wt; acc[k][1] += wt; };
+    evs.forEach((e, i) => { const wt = w(e); add('o', e.tried ? 0 : 1, wt); if (e.tried) add('e', e.effort < 3 ? 1 : 0, wt);
+      const tot = (e.got || 0) + (e.missed || 0); if (e.tried && tot) add('r', e.missed / tot, wt); if (i) add('x', e.ts - evs[i - 1].ts < 90000 ? 1 : 0, wt); });
+    const W = { o: .4, e: .15, r: .3, x: .15 }; let s = 0, ws = 0;
+    for (const k in W) if (acc[k][1] > 0) { s += W[k] * acc[k][0] / acc[k][1]; ws += W[k]; }
+    return Math.round(100 * s / ws);
+  }
+  const band = (s) => s == null ? ['Not enough yet', 'none'] : s < 25 ? ['Independent', 'good'] : s < 50 ? ['Balanced', 'ok'] : s < 75 ? ['Leaning on AI', 'warn'] : ['Dependent', 'bad'];
+  const pill = (s) => { const b = band(s); return `<span class="pill band-${b[1]}">${s == null ? '–' : s} · ${b[0]}</span>`; };
+
+  /* ---------- data ---------- */
+  let me = null, classes = [], cur = null, members = [], events = [], view = { tab: 'roster', sort: 'dep', dir: -1, student: null, range: 7 };
+
+  function demoData() {
+    const names = ['Ava K.', 'Ben L.', 'Chloe P.', 'Daniel S.', 'Emma W.', 'Felix R.', 'Grace H.', 'Hyun J.', 'Isla M.', 'Jun P.', 'Kai T.', 'Lena B.', 'Minjun C.', 'Noah D.', 'Olivia F.', 'Priya N.', 'Quinn A.', 'Ryan O.', 'Sora Y.', 'Theo G.', 'Uma V.', 'Victor E.', 'Willow Z.', 'Yuna I.'];
+    const SUBJ = ['Biology', 'History', 'English', 'Maths', 'Computer Science', 'Economics'], AIS = [['ChatGPT', 'app'], ['ChatGPT', 'browser'], ['Claude', 'app'], ['Gemini', 'browser'], ['Perplexity', 'app'], ['Copilot', 'browser']];
+    let seed = 7; const r = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const now = Date.now(), M = [], E = [];
+    names.forEach((n, i) => {
+      const id = 's' + i, habit = r(), busy = 0.4 + r() * 1.6, fav = AIS[Math.floor(r() * AIS.length)];
+      M.push({ student_id: id, display_name: n, joined_at: now - 24 * DAY, last_seen: now - r() * (i % 7 === 0 ? 5 * DAY : 0.3 * DAY), left_at: null });
+      for (let d = 21; d >= 0; d--) {
+        const k = Math.floor(r() * 5 * busy); const improving = (21 - d) / 21 * 0.25;
+        for (let j = 0; j < k; j++) {
+          const tried = r() < Math.min(.95, habit * .8 + improving + .05), ai = r() < .6 ? fav : AIS[Math.floor(r() * AIS.length)], tot = 2 + Math.floor(r() * 4), got = tried ? Math.floor(r() * (tot + 1) * (habit * .8 + .3)) : 0;
+          E.push({ student_id: id, ts: now - d * DAY - r() * 10 * 3600e3, tried, subject: SUBJ[Math.floor(r() * SUBJ.length)], ai: ai[0], surface: ai[1], effort: tried ? Math.floor(r() * 30 * habit + (r() < .2 ? 0 : 3)) : 0, got: Math.min(got, tot), missed: tried ? tot - Math.min(got, tot) : 0, only_you: tried ? Math.floor(r() * 2) : 0 });
+        }
+      }
+    });
+    return { me: { name: 'Ms. Kim', school: 'Sample School' }, classes: [{ id: 'c1', name: 'Biology 10B', code: 'BIO10B', created_at: new Date(now - 30 * DAY).toISOString() }, { id: 'c2', name: 'History 11A', code: 'HIS11A', created_at: new Date(now - 10 * DAY).toISOString() }], members: M, events: E.sort((a, b) => a.ts - b.ts) };
+  }
+
+  async function loadClass(c) {
+    cur = c;
+    if (DEMO) { const d = demoData(); members = d.members; events = c.id === 'c1' ? d.events : d.events.filter((e, i) => i % 3 === 0); if (c.id !== 'c1') members = members.slice(0, 16); return; }
+    const [m, ev] = await Promise.all([
+      sb.from('members').select('student_id,display_name,joined_at,last_seen,left_at').eq('class_id', c.id),
+      sb.from('events').select('student_id,ts,tried,subject,ai,surface,effort,got,missed,only_you').eq('class_id', c.id).gte('ts', new Date(Date.now() - 60 * DAY).toISOString()).order('ts').limit(50000),
+    ]);
+    if (m.error || ev.error) throw m.error || ev.error;
+    members = m.data.map((x) => ({ ...x, last_seen: x.last_seen ? Date.parse(x.last_seen) : null }));
+    events = ev.data.map((e) => ({ ...e, ts: Date.parse(e.ts) }));
+  }
+
+  /* ---------- per-student numbers ---------- */
+  function studentStats(id, days) {
+    const now = Date.now(), all = events.filter((e) => e.student_id === id), win = all.filter((e) => e.ts >= now - days * DAY), prev = all.filter((e) => e.ts >= now - 2 * days * DAY && e.ts < now - days * DAY);
+    const tried = win.filter((e) => e.tried).length;
+    const subj = {}; win.forEach((e) => (subj[e.subject || 'Other'] = (subj[e.subject || 'Other'] || 0) + 1));
+    const ais = {}; win.forEach((e) => { const k = e.ai + (e.surface === 'browser' ? ' (web)' : ''); ais[k] = (ais[k] || 0) + 1; });
+    const efforts = win.filter((e) => e.tried).map((e) => e.effort || 0);
+    const gotTot = win.reduce((a, e) => a + (e.got || 0), 0), missTot = win.reduce((a, e) => a + (e.missed || 0), 0);
+    return {
+      n: win.length, tried, triedPct: pct(tried, win.length), prevPct: pct(prev.filter((e) => e.tried).length, prev.length),
+      dep: depIndex(all, now), depPrev: depIndex(all.filter((e) => e.ts < now - 7 * DAY), now - 7 * DAY),
+      subjects: Object.entries(subj).sort((a, b) => b[1] - a[1]), ais: Object.entries(ais).sort((a, b) => b[1] - a[1]),
+      effort: efforts.length ? Math.round(efforts.reduce((a, b) => a + b, 0) / efforts.length) : null,
+      recall: pct(gotTot, gotTot + missTot), skips: win.length - tried,
+    };
+  }
+
+  /* ---------- charts (plain SVG) ---------- */
+  function dailyChart(evs, days, h = 180) {
+    const now = new Date(); now.setHours(0, 0, 0, 0); const start = now.getTime() - (days - 1) * DAY, W = 720, pad = 28, bw = (W - pad * 2) / days;
+    const rows = [...Array(days)].map((_, i) => { const a = start + i * DAY, d = evs.filter((e) => e.ts >= a && e.ts < a + DAY); return { a, n: d.length, t: d.filter((e) => e.tried).length }; });
+    const max = Math.max(4, ...rows.map((r) => r.n));
+    const y = (v) => h - 24 - (v / max) * (h - 44);
+    let s = `<svg viewBox="0 0 ${W} ${h}" width="100%" role="img" aria-label="Questions per day">`;
+    [0, .5, 1].forEach((f) => { const v = Math.round(max * f); s += `<line x1="${pad}" x2="${W - pad}" y1="${y(v)}" y2="${y(v)}" stroke="#EFEFF2"/><text x="${pad - 6}" y="${y(v) + 4}" font-size="10" fill="#86868B" text-anchor="end">${v}</text>`; });
+    rows.forEach((r, i) => { const x = pad + i * bw + bw * .15, w = bw * .7;
+      if (r.n) { s += `<rect x="${x}" y="${y(r.n)}" width="${w}" height="${y(0) - y(r.n)}" rx="3" fill="#E9B3AD"/><rect x="${x}" y="${y(r.t)}" width="${w}" height="${y(0) - y(r.t)}" rx="3" fill="#1D1D1F"/>`; }
+      if (days <= 14 || i % 3 === 0) s += `<text x="${x + w / 2}" y="${h - 6}" font-size="10" fill="#86868B" text-anchor="middle">${new Date(r.a).toLocaleDateString([], days <= 7 ? { weekday: 'short' } : { month: 'numeric', day: 'numeric' })}</text>`; });
+    return s + `</svg><div class="legend"><span><i style="background:#1D1D1F"></i>Tried first</span><span><i style="background:#E9B3AD"></i>Skipped (asked AI straight away)</span></div>`;
+  }
+  function hbars(entries, total, color = '#1D1D1F') {
+    if (!entries.length) return '<p class="muted small">No questions yet.</p>';
+    return entries.slice(0, 6).map(([k, v]) => `<div style="display:grid;grid-template-columns:140px 1fr 44px;gap:10px;align-items:center;margin:8px 0"><span class="small">${esc(k)}</span><div class="bar"><i style="width:${(100 * v) / total}%;background:${color}"></i></div><span class="small mono" style="text-align:right">${v}</span></div>`).join('');
+  }
+
+  /* ---------- screens ---------- */
+  const app = $('app');
+  function screenLogin(msg) {
+    app.innerHTML = `<div class="login card"><h1>Teacher sign-in</h1><p class="sub">We'll email you a sign-in link. No password.</p>
+      <div class="field"><label for="em">School email</label><input id="em" type="email" autocomplete="email" placeholder="you@school.edu"></div>
+      <button class="btn pri" id="send">Email me a link</button>${msg ? `<p class="small" style="margin-top:14px">${esc(msg)}</p>` : ''}
+      <p class="privacy">Students join with a class code in the Think First for Schools app. You'll only see numbers about how they use AI (tried first or not, subject, which AI), never their questions or the AI's answers.</p></div>`;
+    $('send').onclick = async () => { const em = $('em').value.trim(); if (!em) return; const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: location.href.split('#')[0] } }); screenLogin(error ? error.message : `Check ${em} for the sign-in link.`); };
+  }
+  function screenProfile() {
+    app.innerHTML = `<div class="login card"><h1>Welcome</h1><p class="sub">This is the name students see when they join your class.</p>
+      <div class="field"><label for="tn">Your name</label><input id="tn" placeholder="Ms. Kim"></div><div class="field"><label for="ts">School (optional)</label><input id="ts"></div>
+      <button class="btn pri" id="save">Continue</button></div>`;
+    $('save').onclick = async () => { const name = $('tn').value.trim(); if (!name) return; const { error } = await sb.from('teachers').insert({ name, school: $('ts').value.trim() || null }); if (error) return toast(error.message); boot(); };
+  }
+  function screenClasses() {
+    app.innerHTML = `${DEMO ? '<div class="notice"><b>Sample data.</b> This is a preview with made-up students. Connect a class server in <code>teacher/config.js</code> to use real classes.</div>' : ''}
+      <h1>Your classes</h1><p class="sub">${esc(me.name)}${me.school ? ' · ' + esc(me.school) : ''}</p>
+      <div class="grid k3">${classes.map((c) => `<button class="card" data-class="${c.id}" style="text-align:left;cursor:pointer"><div class="kpi"><div class="l">Code ${esc(c.code)}</div><div class="v" style="font-size:26px">${esc(c.name)}</div><div class="d">Created ${new Date(c.created_at).toLocaleDateString()}</div></div></button>`).join('')}
+      <div class="card"><h2>New class</h2><div class="field"><input id="cn" placeholder="e.g. Biology 10B"></div><button class="btn lime" id="mk">Create class</button></div></div>`;
+    app.querySelectorAll('[data-class]').forEach((b) => (b.onclick = async () => { await loadClass(classes.find((c) => c.id === b.dataset.class)); view.student = null; screenClass(); }));
+    $('mk').onclick = async () => { const n = $('cn').value.trim(); if (!n) return; if (DEMO) return toast('Sample mode: classes can’t be created.');
+      const { data, error } = await sb.rpc('create_class', { class_name: n }); if (error) return toast(error.message); classes.push(data); screenCode(data); };
+  }
+  function screenCode(c) {
+    app.innerHTML = `<button class="back" id="bk">← Classes</button><div class="card" style="max-width:640px"><h1>${esc(c.name)}</h1><p class="sub">Give students this code. They type it on the Class page of Think First for Schools.</p>
+      <div class="code">${esc(c.code)}</div><p class="small muted">Students choose to join and see exactly what's shared. They can leave at any time.</p>
+      <button class="btn pri" id="go">Open class</button></div>`;
+    $('bk').onclick = screenClasses; $('go').onclick = async () => { await loadClass(c); screenClass(); };
+  }
+  function screenClass() {
+    if (view.student) return screenStudent();
+    const days = view.range, now = Date.now(), active = members.filter((m) => !m.left_at);
+    const rows = active.map((m) => ({ m, s: studentStats(m.student_id, days) }));
+    const win = events.filter((e) => e.ts >= now - days * DAY), prev = events.filter((e) => e.ts >= now - 2 * days * DAY && e.ts < now - days * DAY);
+    const triedPct = pct(win.filter((e) => e.tried).length, win.length), prevPct = pct(prev.filter((e) => e.tried).length, prev.length);
+    const deps = rows.map((r) => r.s.dep).filter((v) => v != null), avgDep = deps.length ? Math.round(deps.reduce((a, b) => a + b, 0) / deps.length) : null;
+    const activeN = active.filter((m) => m.last_seen && now - m.last_seen < 2 * DAY).length;
+    const key = { name: (r) => r.m.display_name.toLowerCase(), n: (r) => r.s.n, tried: (r) => r.s.triedPct ?? -1, dep: (r) => r.s.dep ?? -1, effort: (r) => r.s.effort ?? -1, seen: (r) => r.m.last_seen || 0 }[view.sort];
+    rows.sort((a, b) => (key(a) > key(b) ? 1 : key(a) < key(b) ? -1 : 0) * view.dir);
+    const subj = {}; win.forEach((e) => (subj[e.subject || 'Other'] = subj[e.subject || 'Other'] || { n: 0, t: 0 })); win.forEach((e) => { subj[e.subject || 'Other'].n++; if (e.tried) subj[e.subject || 'Other'].t++; });
+    const ais = {}; win.forEach((e) => { const k = e.ai + (e.surface === 'browser' ? ' (web)' : ' (app)'); ais[k] = (ais[k] || 0) + 1; });
+    const th = (k, t, cls = '') => `<th class="${cls}" data-sort="${k}">${t}${view.sort === k ? (view.dir > 0 ? ' ↑' : ' ↓') : ''}</th>`;
+    const delta = (a, b) => (a == null || b == null ? '' : a === b ? 'same as before' : `${a > b ? '▲' : '▼'} ${Math.abs(a - b)} pts vs previous ${days} days`);
+    app.innerHTML = `${DEMO ? '<div class="notice"><b>Sample data.</b> Made-up students, so you can see how the dashboard works.</div>' : ''}
+      <button class="back" id="bk">← Classes</button>
+      <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px"><div style="flex:1"><h1>${esc(cur.name)}</h1><p class="sub" style="margin:0">Class code <b class="mono">${esc(cur.code)}</b> · ${active.length} students</p></div>
+        <div class="tabs" style="margin:0">${[7, 14, 30].map((d) => `<button data-range="${d}" aria-pressed="${view.range === d}">Last ${d} days</button>`).join('')}</div>
+        <button class="btn" id="csv">Export CSV</button></div>
+      <div class="grid k4" style="margin-bottom:16px">
+        <div class="card kpi"><div class="l">Tried first</div><div class="v">${triedPct ?? '–'}${triedPct == null ? '' : '%'}</div><div class="d">${delta(triedPct, prevPct)}</div></div>
+        <div class="card kpi"><div class="l">Avg. dependency index</div><div class="v">${avgDep ?? '–'}</div><div class="d">${band(avgDep)[0]} · 0 = independent, 100 = dependent</div></div>
+        <div class="card kpi"><div class="l">AI questions</div><div class="v">${win.length}</div><div class="d">${(win.length / Math.max(1, active.length)).toFixed(1)} per student</div></div>
+        <div class="card kpi"><div class="l">Active (48 h)</div><div class="v">${activeN}<span style="font-size:18px;color:var(--ink3)"> / ${active.length}</span></div><div class="d">Think First running on their Mac</div></div></div>
+      <div class="grid k2" style="margin-bottom:16px"><div class="card"><h2>Questions per day</h2>${dailyChart(win, days)}</div>
+        <div class="card"><h2>Which AI they use</h2>${hbars(Object.entries(ais).sort((a, b) => b[1] - a[1]), win.length, 'var(--blue)')}</div></div>
+      <div class="card" style="margin-bottom:16px"><h2>Tried first, by subject</h2>${Object.entries(subj).sort((a, b) => b[1].n - a[1].n).map(([k, v]) => `<div style="display:grid;grid-template-columns:160px 1fr 120px;gap:12px;align-items:center;margin:8px 0"><span class="small">${esc(k)}</span><div class="bar"><i style="width:${pct(v.t, v.n)}%;background:var(--good)"></i></div><span class="small mono" style="text-align:right">${pct(v.t, v.n)}% of ${v.n}</span></div>`).join('') || '<p class="muted small">No questions yet.</p>'}</div>
+      <div class="card" style="padding:6px 6px 0"><table><thead><tr>${th('name', 'Student')}${th('n', 'Questions', 'num')}${th('tried', 'Tried first')}${th('dep', 'Dependency')}${th('effort', 'Avg. words', 'num')}<th>Top subjects</th>${th('seen', 'Last active')}</tr></thead>
+        <tbody>${rows.map(({ m, s }) => `<tr class="row" data-student="${m.student_id}"><td><b>${esc(m.display_name)}</b></td><td class="num mono">${s.n}</td>
+          <td><div style="display:flex;align-items:center;gap:10px"><div class="bar" style="width:110px"><i style="width:${s.triedPct || 0}%;background:${(s.triedPct ?? 0) < 40 ? 'var(--bad)' : (s.triedPct ?? 0) < 70 ? 'var(--warn)' : 'var(--good)'}"></i></div><span class="mono small">${s.triedPct ?? '–'}${s.triedPct == null ? '' : '%'}</span></div></td>
+          <td>${pill(s.dep)}</td><td class="num mono">${s.effort ?? '–'}</td><td>${s.subjects.slice(0, 2).map(([k]) => `<span class="tag">${esc(k)}</span>`).join('')}</td>
+          <td class="small ${m.last_seen && Date.now() - m.last_seen > 3 * DAY ? 'flag' : 'muted'}">${ago(m.last_seen)}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">No students yet. Share the code <b>' + esc(cur.code) + '</b>.</td></tr>'}</tbody></table></div>
+      <p class="privacy">What you see is numbers only: when a question was asked, whether the student tried first, the subject, which AI, how many words they wrote and how many points they got or missed. Questions, attempts and AI answers stay on the student's Mac. Students can leave the class, and delete what they shared, at any time. "Last active" shows when Think First last ran; a student who quits the app isn't counted.</p>`;
+    $('bk').onclick = screenClasses;
+    app.querySelectorAll('[data-range]').forEach((b) => (b.onclick = () => { view.range = +b.dataset.range; screenClass(); }));
+    app.querySelectorAll('[data-sort]').forEach((b) => (b.onclick = () => { if (view.sort === b.dataset.sort) view.dir *= -1; else { view.sort = b.dataset.sort; view.dir = b.dataset.sort === 'name' ? 1 : -1; } screenClass(); }));
+    app.querySelectorAll('[data-student]').forEach((r) => (r.onclick = () => { view.student = r.dataset.student; screenClass(); window.scrollTo(0, 0); }));
+    $('csv').onclick = () => {
+      const lines = [['student', 'questions', 'tried_first_pct', 'dependency_index', 'avg_words', 'top_subject', 'last_active'].join(',')].concat(rows.map(({ m, s }) => [JSON.stringify(m.display_name), s.n, s.triedPct ?? '', s.dep ?? '', s.effort ?? '', JSON.stringify((s.subjects[0] || [''])[0]), m.last_seen ? new Date(m.last_seen).toISOString() : ''].join(',')));
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' })); a.download = `${cur.name.replace(/\W+/g, '-')}-last-${days}-days.csv`; a.click();
+    };
+  }
+  function screenStudent() {
+    const m = members.find((x) => x.student_id === view.student), days = view.range, s = studentStats(m.student_id, days), evs = events.filter((e) => e.student_id === m.student_id && e.ts >= Date.now() - days * DAY);
+    app.innerHTML = `<button class="back" id="bk">← ${esc(cur.name)}</button>
+      <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px"><div style="flex:1"><h1>${esc(m.display_name)}</h1><p class="sub" style="margin:0">Joined ${new Date(m.joined_at).toLocaleDateString()} · last active ${ago(m.last_seen)}</p></div>
+        <div class="tabs" style="margin:0">${[7, 14, 30].map((d) => `<button data-range="${d}" aria-pressed="${view.range === d}">Last ${d} days</button>`).join('')}</div>
+        ${DEMO ? '' : '<button class="btn danger" id="rm">Remove from class</button>'}</div>
+      <div class="grid k4" style="margin-bottom:16px">
+        <div class="card kpi"><div class="l">Tried first</div><div class="v">${s.triedPct ?? '–'}${s.triedPct == null ? '' : '%'}</div><div class="d">${s.tried} of ${s.n} questions</div></div>
+        <div class="card kpi"><div class="l">Dependency index</div><div class="v">${s.dep ?? '–'}</div><div class="d">${pill(s.dep)}${s.dep != null && s.depPrev != null ? ` · ${s.dep <= s.depPrev ? '<span class="down">▼' : '<span class="up">▲'} ${Math.abs(s.dep - s.depPrev)}</span> vs last week` : ''}</div></div>
+        <div class="card kpi"><div class="l">Avg. words written</div><div class="v">${s.effort ?? '–'}</div><div class="d">per attempt, before seeing the answer</div></div>
+        <div class="card kpi"><div class="l">Points they knew</div><div class="v">${s.recall ?? '–'}${s.recall == null ? '' : '%'}</div><div class="d">of the AI's key points, on their own</div></div></div>
+      <div class="grid k2" style="margin-bottom:16px"><div class="card"><h2>Questions per day</h2>${dailyChart(evs, days)}</div>
+        <div class="card"><h2>Subjects</h2>${hbars(s.subjects, s.n, 'var(--good)')}<h2 style="margin-top:18px">Which AI</h2>${hbars(s.ais, s.n, 'var(--blue)')}</div></div>
+      <p class="privacy">Numbers only. The student's questions, attempts and the AI's answers stay on their Mac.</p>`;
+    $('bk').onclick = () => { view.student = null; screenClass(); };
+    app.querySelectorAll('[data-range]').forEach((b) => (b.onclick = () => { view.range = +b.dataset.range; screenClass(); }));
+    if ($('rm')) $('rm').onclick = async () => { if (!confirm(`Remove ${m.display_name} from ${cur.name}? Their shared numbers are deleted from this class.`)) return;
+      const r1 = await sb.from('events').delete().eq('class_id', cur.id).eq('student_id', m.student_id); const r2 = await sb.from('members').delete().eq('class_id', cur.id).eq('student_id', m.student_id);
+      if (r1.error || r2.error) return toast((r1.error || r2.error).message); await loadClass(cur); view.student = null; screenClass(); };
+  }
+
+  /* ---------- start ---------- */
+  async function boot() {
+    if (DEMO) { const d = demoData(); me = d.me; classes = d.classes; $('who').textContent = 'Preview with sample data'; await loadClass(classes[0]); return screenClass(); }
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session || session.user.is_anonymous) return screenLogin();
+    $('who').textContent = session.user.email; $('signOut').hidden = false;
+    const t = await sb.from('teachers').select('*').eq('id', session.user.id).maybeSingle();
+    if (!t.data) return screenProfile();
+    me = t.data;
+    const c = await sb.from('classes').select('*').eq('archived', false).order('created_at');
+    classes = c.data || [];
+    screenClasses();
+  }
+  $('signOut').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_IN') boot(); });
+  boot().catch((e) => { app.innerHTML = `<div class="card"><h2>Something went wrong</h2><p class="muted">${esc(e.message)}</p></div>`; });
+})();
+</script>
+</body>
+</html>
