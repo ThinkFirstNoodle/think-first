@@ -759,15 +759,15 @@ footer .sp{margin-left:auto;color:var(--ink3)}
     <div class="flow">
       <div class="st rv"><b>1</b><h3>Teacher makes a class</h3><p>Open the dashboard, sign in with your school email, and create a class. You get a 6-letter code. Show it on the projector.</p></div>
       <div class="st rv"><b>2</b><h3>Students join</h3><p>They install Think First for Schools, open <strong>Class</strong>, type the code and their name, and agree to what's shared.</p></div>
-      <div class="st rv"><b>3</b><h3>Noodle does the rest</h3><p>Every time a student asks an AI, Noodle asks them to try first. The dashboard shows who did, live.</p></div>
+      <div class="st rv"><b>3</b><h3>Start class</h3><p>Press <strong>Start class</strong> on the dashboard. While it's live, every time a student asks an AI, Noodle asks them to try first, and you see who did. Outside class, nothing is shared.</p></div>
     </div>
   </section>
 
   <section>
-    <div class="head rv"><p class="eyebrow">Privacy</p><h2>Numbers, <em>not words</em>.</h2><p class="lede">Teachers see habits, not homework. Students see exactly this list before they join.</p></div>
+    <div class="head rv"><p class="eyebrow">Privacy</p><h2>Numbers, <em>not words</em>.</h2><p class="lede">Teachers see habits, not homework, and only during class. Students see exactly this list before they join.</p></div>
     <div class="share">
-      <div class="y rv"><h3>The teacher sees</h3><ul><li>When a question was asked</li><li>Whether the student tried first or skipped</li><li>The subject, like Biology</li><li>Which AI, and whether it was the app or a website</li><li>How many words they wrote (not the words)</li><li>How many points they got or missed (counts only)</li></ul></div>
-      <div class="n rv"><h3>Never leaves the Mac</h3><ul><li>The questions</li><li>What the student wrote</li><li>The AI's answers</li><li>Chat or window titles</li><li>Screenshots</li><li>Anything from before they joined</li></ul></div>
+      <div class="y rv"><h3>The teacher sees, only while class is live</h3><ul><li>When a question was asked</li><li>Whether the student tried first or skipped</li><li>The subject, like Biology</li><li>Which AI, and whether it was the app or a website</li><li>How many words they wrote (not the words)</li><li>How many points they got or missed (counts only)</li></ul></div>
+      <div class="n rv"><h3>Never leaves the Mac</h3><ul><li>Anything outside class time: evenings, weekends, other lessons</li><li>The questions</li><li>What the student wrote</li><li>The AI's answers</li><li>Chat or window titles</li><li>Screenshots</li><li>Anything from before they joined</li></ul></div>
     </div>
   </section>
 
@@ -787,6 +787,7 @@ footer .sp{margin-left:auto;color:var(--ink3)}
       <details><summary>Is it the same app as Think First?</summary><p>It's a separate app, with its own icon and its own data. Students who already use Think First keep their personal app untouched. Think First for Schools adds the Class page; everything else, including Noodle, works the same.</p></details>
       <details><summary>Can students leave?</summary><p>Yes, any time, from the Class page. They can also delete everything they shared. Teachers can remove students from a class too.</p></details>
       <details><summary>Does it see AI websites, or only apps?</summary><p>Both: the ChatGPT, Claude, Gemini and Perplexity apps, and AI chat websites in Safari, Chrome, Arc, Edge, Firefox and other browsers.</p></details>
+      <details><summary>Does it share what students do at home?</summary><p>No. Sharing only happens while you've started class from the dashboard, and it ends automatically when the time is up. Questions asked at home, at weekends or in other lessons never leave the student's Mac, and the database refuses them even if something went wrong.</p></details>
       <details><summary>What if a student quits the app?</summary><p>Then nothing is counted while it's closed. The dashboard shows when Think First was last active for each student, so you can tell.</p></details>
       <details><summary>Does it cost anything?</summary><p>It's free during the pilot.</p></details>
       <details><summary>Where is the data stored?</summary><p>The numbers are stored on a class server run with Supabase. Only the teacher who owns a class can see that class. Questions and answers never leave the student's Mac. Please check with your school before using it with a class.</p></details>
@@ -988,6 +989,12 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 
   // What's new for the School edition. Newest first: [version, date, notes].
   var CHANGES = [
+    ['0.7.4', '2026-11-28', [
+      'Sharing now happens <strong>only while class is live</strong>. Your teacher presses Start class, and the app shows <strong>Class is live</strong> with the minutes left. At home, at weekends or in other lessons, nothing is shared, and the class server refuses it too.',
+      'The Class page, the Today page and the menu bar show whether class is live, or that nothing is being shared.',
+      'Teacher Dashboard: <strong>Start class</strong> and <strong>End class</strong>, with a length of 50 minutes to 3 hours.',
+      'Teacher Dashboard: rename a class, give it an emoji icon and a colour, or delete it.'
+    ]],
     ['0.7.3', '2026-11-23', [
       'The first pilot of <strong>Think First for Schools</strong>, the classroom edition of Think First.',
       'Join your teacher\'s class on the new <strong>Class</strong> page with a 6-letter code. You see exactly what\'s shared before you join, and you can leave, or leave and delete what you shared, at any time.',

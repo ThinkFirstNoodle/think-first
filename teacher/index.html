@@ -128,6 +128,28 @@ svg text{font-family:var(--sans)}
 .empty-c .nd{width:120px;margin-bottom:4px}
 .onb .nd{width:220px;position:absolute;right:20px;bottom:-6px}
 .login .nd{width:150px;margin:-10px auto 6px}
+.cls .ic{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:13px;flex:none}
+.cls .lv{width:8px;height:8px;border-radius:50%;background:#2F8A43;box-shadow:0 0 0 3px rgba(47,138,67,.2);margin-left:-4px}
+.classic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:none}
+.live{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow)}
+.live.on{background:linear-gradient(135deg,#EEF8EF,#F7FBF2);border-color:#BFE3C5}
+.live .pulse{width:12px;height:12px;border-radius:50%;background:#A0A0A8;flex:none}
+.live.on .pulse{background:#2F8A43;animation:pul 1.6s infinite}
+@keyframes pul{0%{box-shadow:0 0 0 0 rgba(47,138,67,.5)}100%{box-shadow:0 0 0 12px rgba(47,138,67,0)}}
+.live .tx{flex:1;min-width:240px}.live .tx b{display:block;font-size:15px}.live .tx span{font-size:13px;color:var(--ink3)}
+.live select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff;font-weight:600;font-size:14px}
+.live .adj{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.live input[type=time]{border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:#fff}
+.btn.go{background:#2F8A43;border-color:#2F8A43;color:#fff}.btn.stop{background:#fff;color:var(--bad);border-color:#F1C4BF}
+.modal{position:fixed;inset:0;z-index:45;background:rgba(20,20,26,.45);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.on{display:flex}
+.modal .box{background:#fff;border-radius:20px;padding:26px;width:min(520px,100%);max-height:90vh;overflow:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.4)}
+.emo{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:6px 0 14px}
+.emo button{border:1px solid var(--line);background:#fff;border-radius:10px;height:40px;font-size:20px;cursor:pointer}
+.emo button[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+.cols{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.cols button{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.cols button[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink)}
+.danger-zone{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
 </style>
 </head>
 <body>
@@ -146,6 +168,15 @@ svg text{font-family:var(--sans)}
 </div>
 <div class="proj" id="proj"><button class="x" id="projX">Close ✕</button><div id="projDog" style="width:240px;margin-bottom:-10px"></div><div class="lab" id="projName"></div><div class="code" id="projCode"></div>
   <div class="steps"><span><b>1</b> Open Think First for Schools</span><span><b>2</b> Click <b>Class</b></span><span><b>3</b> Type the code and your name</span></div></div>
+<div class="modal" id="edit"><div class="box">
+  <h2 style="font-size:22px;margin-bottom:16px">Edit class</h2>
+  <div class="field"><label for="enm">Name</label><input id="enm" maxlength="60"></div>
+  <label class="small" style="font-weight:600;color:var(--ink2)">Icon</label><div class="emo" id="eemo"></div>
+  <label class="small" style="font-weight:600;color:var(--ink2)">Colour</label><div class="cols" id="ecol"></div>
+  <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn ghost" id="ecancel">Cancel</button><button class="btn pri" id="esave">Save</button></div>
+  <div class="danger-zone"><b style="color:var(--bad)">Delete this class</b><p class="small muted" style="margin:4px 0 10px">Removes the class, its code and every student's shared numbers. This can't be undone. Type the class name to confirm.</p>
+    <div style="display:flex;gap:8px"><input id="edel" placeholder="Class name" style="flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 12px"><button class="btn danger" id="edelb">Delete class</button></div></div>
+</div></div>
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
@@ -163,7 +194,14 @@ svg text{font-family:var(--sans)}
   const ago = (ts) => { if (!ts) return 'never'; const m = (Date.now() - ts) / 6e4; return m < 2 ? 'just now' : m < 60 ? `${Math.round(m)} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
   const toast = (t) => { const e = $('toast'); e.textContent = t; e.style.opacity = 1; clearTimeout(toast.t); toast.t = setTimeout(() => (e.style.opacity = 0), 2200); };
   const initials = (n) => n.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+  const ICONS = ['📚', '🧬', '🧪', '🔬', '🧮', '➗', '📐', '🌍', '🏛️', '📜', '✍️', '📖', '🗣️', '🎨', '🎵', '💻', '🤖', '⚽', '🧠', '💡', '🌱', '🔭', '🐾', '🎓'];
+  const COLORS = ['#CFDD3C', '#3A6FD8', '#EB6A93', '#2F9A4E', '#F2B33D', '#8A5CC4', '#1DA3B8', '#F07F3C', '#C9372C', '#16161A'];
   const color = (i) => SW[i % SW.length];
+  const clsColor = (c) => c.color || color(classes.indexOf(c) < 0 ? 0 : classes.indexOf(c));
+  const clsIcon = (c, big) => `<span class="${big ? 'classic' : 'ic'}" style="background:${clsColor(c)}22;color:${clsColor(c)}">${c.icon ? esc(c.icon) : `<i style="width:${big ? 14 : 9}px;height:${big ? 14 : 9}px;border-radius:3px;background:${clsColor(c)};display:block"></i>`}</span>`;
+  let session = null; // the class's current live session, if any
+  const liveNow = () => !!(session && Date.parse(session.ends_at) > Date.now());
+  const minsLeft = () => Math.max(1, Math.round((Date.parse(session.ends_at) - Date.now()) / 60000));
 
   /* ---------- Dependency Index: same formula as the app (src/shared/insights.js) ---------- */
   function depIndex(evs, now) {
@@ -205,7 +243,9 @@ svg text{font-family:var(--sans)}
 
   async function loadClass(c) {
     cur = c; view.student = null;
-    if (DEMO) { const d = demoData(); members = c.id === 'c3' ? [] : c.id === 'c1' ? d.members : d.members.slice(0, 16); events = c.id === 'c3' ? [] : c.id === 'c1' ? d.events : d.events.filter((e, i) => i % 3 === 0 && +e.student_id.slice(1) < 16); return; }
+    if (DEMO) { const d = demoData(); members = c.id === 'c3' ? [] : c.id === 'c1' ? d.members : d.members.slice(0, 16); events = c.id === 'c3' ? [] : c.id === 'c1' ? d.events : d.events.filter((e, i) => i % 3 === 0 && +e.student_id.slice(1) < 16); if (!c.demoSession) c.demoSession = c.id === 'c1' ? { ends_at: new Date(Date.now() + 37 * 60000).toISOString() } : null; session = c.demoSession; return; }
+    const ss = await sb.from('sessions').select('started_at,ends_at').eq('class_id', c.id).order('started_at', { ascending: false }).limit(1);
+    session = ss.data && ss.data[0] && Date.parse(ss.data[0].ends_at) > Date.now() ? ss.data[0] : null;
     const [m, ev] = await Promise.all([
       sb.from('members').select('student_id,display_name,joined_at,last_seen,left_at').eq('class_id', c.id),
       sb.from('events').select('student_id,ts,tried,subject,ai,surface,effort,got,missed,only_you').eq('class_id', c.id).gte('ts', new Date(Date.now() - 62 * DAY).toISOString()).order('ts').limit(50000),
@@ -280,7 +320,7 @@ svg text{font-family:var(--sans)}
   function drawSide() {
     $('side').hidden = false;
     $('logoDog').firstElementChild.outerHTML = noodle('proud', '', 'Noodle');
-    $('clsList').innerHTML = classes.map((c, i) => `<button class="cls" data-class="${c.id}" aria-current="${cur && cur.id === c.id}"><span class="sw" style="background:${color(i)}"></span>${esc(c.name)}<span class="c">${esc(c.code)}</span></button>`).join('') || '<p class="small muted" style="margin:0 10px">No classes yet.</p>';
+    $('clsList').innerHTML = classes.map((c, i) => `<button class="cls" data-class="${c.id}" aria-current="${cur && cur.id === c.id}">${clsIcon(c)}${esc(c.name)}${cur && cur.id === c.id && liveNow() ? '<span class="lv" title="Class is live"></span>' : ''}<span class="c">${esc(c.code)}</span></button>`).join('') || '<p class="small muted" style="margin:0 10px">No classes yet.</p>';
     $('clsList').querySelectorAll('[data-class]').forEach((b) => (b.onclick = async () => { await loadClass(classes.find((c) => c.id === b.dataset.class)); drawSide(); screenClass(); window.scrollTo(0, 0); }));
     $('me').innerHTML = me ? `<div class="av">${esc(initials(me.name))}</div><div><b>${esc(me.name)}</b><span class="muted">${esc(me.school || '')}</span></div>` : '';
   }
@@ -322,12 +362,46 @@ svg text{font-family:var(--sans)}
 
   function header(days) {
     const active = members.filter((m) => !m.left_at);
-    return `${DEMO ? demoNote() : ''}<div class="hero"><div class="t"><h1>${esc(cur.name)}</h1>
+    const lv = liveNow();
+    const liveBar = `<div class="live ${lv ? 'on' : ''}"><span class="pulse"></span>
+      <div class="tx">${lv ? `<b>Class is live · ${minsLeft()} min left</b><span>Students' AI use is being shared now. Ends at ${new Date(session.ends_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}.</span>`
+        : `<b>Class isn't live</b><span>Nothing is shared until you start class. Questions students ask at home or in other lessons never reach you.</span>`}</div>
+      ${lv ? `<div class="adj"><button class="btn sm" data-adj="-10">−10</button><button class="btn sm" data-adj="10">+10</button><button class="btn sm" data-adj="30">+30 min</button>
+          <label class="small muted" style="display:flex;align-items:center;gap:6px">Ends at <input type="time" id="endAt" value="${new Date(session.ends_at).toTimeString().slice(0, 5)}"></label><button class="btn sm" id="setEnd">Set</button></div>
+          <button class="btn stop" id="endc">■ End class</button>`
+        : `<select id="dur" aria-label="Class length">${[[30, '30 min'], [50, '50 min'], [90, '90 min'], [120, '2 hours'], [180, '3 hours'], ['c', 'Custom…']].map(([v, n]) => `<option value="${v}" ${v === 50 ? 'selected' : ''}>${n}</option>`).join('')}</select>
+          <input type="number" id="durc" min="5" max="240" placeholder="min" style="width:80px;display:none;border:1px solid var(--line);border-radius:10px;padding:8px 10px"><button class="btn go" id="startc">▶ Start class</button>`}</div>`;
+    return `${DEMO ? demoNote() : ''}<div class="hero">${clsIcon(cur, true)}<div class="t"><h1>${esc(cur.name)} <button class="btn sm ghost" id="editc" title="Rename, change icon or delete">✎ Edit</button></h1>
       <div class="meta"><span class="chip">${esc(cur.code)}<button id="cp">Copy</button></span><span>${active.length} student${active.length === 1 ? '' : 's'}</span><span>·</span><button class="btn sm" id="proj1">⛶ Show code</button></div></div>
-      ${active.length ? `<div class="seg">${[7, 14, 30].map((d) => `<button data-range="${d}" aria-pressed="${days === d}">${d} days</button>`).join('')}</div><button class="btn" id="csv">⬇ CSV</button>` : ''}</div>`;
+      ${active.length ? `<div class="seg">${[7, 14, 30].map((d) => `<button data-range="${d}" aria-pressed="${days === d}">${d} days</button>`).join('')}</div><button class="btn" id="csv">⬇ CSV</button>` : ''}</div>${liveBar}`;
   }
   function wireHeader() {
-    $('cp').onclick = copyCode; $('proj1').onclick = showCode;
+    $('cp').onclick = copyCode; $('proj1').onclick = showCode; $('editc').onclick = openEdit;
+    // Start class, or change how long a live class runs (restarts the session from now with the new length).
+    const runFor = async (mins, msg) => {
+      mins = Math.round(mins);
+      if (!(mins >= 5 && mins <= 240)) return toast('Choose between 5 minutes and 4 hours.');
+      if (DEMO) { cur.demoSession = session = { ends_at: new Date(Date.now() + mins * 60000).toISOString() }; drawSide(); toast(msg); return screenClass(); }
+      const { data, error } = await sb.rpc('start_class', { cls: cur.id, minutes: mins }); if (error) return toast(error.message);
+      session = data; toast(msg); drawSide(); screenClass();
+    };
+    if ($('dur')) $('dur').onchange = () => { $('durc').style.display = $('dur').value === 'c' ? '' : 'none'; if ($('dur').value === 'c') $('durc').focus(); };
+    app.querySelectorAll('[data-adj]').forEach((b) => (b.onclick = () => { const left = (Date.parse(session.ends_at) - Date.now()) / 60000, n = left + +b.dataset.adj;
+      if (n < 1) return toast('That would end class. Use End class instead.'); runFor(Math.max(5, n), `Class now ends at ${new Date(Date.now() + Math.max(5, n) * 60000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`); }));
+    if ($('setEnd')) $('setEnd').onclick = () => { const [h, m] = $('endAt').value.split(':').map(Number); if (isNaN(h)) return; const d = new Date(); d.setHours(h, m, 0, 0);
+      runFor((d - Date.now()) / 60000, `Class now ends at ${d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`); };
+    if ($('startc')) $('startc').onclick = async () => {
+      const mins = $('dur').value === 'c' ? +$('durc').value : +$('dur').value;
+      if ($('dur').value === 'c') return runFor(mins, `Class started · ${Math.round(mins)} min`);
+      if (DEMO) { cur.demoSession = session = { ends_at: new Date(Date.now() + mins * 60000).toISOString() }; drawSide(); return screenClass(); }
+      const { data, error } = await sb.rpc('start_class', { cls: cur.id, minutes: mins }); if (error) return toast(error.message);
+      session = data; toast(`Class started · ${mins} min`); drawSide(); screenClass();
+    };
+    if ($('endc')) $('endc').onclick = async () => {
+      if (DEMO) { cur.demoSession = session = null; drawSide(); return screenClass(); }
+      const { error } = await sb.rpc('end_class', { cls: cur.id }); if (error) return toast(error.message);
+      session = null; toast('Class ended · sharing stopped'); drawSide(); screenClass();
+    };
     app.querySelectorAll('[data-range]').forEach((b) => (b.onclick = () => { view.range = +b.dataset.range; screenClass(); }));
   }
 
@@ -343,7 +417,7 @@ svg text{font-family:var(--sans)}
           <div class="step"><div class="n">1</div><div><b>Install Think First for Schools</b><span>The Mac app with the 🎓 icon.${C.appUrl ? ` <a href="${esc(C.appUrl)}">Download</a>` : ''}</span></div></div>
           <div class="step"><div class="n">2</div><div><b>Open the Class page</b><span>In the sidebar of the app.</span></div></div>
           <div class="step"><div class="n">3</div><div><b>Type <span class="mono" style="color:var(--ink)">${esc(cur.code)}</span> and their name</b><span>They see exactly what's shared and tick to agree.</span></div></div>
-          <div class="step" style="margin:0"><div class="n">✓</div><div><b>That's it</b><span>Their AI use shows up here within seconds of their next question.</span></div></div></div></div>
+          <div class="step" style="margin:0"><div class="n">▶</div><div><b>Press Start class</b><span>Sharing only happens while class is live. Their AI use shows up here within seconds.</span></div></div></div></div>
         <div class="grid k3">
           <div class="card"><h2 style="margin-bottom:6px">What you'll see</h2><p class="sub" style="font-size:14px;margin:0">Who tries first before asking AI, each student's Dependency Index, which AIs they use, in which subjects, and when.</p></div>
           <div class="card"><h2 style="margin-bottom:6px">What you won't</h2><p class="sub" style="font-size:14px;margin:0">Their questions, what they wrote, or the AI's answers. Those never leave the student's Mac.</p></div>
@@ -422,6 +496,34 @@ svg text{font-family:var(--sans)}
       if (r1.error || r2.error) return toast((r1.error || r2.error).message); await loadClass(cur); screenClass(); };
   }
 
+  /* ---------- edit / delete a class ---------- */
+  let pick = { icon: null, color: null };
+  function openEdit() {
+    pick = { icon: cur.icon || null, color: cur.color || clsColor(cur) };
+    $('enm').value = cur.name; $('edel').value = '';
+    $('eemo').innerHTML = ['', ...ICONS].map((e) => `<button data-e="${e}" aria-pressed="${(pick.icon || '') === e}" title="${e ? e : 'No icon'}">${e || '▪︎'}</button>`).join('');
+    $('ecol').innerHTML = COLORS.map((c) => `<button data-c="${c}" aria-pressed="${pick.color === c}" style="background:${c}" aria-label="Colour ${c}"></button>`).join('');
+    $('eemo').querySelectorAll('button').forEach((b) => (b.onclick = () => { pick.icon = b.dataset.e || null; $('eemo').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b)); }));
+    $('ecol').querySelectorAll('button').forEach((b) => (b.onclick = () => { pick.color = b.dataset.c; $('ecol').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b)); }));
+    $('edit').classList.add('on'); $('enm').focus();
+  }
+  $('ecancel').onclick = () => $('edit').classList.remove('on');
+  $('edit').onclick = (e) => { if (e.target === $('edit')) $('edit').classList.remove('on'); };
+  $('esave').onclick = async () => {
+    const name = $('enm').value.trim(); if (!name) return $('enm').focus();
+    const patch = { name, icon: pick.icon, color: pick.color };
+    if (!DEMO) { const { error } = await sb.from('classes').update(patch).eq('id', cur.id); if (error) return toast(error.message); }
+    Object.assign(cur, patch); $('edit').classList.remove('on'); drawSide(); screenClass(); toast('Saved');
+  };
+  $('edelb').onclick = async () => {
+    if ($('edel').value.trim() !== cur.name) return toast('Type the class name exactly to delete it.');
+    if (DEMO) return toast('Sample mode: classes can’t be deleted.');
+    const { error } = await sb.from('classes').delete().eq('id', cur.id); if (error) return toast(error.message);
+    classes = classes.filter((c) => c.id !== cur.id); $('edit').classList.remove('on'); toast('Class deleted');
+    if (classes.length) await loadClass(classes[classes.length - 1]); else cur = null;
+    drawSide(); screenClass();
+  };
+
   /* ---------- start ---------- */
   async function boot() {
     document.querySelector('.shell').style.gridTemplateColumns = '';
@@ -438,7 +540,7 @@ svg text{font-family:var(--sans)}
     if (classes.length) await loadClass(classes[classes.length - 1]);
     drawSide(); screenClass();
     // live: refresh numbers every minute while the page is open
-    clearInterval(boot.t); boot.t = setInterval(async () => { if (!cur || document.hidden) return; const st = view.student; await loadClass(cur).catch(() => {}); view.student = st; if (document.activeElement && document.activeElement.id === 'cn') return; screenClass(); }, 60000);
+    clearInterval(boot.t); boot.t = setInterval(async () => { if (!cur || document.hidden || $('edit').classList.contains('on')) return; const st = view.student; await loadClass(cur).catch(() => {}); view.student = st; if (document.activeElement && document.activeElement.id === 'cn') return; drawSide(); screenClass(); }, 20000);
   }
   $('signOut').onclick = async () => { await sb.auth.signOut(); location.reload(); };
   if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_IN') boot(); });

@@ -22,7 +22,7 @@ nav{margin-bottom:28px;font-size:15px}
 </head><body><main>
 <nav><a href="./">← Think First</a></nav>
 <h1>Privacy Policy</h1>
-<p class="meta">Last updated 23 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:noodle1thinkfirst@gmail.com">noodle1thinkfirst@gmail.com</a></p>
+<p class="meta">Last updated 28 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:noodle1thinkfirst@gmail.com">noodle1thinkfirst@gmail.com</a></p>
 <p>Think First comes in two editions. Both keep everything on your Mac. The <a href="#app-store">Mac App Store edition</a> doesn't connect to the internet at all; the <a href="#download">edition downloaded from this site</a> only checks GitHub for updates.</p>
 <p>There is also a separate classroom edition, <a href="#schools">Think First for Schools</a>, with a Teacher Dashboard. It works differently: if a student joins a class, numbers about their AI use are shared with their teacher. It's described in its own section below.</p>
 <h3 id="app-store">Mac App Store edition</h3>
@@ -100,7 +100,7 @@ nav{margin-bottom:28px;font-size:15px}
 <h3 id="schools">Think First for Schools and the Teacher Dashboard</h3>
     <p class="lede">Think First for Schools is a separate app for classes. Everything works as in the edition above, except that a student can join their teacher's class. Then numbers about how they use AI are shared with that teacher, never their questions, attempts or the AI's answers.</p>
     <h2>What students share, and only after joining</h2>
-    <p>Nothing is shared until a student joins a class with a code from their teacher and agrees to a screen listing exactly what is shared. From then on, for each question they ask an AI, the app shares:</p>
+    <p>Nothing is shared until a student joins a class with a code from their teacher and agrees to a screen listing exactly what is shared. After that, sharing only happens <strong>while the teacher has started class</strong> from the Teacher Dashboard (the app shows “Class is live”). For each question asked during a live class, the app shares:</p>
     <ul>
       <li>when they asked, and whether they tried first or skipped</li>
       <li>the subject it guessed, such as Biology</li>
@@ -108,9 +108,9 @@ nav{margin-bottom:28px;font-size:15px}
       <li>how many words their attempt had, and how many points they got, missed and added (counts only)</li>
       <li>the name they typed when joining, and when the app was last active</li>
     </ul>
-    <p>It never shares the questions, what the student wrote, the AI's answers, window titles, screenshots, or anything from before they joined. Students get an anonymous sign-in that lives only on their Mac, with no email or password.</p>
+    <p>Questions asked at any other time, such as at home, at weekends or in other lessons, are never shared and never leave the Mac, and the database refuses them. It never shares the questions, what the student wrote, the AI's answers, window titles, screenshots, or anything from before they joined. Students get an anonymous sign-in that lives only on their Mac, with no email or password.</p>
     <h2>What teachers share</h2>
-    <p>Teachers sign in to the Teacher Dashboard with an emailed link or with Google. We keep their email address, the name they choose (shown to students), an optional school name, and the names and codes of the classes they create. If a teacher signs in with Google, Google shares their name, email address and profile picture with us; we use the name and email only to sign them in and suggest their display name.</p>
+    <p>Teachers sign in to the Teacher Dashboard with an emailed link or with Google. We keep their email address, the name they choose (shown to students), an optional school name, the names, codes, icons and colours of the classes they create, and when they started and ended each class. If a teacher signs in with Google, Google shares their name, email address and profile picture with us; we use the name and email only to sign them in and suggest their display name.</p>
     <h2>Where it's stored and who can see it</h2>
     <p>This data is stored in a database run with Supabase (hosted in Seoul, Republic of Korea), under Supabase's own privacy policy. Database rules ensure that a student can only add and read their own numbers, and a teacher can only see the classes they own and the students in them. We don't sell this data or use it for advertising, and there are no analytics or ads.</p>
     <h2>Leaving and deleting</h2>
