@@ -93,7 +93,7 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
 .empty .nd{width:110px;margin:0 auto 6px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;max-width:90vw}
 .privacy{font-size:12px;color:var(--ink3);margin-top:20px;line-height:1.6}
-</style>
+.close{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:6px 0 2px;font-size:13px;color:var(--ink2)}.ev .close i{width:10px;height:10px;border-radius:50%;border:1.3px solid #B9AF9C;background:transparent;display:inline-block;flex:none}.ev .close i.on{background:#CFDD3C;border-color:#1F1B16}.close span{margin-left:6px}.close b{color:var(--ink)}</style>
 </head>
 <body>
 <div class="top"><div class="logo"><i>TF</i><div>Think First<small>Family</small></div></div><div class="sp"></div><span class="sub" id="who"></span><button class="btn ghost sm" id="signOut" hidden>Sign out</button></div>
@@ -110,7 +110,7 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
   const C = window.TF_SCHOOL || {};
   const DEMO = new URLSearchParams(location.search).has('demo') || !(C.url && C.anonKey);
   const sb = !DEMO && window.supabase ? window.supabase.createClient(C.url, C.anonKey) : null;
-  const DOWNLOAD = 'https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.0/Think-First-for-Families-0.1.0.dmg';
+  const DOWNLOAD = 'https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.1/Think-First-for-Families-0.1.1.dmg';
   const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -179,7 +179,7 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
     app.innerHTML = `<div class="card" style="margin-top:8px">${noodle('neutral', 'sit carry-ball')}<h1 style="text-align:center;margin-top:-4px">Set up your family</h1>
       <p class="sub" style="font-size:15px;text-align:center;margin:6px 0 16px">You'll get a pairing code to type into Think First for Families on your child's Mac.</p>
       <h2>What you'll see</h2>
-      <ul class="steps small"><li>Every question they ask an AI, word for word</li><li>Whether they tried first or skipped, the subject and which AI</li><li>When Think First is paused, quit, stops unexpectedly or loses Screen Recording, with an email to you</li></ul>
+      <ul class="steps small"><li>Every question they ask an AI, word for word</li><li>Whether they tried first or skipped, the subject and which AI</li><li>How close their attempt got to the answer: how many key points they got and missed (numbers only)</li><li>When Think First is paused, quit, stops unexpectedly or loses Screen Recording, with an email to you</li></ul>
       <h2 style="margin-top:14px">What you won't see</h2>
       <ul class="steps small"><li>Their attempts, the AI's answers, or anything else on their Mac</li></ul>
       <label class="agree"><input type="checkbox" id="ok"><span>I'll talk to my child about this first. Nothing is shared until they read the same list on their Mac and agree, and they can see everything I see.</span></label>
@@ -254,7 +254,8 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
       if (d !== last) { if (last) out += '</div>'; out += `<div class="day">${esc(d)}</div><div class="card" style="padding:4px 16px">`; last = d; }
       const [ic, cl] = evIcon(ev);
       const meta = ev.kind === 'question' ? `<span class="pill ${ev.tried ? 'p-good' : 'p-skip'}">${ev.tried ? `Tried first${ev.effort ? ` · ${ev.effort} words` : ''}` : 'Skipped'}</span>${ev.subject ? `<span class="pill p-none">${esc(ev.subject)}</span>` : ''}${ev.ai ? `<span>${esc(ev.ai)}${ev.surface === 'browser' ? ' (website)' : ''}</span>` : ''}` : '';
-      out += `<div class="ev"><div class="ic ${cl}">${ic}</div><div class="bd">${evText(ev)}<div class="mt"><span>${hm(ts)}</span>${meta}${kids.length > 1 ? `<span>· ${esc((kids.find((c) => c.child_id === ev.child_id) || {}).display_name || '')}</span>` : ''}</div></div></div>`;
+      const close = ev.kind === 'question' && ev.got != null && (ev.got + (ev.missed || 0)) > 0 ? `<div class="close" title="How close their attempt was to the AI's answer">${'<i class="on"></i>'.repeat(Math.min(ev.got, 10))}${'<i></i>'.repeat(Math.min(ev.missed || 0, Math.max(0, 10 - ev.got)))}<span>Got <b>${ev.got} of ${ev.got + (ev.missed || 0)}</b> key points${ev.only_you ? ` · ${ev.only_you} idea${ev.only_you === 1 ? '' : 's'} of their own` : ''}</span></div>` : '';
+      out += `<div class="ev"><div class="ic ${cl}">${ic}</div><div class="bd">${evText(ev)}${close}<div class="mt"><span>${hm(ts)}</span>${meta}${kids.length > 1 ? `<span>· ${esc((kids.find((c) => c.child_id === ev.child_id) || {}).display_name || '')}</span>` : ''}</div></div></div>`;
     }
     return out + '</div>';
   }
@@ -320,7 +321,7 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
     kids = [{ child_id: kid, display_name: 'Mina', joined_at: new Date(now - 6 * 864e5).toISOString(), last_seen: new Date(now - 3 * m).toISOString() }];
     fam = { id: 'demo', name: 'The Kims', code: 'K7Q2MD', alerts: true };
     key = 'demo';
-    const q = (min, text, tried, subject, ai, effort) => ({ child_id: kid, ts: new Date(now - min * m).toISOString(), kind: 'question', tried, subject, ai, surface: 'app', effort, text });
+    const q = (min, text, tried, subject, ai, effort) => ({ child_id: kid, ts: new Date(now - min * m).toISOString(), kind: 'question', tried, subject, ai, surface: 'app', effort, text, ...(tried ? { got: 2 + (min % 3), missed: 1 + (min % 2), only_you: min % 2 } : {}) });
     const e = (min, kind, extra = {}) => ({ child_id: kid, ts: new Date(now - min * m).toISOString(), kind, ...extra });
     events = [
       q(4, 'Why does the moon look bigger near the horizon?', true, 'Physics', 'ChatGPT', 23),
