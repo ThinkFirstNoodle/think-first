@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /teacher/
+Disallow: /parent/
 
 Sitemap: https://trythinkfirst.com/sitemap.xml

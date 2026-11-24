@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F6F1E7">
+<title>Think First · Family</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Think First">
+<meta name="description" content="See your child's AI questions and Think First activity, with their agreement.">
+<style>
+:root{--ink:#16161A;--ink2:#4A4A52;--ink3:#8A8A93;--line:#E9E3D6;--bg:#F6F1E7;--card:#FFFFFF;--lime:#CFDD3C;--limeS:#F3F7D4;--good:#2F8A43;--goodS:#E6F4EA;--warn:#D9731E;--warnS:#FCEBDD;--bad:#C9372C;--badS:#FBE7E5;--blue:#3A6FD8;
+  --serif:"New York",ui-serif,Georgia,serif;--sans:-apple-system,"SF Pro Text","SF Pro Display",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace;--shadow:0 1px 2px rgba(20,20,30,.04),0 8px 24px -12px rgba(20,20,30,.12)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans);-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--blue)}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));background:rgba(246,241,231,.9);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:750;letter-spacing:-.01em}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:var(--lime);font:800 12px var(--sans);font-style:normal}
+.logo small{display:block;font-weight:500;color:var(--ink3);font-size:11px;margin-top:-2px}
+.sp{flex:1}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:var(--ink)}
+.btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.lime{background:var(--lime);border-color:var(--lime)}
+.btn.ghost{border-color:transparent;background:none;color:var(--ink2)}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:10px}
+.btn.wide{width:100%}
+h1{font:500 30px/1.12 var(--serif);letter-spacing:-.02em;margin:0}
+h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
+.sub{color:var(--ink3);font-size:13px}
+.muted{color:var(--ink3)}.small{font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-size:13px;font-weight:600;color:var(--ink2)}
+.field input{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;font-size:16px}
+.login{max-width:440px;margin:6vh auto;text-align:center}
+.nd{display:block}.login .nd{width:140px;margin:-6px auto 4px}
+.kids{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 12px;padding:2px 16px}
+.kid{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:650;cursor:pointer;display:flex;align-items:center;gap:8px}
+.kid[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.kid .st{width:8px;height:8px;border-radius:50%;background:#B9B9C0}.kid .st.on{background:var(--good)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.kpi .l{font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-size:26px;font-weight:780;letter-spacing:-.03em;margin-top:4px;line-height:1.1}
+.kpi .v small{font-size:13px;color:var(--ink3);font-weight:600}
+@media (max-width:420px){.kpi .v{font-size:22px}}
+.status{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:#fff;margin-bottom:14px}
+.status.on{background:linear-gradient(135deg,#EEF8EF,#F7FBF2);border-color:#BFE3C5}
+.status.warn{background:#FFF7EE;border-color:#F3D2B0}
+.status .dot{width:12px;height:12px;border-radius:50%;background:#A0A0A8;flex:none}
+.status.on .dot{background:var(--good)}.status.warn .dot{background:var(--warn)}
+.status b{display:block}.status span{font-size:13px;color:var(--ink3)}
+.day{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:18px 2px 8px}
+.ev{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ev:last-child{border-bottom:0}
+.ev .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:16px;flex:none;background:#F2F2F6}
+.ev .ic.q{background:var(--limeS)}.ev .ic.w{background:var(--warnS)}.ev .ic.b{background:var(--badS)}.ev .ic.g{background:var(--goodS)}
+.ev .bd{min-width:0;flex:1}
+.ev .q{font-size:15px;overflow-wrap:anywhere}
+.ev .mt{font-size:12px;color:var(--ink3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:650}
+.p-good{background:var(--goodS);color:var(--good)}.p-skip{background:var(--warnS);color:var(--warn)}.p-none{background:#F0F0F3;color:var(--ink2)}
+.locked{color:var(--ink3);font-style:italic}
+.code{font:800 22px/1.3 var(--mono);letter-spacing:.08em;background:var(--ink);color:#fff;border-radius:14px;padding:16px;text-align:center;margin:10px 0;word-break:break-all}
+.code small{display:block;font:600 11px var(--mono);letter-spacing:.14em;color:var(--lime);margin-bottom:4px}
+.steps{margin:0;padding-left:20px}.steps li{margin:6px 0}
+.agree{display:flex;gap:10px;align-items:flex-start;text-align:left;font-size:14px;margin:12px 0;background:#FCFBEF;border:1px solid #E7E1B8;border-radius:12px;padding:12px}
+.agree input{margin-top:3px;width:18px;height:18px;flex:none}
+.tabs{display:flex;gap:4px;background:#ECE5D6;border-radius:12px;padding:3px;margin-bottom:14px}
+.tabs button{flex:1;border:0;background:none;border-radius:9px;padding:8px;cursor:pointer;font-size:14px;font-weight:600;color:var(--ink2)}
+.tabs button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.set{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.set:last-child{border-bottom:0}
+.set .t{flex:1}.set .t b{display:block}.set .t span{font-size:13px;color:var(--ink3)}
+.sw{position:relative;width:46px;height:28px;flex:none}.sw input{opacity:0;width:0;height:0}
+.sw i{position:absolute;inset:0;border-radius:999px;background:#D8D8DE;transition:.2s;cursor:pointer}
+.sw i::after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sw input:checked+i{background:var(--good)}.sw input:checked+i::after{transform:translateX(18px)}
+.notice{border:1px solid #E7E1B8;background:#FCFBEF;border-radius:12px;padding:12px 14px;font-size:14px;margin:0 0 14px}
+.empty{text-align:center;color:var(--ink3);padding:24px 8px}
+.empty .nd{width:110px;margin:0 auto 6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;max-width:90vw}
+.privacy{font-size:12px;color:var(--ink3);margin-top:20px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo"><i>TF</i><div>Think First<small>Family</small></div></div><div class="sp"></div><span class="sub" id="who"></span><button class="btn ghost sm" id="signOut" hidden>Sign out</button></div>
+<main class="wrap" id="app"></main>
+<div class="toast" id="toast"></div>
+
+<script src="../teacher/config.js"></script>
+<script src="../teacher/noodle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  // Think First for Families: the parent's page. Questions arrive encrypted; this page decrypts them with
+  // the secret half of the pairing code, which stays in this browser and is never sent to the server.
+  const C = window.TF_SCHOOL || {};
+  const DEMO = new URLSearchParams(location.search).has('demo') || !(C.url && C.anonKey);
+  const sb = !DEMO && window.supabase ? window.supabase.createClient(C.url, C.anonKey) : null;
+  const DOWNLOAD = 'https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.0/Think-First-for-Families-0.1.0.dmg';
+  const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const toast = (t) => { const e = $('toast'); e.textContent = t; e.style.opacity = 1; clearTimeout(toast.t); toast.t = setTimeout(() => (e.style.opacity = 0), 2400); };
+  const noodle = (mood = 'proud', cls = '') => `<div class="dog nd ${mood} ${cls}">${TF.dogSVG(mood, 'Noodle', {})}</div>`;
+  const ago = (ts) => { if (!ts) return 'never'; const m = (Date.now() - ts) / 6e4; return m < 2 ? 'just now' : m < 60 ? `${Math.round(m)} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const hm = (ts) => new Date(ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const dayName = (ts) => { const d = new Date(ts), t = new Date(); const y = new Date(Date.now() - 864e5); return d.toDateString() === t.toDateString() ? 'Today' : d.toDateString() === y.toDateString() ? 'Yesterday' : d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' }); };
+  const lc = (d) => (d === 'Today' || d === 'Yesterday' ? d.toLowerCase() : 'on ' + d);
+  const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }, del: (k) => { try { localStorage.removeItem(k); } catch {} } };
+
+  /* ---------- the key (same as src/main/family.js in the app) ---------- */
+  const enc = new TextEncoder(), dec = new TextDecoder();
+  const b64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  async function deriveKey(secret, famId) {
+    const base = await crypto.subtle.importKey('raw', enc.encode(secret), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: enc.encode(`thinkfirst-family:${famId}`), iterations: 200000, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  async function seal(key, text) { const iv = crypto.getRandomValues(new Uint8Array(12)); return `${b64(iv)}.${b64(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(text)))}`; }
+  async function open(key, box) { const [iv, body] = String(box || '').split('.'); return dec.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(iv) }, key, unb64(body))); }
+  const randomSecret = () => Array.from(crypto.getRandomValues(new Uint32Array(12)), (n) => ALPHABET[n % ALPHABET.length]).join('');
+  const pretty = (code, secret) => `${code}-${secret.slice(0, 4)}-${secret.slice(4, 8)}-${secret.slice(8)}`;
+  const secretKey = (id) => `tf-family-secret:${id}`;
+
+  /* ---------- state ---------- */
+  let me = null, fam = null, kids = [], events = [], key = null, kidSel = null, tab = 'activity';
+  const app = $('app');
+
+  async function loadFamily() {
+    const f = await sb.from('families').select('*').order('created_at').limit(1);
+    fam = (f.data || [])[0] || null;
+    if (!fam) return;
+    const secret = store.get(secretKey(fam.id));
+    key = null;
+    if (secret) { try { const k = await deriveKey(secret, fam.id); if ((await open(k, fam.check_box)) === 'thinkfirst') key = k; } catch {} }
+    const k = await sb.from('family_children').select('*').eq('family_id', fam.id).order('joined_at');
+    kids = k.data || [];
+    const e = await sb.from('family_events').select('*').eq('family_id', fam.id).order('ts', { ascending: false }).limit(500);
+    events = e.data || [];
+    await Promise.all(events.map(async (ev) => { ev.text = null; if (ev.secret && key) { try { ev.text = await open(key, ev.secret); } catch { ev.text = null; } } }));
+    if (kidSel && !kids.some((c) => c.child_id === kidSel)) kidSel = null;
+  }
+
+  /* ---------- screens ---------- */
+  function screenLogin(msg) {
+    app.innerHTML = `<div class="login card" style="padding:26px">${noodle('proud', 'sit')}<h1>Family sign-in</h1><p class="sub" style="font-size:15px;margin:6px 0 18px">See your child's AI questions and how they use Think First, with their agreement. Works on your phone too.</p>
+      <button class="btn wide" id="google" style="margin-bottom:12px"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continue with Google</button>
+      <div style="display:flex;align-items:center;gap:10px;color:var(--ink3);font-size:12px;margin:0 0 12px"><span style="flex:1;height:1px;background:var(--line)"></span>or<span style="flex:1;height:1px;background:var(--line)"></span></div>
+      <div class="field" style="text-align:left"><label for="em">Email</label><input id="em" type="email" autocomplete="email" placeholder="you@example.com"></div>
+      <button class="btn pri wide" id="send">Email me a sign-in link</button>${msg ? `<p class="small" style="margin-top:12px">${esc(msg)}</p>` : ''}
+      <p class="privacy">Your child's questions are encrypted on their Mac with a code only you two have, so not even Think First can read them. <a href="?demo">See a sample →</a></p></div>`;
+    const back = location.href.split('#')[0].split('?')[0];
+    $('google').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: back, queryParams: { prompt: 'select_account' } } }); if (error) screenLogin(error.message); };
+    $('send').onclick = async () => { const em = $('em').value.trim(); if (!em) return; const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: back } }); screenLogin(error ? error.message : `Check ${em} for the sign-in link.`); };
+  }
+
+  function screenProfile(name, email) {
+    app.innerHTML = `<div class="login card" style="padding:26px;text-align:left">${noodle('proud', 'happy')}<h1 style="text-align:center">Welcome!</h1><p class="sub" style="font-size:15px;margin:6px 0 16px;text-align:center">This is the name your child sees when they pair.</p>
+      <div class="field"><label for="pn">Your name</label><input id="pn" placeholder="Mum, Dad, or your name" value="${esc(name)}"></div>
+      <button class="btn pri wide" id="save">Continue</button></div>`;
+    $('save').onclick = async () => { const n = $('pn').value.trim(); if (!n) return; const { error } = await sb.from('parents').insert({ name: n, email }); if (error) return toast(error.message); boot(); };
+  }
+
+  function screenCreate() {
+    app.innerHTML = `<div class="card" style="margin-top:8px">${noodle('neutral', 'sit carry-ball')}<h1 style="text-align:center;margin-top:-4px">Set up your family</h1>
+      <p class="sub" style="font-size:15px;text-align:center;margin:6px 0 16px">You'll get a pairing code to type into Think First for Families on your child's Mac.</p>
+      <h2>What you'll see</h2>
+      <ul class="steps small"><li>Every question they ask an AI, word for word</li><li>Whether they tried first or skipped, the subject and which AI</li><li>When Think First is paused, quit, stops unexpectedly or loses Screen Recording, with an email to you</li></ul>
+      <h2 style="margin-top:14px">What you won't see</h2>
+      <ul class="steps small"><li>Their attempts, the AI's answers, or anything else on their Mac</li></ul>
+      <label class="agree"><input type="checkbox" id="ok"><span>I'll talk to my child about this first. Nothing is shared until they read the same list on their Mac and agree, and they can see everything I see.</span></label>
+      <div class="field"><label for="fn">Family name</label><input id="fn" placeholder="The Kims" maxlength="60"></div>
+      <button class="btn pri wide" id="mk">Create pairing code</button></div>`;
+    $('mk').onclick = async () => {
+      if (!$('ok').checked) return toast('Tick the box first.');
+      const name = $('fn').value.trim() || 'Family';
+      const id = crypto.randomUUID(), secret = randomSecret();
+      const k = await deriveKey(secret, id);
+      const { error } = await sb.rpc('create_family', { fam: id, family_name: name, check_box: await seal(k, 'thinkfirst') });
+      if (error) return toast(error.message);
+      store.set(secretKey(id), secret);
+      await loadFamily(); tab = 'pair'; screenMain();
+    };
+  }
+
+  function screenUnlock() {
+    return `<div class="card"><h2>Read questions on this device</h2><p class="small muted">Questions are locked with your pairing code, which is kept only on the device that made it. Type it here once to unlock them on this ${/Mobi/.test(navigator.userAgent) ? 'phone' : 'browser'}.</p>
+      <div class="field"><input id="uc" placeholder="${esc(fam.code)}-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" style="font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase"></div>
+      <button class="btn pri wide" id="ub">Unlock</button></div>`;
+  }
+
+  function pairCard() {
+    const secret = store.get(secretKey(fam.id));
+    return `<div class="card"><h2>Pair your child's Mac</h2>
+      <ol class="steps small"><li>On their Mac, download <a href="${DOWNLOAD}">Think First for Families</a> and open it.</li><li>Go to <b>Family</b> in the sidebar and type this code.</li><li>They read what's shared and agree. That's it.</li></ol>
+      ${secret ? `<div class="code"><small>PAIRING CODE</small>${esc(pretty(fam.code, secret))}</div>
+        <div class="row"><button class="btn sm" id="copy">Copy code</button><span class="small muted">Keep it private: it's also the key to read their questions. Type it on your phone to read them there too.</span></div>`
+        : '<p class="small muted">This code was made on another device. Open this page there to see it, or unlock below.</p>'}</div>`;
+  }
+
+  // Install as an app on the parent's phone (a home-screen app; no App Store needed).
+  let installEvt = null;
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; if (fam) screenMain(); });
+  const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  function installCard() {
+    if (standalone()) return '';
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const android = /Android/.test(navigator.userAgent);
+    const how = installEvt ? '<button class="btn pri wide" id="install">Install the app</button>'
+      : ios ? '<ol class="steps small"><li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button (the square with an arrow).</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>'
+      : android ? '<ol class="steps small"><li>Open this page in <b>Chrome</b>.</li><li>Tap <b>⋮</b> at the top right.</li><li>Tap <b>Install app</b> (or <b>Add to Home screen</b>).</li></ol>'
+      : '<p class="small muted">On your phone, open <b>trythinkfirst.com/parent</b>, sign in, and add it to your home screen. In Chrome or Edge on a computer, use the install button in the address bar.</p>';
+    return `<div class="card"><h2>📱 Get the app on your phone</h2><p class="small muted" style="margin-top:-4px">It opens full-screen from your home screen, like any app. Sign in once, then type your pairing code once to read questions there.</p>${how}</div>`;
+  }
+
+  function evIcon(ev) {
+    return { question: ['❓', 'q'], pause: ['⏸️', 'w'], resume: ['▶️', 'g'], quit: ['⏹️', 'w'], start: ['🟢', 'g'], unclean_stop: ['⚠️', 'b'], perms_off: ['🚫', 'b'], perms_on: ['✅', 'g'], joined: ['🤝', 'g'], sharing_off: ['✋', 'b'] }[ev.kind] || ['•', ''];
+  }
+  function evText(ev) {
+    const who = (kids.find((c) => c.child_id === ev.child_id) || {}).display_name || 'Your child';
+    switch (ev.kind) {
+      case 'question': return ev.text != null ? `<div class="q">${esc(ev.text)}</div>` : `<div class="q locked">${key ? 'Couldn’t unlock this question' : 'Locked question. Unlock below to read it'}</div>`;
+      case 'pause': return `<div class="q">${esc(who)} paused Think First</div>`;
+      case 'resume': return `<div class="q">${esc(who)} turned Think First back on</div>`;
+      case 'quit': return `<div class="q">${esc(who)} quit Think First</div>`;
+      case 'start': return `<div class="q">Think First opened</div>`;
+      case 'unclean_stop': return `<div class="q">Think First stopped without quitting</div><div class="mt">Force quit, a crash or a flat battery. Last seen ${ev.since ? `${lc(dayName(Date.parse(ev.since)))} ${hm(Date.parse(ev.since))}` : 'earlier'}</div>`;
+      case 'perms_off': return `<div class="q">Screen Recording was turned off, so Think First can't see questions</div>`;
+      case 'perms_on': return `<div class="q">Screen Recording was turned back on</div>`;
+      case 'joined': return `<div class="q">${esc(who)} agreed and started sharing</div>`;
+      case 'sharing_off': return `<div class="q">${esc(who)} stopped sharing</div>`;
+    }
+    return esc(ev.kind);
+  }
+  function feed(list) {
+    if (!list.length) return `<div class="card empty">${noodle('neutral', 'sit')}Nothing yet. Questions and activity show up here as they happen.</div>`;
+    let out = '', last = '';
+    for (const ev of list.slice(0, 300)) {
+      const ts = Date.parse(ev.ts), d = dayName(ts);
+      if (d !== last) { if (last) out += '</div>'; out += `<div class="day">${esc(d)}</div><div class="card" style="padding:4px 16px">`; last = d; }
+      const [ic, cl] = evIcon(ev);
+      const meta = ev.kind === 'question' ? `<span class="pill ${ev.tried ? 'p-good' : 'p-skip'}">${ev.tried ? `Tried first${ev.effort ? ` · ${ev.effort} words` : ''}` : 'Skipped'}</span>${ev.subject ? `<span class="pill p-none">${esc(ev.subject)}</span>` : ''}${ev.ai ? `<span>${esc(ev.ai)}${ev.surface === 'browser' ? ' (website)' : ''}</span>` : ''}` : '';
+      out += `<div class="ev"><div class="ic ${cl}">${ic}</div><div class="bd">${evText(ev)}<div class="mt"><span>${hm(ts)}</span>${meta}${kids.length > 1 ? `<span>· ${esc((kids.find((c) => c.child_id === ev.child_id) || {}).display_name || '')}</span>` : ''}</div></div></div>`;
+    }
+    return out + '</div>';
+  }
+
+  function screenMain() {
+    const mine = events.filter((e) => !kidSel || e.child_id === kidSel);
+    const today = mine.filter((e) => new Date(e.ts).toDateString() === new Date().toDateString());
+    const qs = today.filter((e) => e.kind === 'question'), tried = qs.filter((e) => e.tried).length;
+    const stops = today.filter((e) => ['pause', 'quit', 'unclean_stop', 'perms_off'].includes(e.kind)).length;
+    const kid = kids.find((c) => c.child_id === kidSel) || kids[0];
+    const seen = kid && kid.last_seen ? Date.parse(kid.last_seen) : 0;
+    const lastEv = mine.find((e) => ['pause', 'resume', 'quit', 'start', 'unclean_stop', 'perms_off', 'perms_on', 'sharing_off'].includes(e.kind));
+    let st;
+    if (!kids.length) st = `<div class="status"><div class="dot"></div><div><b>Waiting for your child to pair</b><span>Give them the pairing code below.</span></div></div>`;
+    else if (kid.left_at) st = `<div class="status warn"><div class="dot"></div><div><b>${esc(kid.display_name)} stopped sharing</b><span>${dayName(Date.parse(kid.left_at))} ${hm(Date.parse(kid.left_at))}</span></div></div>`;
+    else if (lastEv && ['pause', 'quit', 'unclean_stop', 'perms_off'].includes(lastEv.kind)) st = `<div class="status warn"><div class="dot"></div><div><b>${{ pause: 'Paused', quit: 'Quit', unclean_stop: 'Stopped unexpectedly', perms_off: 'Can’t see the screen' }[lastEv.kind]}</b><span>since ${lc(dayName(Date.parse(lastEv.ts)))} ${hm(Date.parse(lastEv.ts))} · last seen ${ago(seen)}</span></div></div>`;
+    else st = `<div class="status ${Date.now() - seen < 15 * 6e4 ? 'on' : ''}"><div class="dot"></div><div><b>${Date.now() - seen < 15 * 6e4 ? `${esc(kid.display_name)}'s Think First is on` : `${esc(kid.display_name)}'s Mac hasn't checked in lately`}</b><span>Last seen ${ago(seen)}${Date.now() - seen >= 15 * 6e4 ? '. It may be asleep or off.' : ''}</span></div></div>`;
+
+    app.innerHTML = `${DEMO ? '<div class="notice"><b>Sample data.</b> A made-up child, so you can see how it works.</div>' : ''}
+      ${kids.length > 1 ? `<div class="kids"><button class="kid" data-kid="" aria-pressed="${!kidSel}">Everyone</button>${kids.map((c) => `<button class="kid" data-kid="${c.child_id}" aria-pressed="${kidSel === c.child_id}"><span class="st ${c.left_at ? '' : 'on'}"></span>${esc(c.display_name)}</button>`).join('')}</div>` : ''}
+      ${st}
+      <div class="tabs"><button data-tab="activity" aria-pressed="${tab === 'activity'}">Activity</button><button data-tab="pair" aria-pressed="${tab === 'pair'}">Pair</button><button data-tab="settings" aria-pressed="${tab === 'settings'}">Settings</button></div>
+      ${tab === 'activity' ? `<div class="kpis"><div class="kpi"><div class="l">Questions today</div><div class="v">${qs.length}</div></div><div class="kpi"><div class="l">Tried first</div><div class="v">${qs.length ? Math.round((100 * tried) / qs.length) : '–'}<small>${qs.length ? '%' : ''}</small></div></div><div class="kpi"><div class="l">Paused / quit</div><div class="v">${stops}</div></div></div>
+        ${!key && !DEMO && mine.some((e) => e.kind === 'question') ? screenUnlock() : ''}${feed(mine)}` : ''}
+      ${tab === 'pair' ? pairCard() + (!key && !DEMO ? screenUnlock() : '') + installCard() : ''}
+      ${tab === 'settings' ? `<div class="card"><h2>${esc(fam.name)}</h2>
+          <div class="set"><div class="t"><b>Email me</b><span>When Think First is paused, quit, stops unexpectedly, loses Screen Recording, or sharing stops. At most one per type every 30 minutes. Never includes questions.${me && me.email ? ` Sent to ${esc(me.email)}.` : ''}</span></div><label class="sw"><input type="checkbox" id="alerts" ${fam.alerts ? 'checked' : ''}><i></i></label></div>
+          ${kids.map((c) => `<div class="set"><div class="t"><b>${esc(c.display_name)}</b><span>Paired ${lc(dayName(Date.parse(c.joined_at)))}${c.left_at ? ' · stopped sharing' : ''}</span></div><button class="btn sm danger" data-remove="${c.child_id}">Remove</button></div>`).join('')}
+        </div>
+        <div class="card"><h2>Delete</h2><p class="small muted">Deletes the family, the pairing code and everything shared. Your child's app stops sharing. This can't be undone.</p><button class="btn danger wide" id="delFam">Delete family and all history</button></div>
+        <p class="privacy">Questions are encrypted on your child's Mac with the secret part of the pairing code. Our server only stores scrambled text and never receives the code, so only your browsers and their Mac can read them. <a href="/privacy.html">Privacy</a> · <a href="mailto:hello@trythinkfirst.com">hello@trythinkfirst.com</a></p>` : ''}`;
+    wire();
+  }
+
+  function wire() {
+    app.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { tab = b.dataset.tab; screenMain(); }));
+    app.querySelectorAll('[data-kid]').forEach((b) => (b.onclick = () => { kidSel = b.dataset.kid || null; screenMain(); }));
+    if ($('install')) $('install').onclick = async () => { installEvt.prompt(); await installEvt.userChoice.catch(() => {}); installEvt = null; screenMain(); };
+    if ($('copy')) $('copy').onclick = () => { navigator.clipboard.writeText(pretty(fam.code, store.get(secretKey(fam.id)))).then(() => toast('Copied')); };
+    if ($('ub')) $('ub').onclick = async () => {
+      const s = $('uc').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (s.length !== 18 || s.slice(0, 6) !== fam.code) return toast('That isn’t this family’s code.');
+      try { const k = await deriveKey(s.slice(6), fam.id); if ((await open(k, fam.check_box)) !== 'thinkfirst') throw 0; store.set(secretKey(fam.id), s.slice(6)); toast('Unlocked on this device'); await loadFamily(); screenMain(); }
+      catch { toast('That code doesn’t match. Check it letter by letter.'); }
+    };
+    if (DEMO) return;
+    if ($('alerts')) $('alerts').onchange = async (e) => { const { error } = await sb.from('families').update({ alerts: e.target.checked }).eq('id', fam.id); if (error) return toast(error.message); fam.alerts = e.target.checked; toast(e.target.checked ? 'Emails on' : 'Emails off'); };
+    app.querySelectorAll('[data-remove]').forEach((b) => (b.onclick = async () => {
+      if (!confirm('Remove this Mac from your family? Its app stops sharing. History stays until you delete the family.')) return;
+      const { error } = await sb.from('family_children').delete().eq('family_id', fam.id).eq('child_id', b.dataset.remove); if (error) return toast(error.message);
+      await loadFamily(); screenMain();
+    }));
+    if ($('delFam')) $('delFam').onclick = async () => {
+      if (prompt(`Type the family name (${fam.name}) to delete everything.`) !== fam.name) return;
+      const { error } = await sb.from('families').delete().eq('id', fam.id); if (error) return toast(error.message);
+      store.del(secretKey(fam.id)); fam = null; screenCreate();
+    };
+  }
+
+  /* ---------- sample data (?demo) ---------- */
+  function demo() {
+    const now = Date.now(), m = 6e4, kid = 'demo-kid';
+    kids = [{ child_id: kid, display_name: 'Mina', joined_at: new Date(now - 6 * 864e5).toISOString(), last_seen: new Date(now - 3 * m).toISOString() }];
+    fam = { id: 'demo', name: 'The Kims', code: 'K7Q2MD', alerts: true };
+    key = 'demo';
+    const q = (min, text, tried, subject, ai, effort) => ({ child_id: kid, ts: new Date(now - min * m).toISOString(), kind: 'question', tried, subject, ai, surface: 'app', effort, text });
+    const e = (min, kind, extra = {}) => ({ child_id: kid, ts: new Date(now - min * m).toISOString(), kind, ...extra });
+    events = [
+      q(4, 'Why does the moon look bigger near the horizon?', true, 'Physics', 'ChatGPT', 23),
+      q(19, 'Summarise the causes of the First World War in 5 points', false, 'History', 'ChatGPT', 0),
+      e(31, 'resume'), e(52, 'pause'),
+      q(70, 'How do I factorise x² + 5x + 6?', true, 'Maths', 'Claude', 11),
+      e(76, 'start'), e(77, 'unclean_stop', { since: new Date(now - 130 * m).toISOString() }),
+      q(140, '영어 에세이 서론 어떻게 시작하면 좋을까?', true, 'English', 'Gemini', 31),
+      e(24 * 60 + 10, 'quit'),
+      q(24 * 60 + 40, 'What is the difference between mitosis and meiosis?', true, 'Biology', 'ChatGPT', 42),
+      q(24 * 60 + 55, 'Write my conclusion for the photosynthesis lab report', false, 'Biology', 'ChatGPT', 0),
+    ];
+    me = { email: 'parent@example.com' };
+    store.set(secretKey('demo'), 'X9TP4WRN8HJA');
+  }
+
+  async function boot() {
+    if (DEMO) { demo(); $('who').textContent = 'Sample'; return screenMain(); }
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session || session.user.is_anonymous) return screenLogin();
+    $('who').textContent = session.user.email || ''; $('signOut').hidden = false;
+    const p = await sb.from('parents').select('*').eq('id', session.user.id).maybeSingle();
+    const md = session.user.user_metadata || {};
+    if (!p.data) return screenProfile(md.full_name || md.name || '', session.user.email || null);
+    me = p.data;
+    if (!me.email && session.user.email) { await sb.from('parents').update({ email: session.user.email }).eq('id', me.id); me.email = session.user.email; }
+    await loadFamily();
+    if (!fam) return screenCreate();
+    if (!kids.length) tab = 'pair';
+    screenMain();
+    clearInterval(boot.t);
+    boot.t = setInterval(async () => { if (document.hidden || tab !== 'activity' || (document.activeElement && document.activeElement.id === 'uc')) return; await loadFamily().catch(() => {}); if (fam) screenMain(); }, 30000);
+  }
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+  $('signOut').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+  if (sb) sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_IN') boot(); });
+  boot().catch((e) => { app.innerHTML = `<div class="card"><h2>Something went wrong</h2><p class="muted">${esc(e.message)}</p></div>`; });
+})();
+</script>
+</body>
+</html>

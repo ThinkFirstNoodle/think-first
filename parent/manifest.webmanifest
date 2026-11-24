@@ -1,0 +1,14 @@
+{
+  "name": "Think First Family",
+  "short_name": "Think First",
+  "description": "See your child's AI questions and Think First activity, with their agreement.",
+  "start_url": "/parent/",
+  "scope": "/parent/",
+  "display": "standalone",
+  "background_color": "#F6F1E7",
+  "theme_color": "#F6F1E7",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
