@@ -682,6 +682,92 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-space:nowrap}
 @media (max-width:700px){nav .links a.sch-link .lw,nav .links a.sch-link .nw{display:none}nav .links a.sch-link{padding:6px 10px;font-size:13px}nav .links{gap:5px}}
 @media (max-width:440px){nav .pill.dl{display:none}nav .links a.sch-link .lt{display:none}nav .links a.sch-link{padding:6px 9px;font-size:15px}}
+
+/* ---------- Families: the Think First Family app's look (paper, ink outlines, serif, lime) ---------- */
+body.fam{--fp:#F7F3EA;--fc:#FBF8F1;--fi:#1F1B16;--fi2:#5E574C;--fi3:#8A8275;--fr:#DED6C6;--fe:#1F1B16;--fs:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:var(--fp);color:var(--fi)}
+@media (prefers-color-scheme:dark){body.fam{--fp:#24211C;--fc:#2E2A24;--fi:#F4EFE5;--fi2:#CFC7B8;--fi3:#A0988A;--fr:#3F3A31;--fe:#5A5346}}
+body.fam header nav{background:transparent}
+body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
+.fam .card{background:var(--fc);border:1.5px solid var(--fe);border-radius:20px}
+.fam .lbl{font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fi2)}
+.fam h1,.fam h2.f{font-family:var(--fs);font-weight:400;letter-spacing:-.01em;color:var(--fi)}
+.fam .hl{background:linear-gradient(transparent 62%,#CFDD3C 62%,#CFDD3C 90%,transparent 90%)}
+@media (prefers-color-scheme:dark){.fam .hl{background:linear-gradient(transparent 62%,rgba(207,221,60,.38) 62%,rgba(207,221,60,.38) 90%,transparent 90%)}}
+/* hero */
+.fhero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:70px 0 20px}
+@media (max-width:900px){.fhero{grid-template-columns:1fr;text-align:center}.fhero .acts{justify-content:center}}
+.fhero h1{font-size:clamp(48px,7.4vw,92px);line-height:1;margin:16px 0 18px}
+.fhero h1 i{font-style:italic;color:var(--fi2)}
+.fhero p.lede{font-size:20px;color:var(--fi2);max-width:34ch;margin:0 0 28px}
+@media (max-width:900px){.fhero p.lede{margin:0 auto 28px}}
+.acts{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.fbtn{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border-radius:14px;font-weight:600;font-size:16px;text-decoration:none;border:1.5px solid var(--fe);transition:transform .15s}
+.fbtn:hover{transform:translateY(-2px)}
+.fbtn.ink{background:var(--fi);color:var(--fp)}.fbtn.out{background:var(--fc);color:var(--fi)}
+.soon{font:600 13px var(--sans);color:var(--fi3);margin-top:14px}
+.stage{position:relative;height:640px}
+@media (max-width:900px){.stage{height:560px;max-width:420px;margin:0 auto}}
+.phone{position:absolute;left:50%;top:0;width:290px;transform:translateX(-50%) rotate(3deg);border-radius:46px;padding:10px;background:#1F1B16;box-shadow:0 30px 60px -20px rgba(31,27,22,.45)}
+.phone img{display:block;width:100%;border-radius:37px}
+.phone.back{transform:translateX(-112%) rotate(-7deg) scale(.86);top:60px;opacity:.95}
+@media (max-width:900px){.phone{width:240px}.phone.back{display:none}}
+.notif{position:absolute;right:-6px;top:120px;width:270px;padding:12px 14px;border-radius:18px;background:rgba(251,248,241,.96);border:1.5px solid var(--fe);box-shadow:0 18px 40px -14px rgba(31,27,22,.4);display:flex;gap:10px;align-items:flex-start;text-align:left;color:#1F1B16;animation:pop 6s ease-in-out infinite}
+.notif img{width:36px;height:36px;border-radius:9px}
+.notif b{display:block;font-size:14px}.notif span{font-size:13px;color:#5E574C}.notif small{float:right;font-size:11px;color:#8A8275}
+@keyframes pop{0%,8%{transform:translateY(-14px);opacity:0}14%,80%{transform:none;opacity:1}90%,100%{transform:translateY(-8px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.notif{animation:none}}
+@media (max-width:900px){.notif{right:0;top:30px;width:240px}}
+.tagf{position:absolute;white-space:nowrap;font:700 13px/1 var(--mono);letter-spacing:.08em;padding:9px 13px;border:1.5px solid #1F1B16;border-radius:10px;color:#1F1B16}
+/* moments */
+.moments{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.moments{grid-template-columns:1fr}}
+.mo{padding:24px}
+.mo h3{font:400 26px/1.2 var(--fs);margin:12px 0 8px}.mo p{margin:0;color:var(--fi2);font-size:15.5px}
+.mo .demo{margin-top:18px;padding:14px;border-radius:14px;border:1.2px solid var(--fr);background:var(--fp)}
+.qq{font:400 18px/1.35 var(--fs)}
+.meta{font:12px var(--mono);color:var(--fi3);margin:8px 0}
+.dots{display:flex;gap:5px;align-items:center;font-size:13px;color:var(--fi2)}
+.dots i{width:12px;height:12px;border-radius:50%;border:1.3px solid #B9AF9C;display:inline-block}.dots i.on{background:#CFDD3C;border-color:#1F1B16}
+.chip{display:inline-block;font:700 11px/1 var(--mono);letter-spacing:.06em;padding:5px 7px;border-radius:6px;border:1.2px solid var(--fr);color:var(--fi2);margin-right:5px}
+.chip.g{background:#CFDD3C;border-color:#1F1B16;color:#1F1B16}
+.days{display:flex;gap:7px}.days span{flex:1;text-align:center;padding:8px 0;border-radius:11px;border:1.2px solid var(--fr);font:10px var(--mono);color:var(--fi2)}
+.days span b{display:block;font:400 19px var(--fs);color:var(--fi)}.days span.on{background:var(--fi);border-color:var(--fi);color:var(--fp)}.days span.on b{color:var(--fp)}
+/* together */
+.together{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:900px){.together{grid-template-columns:1fr}}
+.together .card{padding:28px}
+.together ul{list-style:none;padding:0;margin:14px 0 0}
+.together li{padding:9px 0 9px 30px;position:relative;border-top:1px solid var(--fr);font-size:15.5px}
+.together li:first-child{border-top:0}
+.together .y li:before{content:"✓";position:absolute;left:0;top:8px;width:20px;height:20px;border-radius:50%;background:#CFDD3C;border:1.2px solid #1F1B16;color:#1F1B16;font:800 11px/18px var(--sans);text-align:center}
+.together .n li:before{content:"✕";position:absolute;left:3px;top:9px;color:var(--fi3);font:700 13px var(--sans)}
+.lock{display:flex;gap:16px;align-items:center;margin-top:18px;padding:20px 24px}
+.lock .k{font:700 15px/1 var(--mono);letter-spacing:.08em;padding:12px 14px;border-radius:10px;background:#CFDD3C;border:1.5px solid #1F1B16;color:#1F1B16;white-space:nowrap}
+.lock .k s{text-decoration:none;opacity:.35}
+@media (max-width:700px){.lock{flex-direction:column;text-align:center}}
+/* steps */
+.steps3{counter-reset:s;display:grid;gap:14px;max-width:760px;margin:0 auto}
+.steps3 .card{display:flex;gap:20px;align-items:flex-start;padding:22px 24px}
+.steps3 .n{flex:none;width:44px;height:44px;border-radius:50%;background:#CFDD3C;border:1.5px solid #1F1B16;display:grid;place-items:center;font:400 22px var(--fs);color:#1F1B16}
+.steps3 h3{font:400 23px/1.2 var(--fs);margin:2px 0 6px}.steps3 p{margin:0;color:var(--fi2)}
+.steps3 .when{font:700 11px/1 var(--mono);letter-spacing:.12em;color:var(--fi3);text-transform:uppercase}
+/* gallery */
+.gal{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+.gal figure{margin:0;width:220px;text-align:center}
+.gal .ph{border-radius:36px;padding:8px;background:#1F1B16}.gal img{display:block;width:100%;border-radius:29px}
+.gal figcaption{margin-top:12px;font:400 19px var(--fs)}
+/* downloads */
+.dls{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:860px){.dls{grid-template-columns:1fr}}
+.dl2{padding:28px;display:flex;flex-direction:column;gap:10px}
+.dl2 .top{display:flex;gap:16px;align-items:center}
+.dl2 .ico{width:72px;height:72px;border-radius:18px;border:1.5px solid var(--fe);overflow:hidden;flex:none;background:var(--fp);display:grid;place-items:center}
+.dl2 .ico img{width:100%}
+.dl2 h3{font:400 27px/1.1 var(--fs);margin:0}.dl2 .who{font:700 11px var(--mono);letter-spacing:.12em;color:var(--fi3);text-transform:uppercase}
+.dl2 p{margin:4px 0 8px;color:var(--fi2)}
+.fam .head h2{font-family:var(--fs);font-weight:400}
+.fam .sfaq details{background:var(--fc);border:1.5px solid var(--fr);border-radius:16px}
+.fam .log .ver{background:var(--fc);border:1.5px solid var(--fr)}
 </style>
 <script>
 /* Theme: follows the Mac unless the visitor picks light or dark. Flips the page's own dark-mode rules. */
@@ -723,7 +809,7 @@ nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-s
 .nav-on{color:var(--ink)!important;font-weight:600}
 </style>
 </head>
-<body class="sp-page">
+<body class="sp-page fam">
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="./"><span class="dog proud" id="navDog"></span>Think First</a>
@@ -734,47 +820,75 @@ nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-s
 </header>
 <main>
 <div class="wrap">
-  <section id="families" style="padding-top:70px">
-    <div class="head rv">
-      <p class="eyebrow">For families · new</p>
-      <h2>Think First, <em>for your family</em>.</h2>
-      <p class="lede">Your child keeps Noodle on their Mac, and you see the questions they ask AI, whether they tried first, and how close they got. Only when you both agree, and everything is end-to-end encrypted, so not even Think First can read it.</p>
+  <section class="fhero" id="families" style="padding-top:70px">
+    <div class="rv">
+      <p class="lbl">Think First for Families · new</p>
+      <h1>Did they <span class="hl">try first</span>,<br><i>before asking AI?</i></h1>
+      <p class="lede">Noodle asks your child to have a go before the AI answers. You see their questions, whether they tried, and how close they got. Only when you both agree.</p>
+      <div class="acts">
+        <a class="fbtn ink" href="parent/">Open the parent app</a>
+        <a class="fbtn out" href="parent/?demo">See a sample family</a>
+      </div>
+      <p class="soon">📱 Think First Family for iPhone is coming to the App Store. Until then, it works in any browser.</p>
     </div>
-    <div class="sch">
-      <div class="sc rv">
-        <div class="art"><div class="dog proud sit" id="kidDog"></div></div>
-        <span class="who">For your child</span>
-        <h3>Think First for Families</h3>
-        <p>The Mac app. Pair with your family using the code from your parent, after reading exactly what's shared.</p>
-        <ul><li>Same Noodle, for AI apps and AI websites</li><li>Sees everything their parent sees, and can stop sharing any time</li><li>Separate from a personal Think First</li></ul>
-        <div class="go"><a class="btn dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.1/Think-First-for-Families-0.1.1.dmg">Download for your child</a><small>Mac · Apple Silicon</small></div>
-      </div>
-      <div class="sc rv">
-        <div class="art"><img src="families/iphone-app.png" alt="Think First Family iPhone app icon" width="104" height="104" style="border-radius:24px;border:1.5px solid var(--ink,#1F1B16)"></div>
-        <span class="who">For parents</span>
-        <h3>Think First Family</h3>
-        <p>The iPhone app, or the same thing in any browser. Create your family, get a pairing code, and follow along.</p>
-        <ul><li>Every question, word for word, and whether they tried first</li><li>How close they got to the answer, day by day</li><li>A notification when Think First is paused, quit or stopped</li></ul>
-        <div class="go"><a class="btn" href="parent/">Open in your browser</a><a href="parent/?demo"><small>or see a sample family →</small></a></div>
-        <p class="soon" style="margin:12px 0 0;font-size:14px;color:var(--ink2,#5E574C)">📱 iPhone app: coming soon to the App Store.</p>
-      </div>
+    <div class="stage rv" aria-hidden="true">
+      <div class="phone back"><img src="families/app-pair.jpg" alt=""></div>
+      <div class="phone"><img src="families/app-activity.jpg" alt=""></div>
+      <div class="notif"><img src="families/iphone-app.png" alt=""><div><small>now</small><b>Mina paused Think First</b><span>Questions to AI won’t be checked until it’s back on.</span></div></div>
+      <span class="tagf" style="left:2%;bottom:120px;background:#CFDD3C;transform:rotate(-6deg)">TRIED FIRST</span>
+      <span class="tagf" style="right:4%;bottom:60px;background:#FBF8F1;transform:rotate(5deg)">GOT 4 OF 5</span>
     </div>
   </section>
 
   <section>
-    <div class="head rv"><p class="eyebrow">At home</p><h2>Set up in <em>five minutes</em>.</h2></div>
-    <div class="flow">
-      <div class="st rv"><b>1</b><h3>Talk about it</h3><p>Think First works best when your child knows why. Tell them what you'll see, and that they'll see it too.</p></div>
-      <div class="st rv"><b>2</b><h3>Make your family</h3><p>Sign in on the iPhone app or at <strong>trythinkfirst.com/parent</strong>, tick that you'll talk to your child first, and you get an 18-character pairing code.</p></div>
-      <div class="st rv"><b>3</b><h3>Pair their Mac</h3><p>Your child installs Think First for Families, opens <strong>Family</strong>, types the code and reads the list below. Nothing is shared until they agree.</p></div>
+    <div class="head rv"><p class="eyebrow">What you'll see</p><h2>A quiet window into <em>how they learn</em>.</h2><p class="lede">Not a spy app. A shared view of a habit you're building together.</p></div>
+    <div class="moments">
+      <div class="card mo rv"><span class="lbl">Every question</span><h3>Word for word.</h3><p>What they asked ChatGPT, Claude or Gemini, and whether they tried it themselves first.</p>
+        <div class="demo"><div class="qq">“Why does ice float if it’s a solid?”</div><div class="meta">8:43 PM · Gemini</div><span class="chip g">TRIED FIRST</span><span class="chip">SCIENCE</span></div></div>
+      <div class="card mo rv"><span class="lbl">How close</span><h3>Did their attempt land?</h3><p>Noodle compares their try with the answer. You see the count, never the answer itself.</p>
+        <div class="demo"><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>&nbsp; Got <b>&nbsp;4 of 5&nbsp;</b> key points</div><div class="meta" style="margin-bottom:0">+ 1 idea of their own</div></div></div>
+      <div class="card mo rv"><span class="lbl">Day by day</span><h3>See the pattern.</h3><p>Questions per day, how often they tried first, and when Think First was paused or quit, with a notification.</p>
+        <div class="demo"><div class="days"><span>SAT<b>21</b></span><span>SUN<b>22</b></span><span>MON<b>23</b></span><span>YEST.<b>24</b></span><span class="on">TODAY<b>25</b></span></div></div></div>
     </div>
   </section>
 
   <section>
-    <div class="head rv"><p class="eyebrow">Privacy</p><h2>Shared <em>together</em>, encrypted.</h2><p class="lede">Questions are encrypted on your child's Mac with the secret half of the pairing code, which our server never receives. Your child sees exactly this list before they agree, and everything you see on their own Family page.</p></div>
-    <div class="share">
-      <div class="y rv"><h3>You see, after you both agree</h3><ul><li>Every question they ask an AI, word for word (encrypted)</li><li>Whether they tried first or skipped</li><li>The subject and which AI, app or website</li><li>How many words they wrote (not the words)</li><li>How close they got: key points got and missed (numbers only)</li><li>When Think First is paused, quit, stops unexpectedly or loses Screen Recording</li></ul></div>
-      <div class="n rv"><h3>Never leaves the Mac</h3><ul><li>What your child wrote</li><li>The AI's answers</li><li>The key points themselves</li><li>Chat or window titles</li><li>Screenshots</li><li>Anything else on their Mac</li><li>Anything from before they agreed</li></ul></div>
+    <div class="head rv"><p class="eyebrow">Privacy</p><h2>Shared <em>together</em>, locked tight.</h2></div>
+    <div class="together">
+      <div class="card y rv"><span class="lbl">You see, after you both agree</span><ul><li>Every question they ask an AI, word for word</li><li>Whether they tried first or skipped</li><li>The subject and which AI</li><li>How close they got: key points got and missed</li><li>When Think First is paused, quit or stops</li></ul></div>
+      <div class="card n rv"><span class="lbl">Stays on their Mac</span><ul><li>What they wrote</li><li>The AI's answers</li><li>The key points themselves</li><li>Screenshots and window titles</li><li>Anything from before they agreed</li></ul></div>
+    </div>
+    <div class="card lock rv"><span class="k">K7Q2MD-<s>X9TP-4WRN-8HJA</s></span><p style="margin:0;color:var(--fi2)">Questions are <b style="color:var(--fi)">end-to-end encrypted</b> with the secret part of your pairing code. Our server only ever sees the first six letters, so it stores scrambled text that not even we can read. Your child sees everything you see, and can stop sharing any time.</p></div>
+  </section>
+
+  <section>
+    <div class="head rv"><p class="eyebrow">Getting started</p><h2>Set up in <em>five minutes</em>.</h2></div>
+    <div class="steps3">
+      <div class="card rv"><div class="n">1</div><div><div class="when">At dinner</div><h3>Talk about it</h3><p>Tell them what you'll see and why. Think First works best as a habit you share, not a secret.</p></div></div>
+      <div class="card rv"><div class="n">2</div><div><div class="when">On your phone</div><h3>Make your family</h3><p>Sign in on the parent app, tick that you've talked first, and get an 18-character pairing code.</p></div></div>
+      <div class="card rv"><div class="n">3</div><div><div class="when">On their Mac</div><h3>They read, then agree</h3><p>They install Think First for Families, open <b>Family</b>, type the code and read exactly what's shared. Nothing is sent until they agree.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="head rv"><p class="eyebrow">The parent app</p><h2>Made like <em>Think First</em>.</h2></div>
+    <div class="gal rv">
+      <figure><div class="ph"><img src="families/app-signin.jpg" alt="Sign in screen with Noodle" loading="lazy"></div><figcaption>Sign in</figcaption></figure>
+      <figure><div class="ph"><img src="families/app-activity.jpg" alt="Activity: status, today's numbers and questions" loading="lazy"></div><figcaption>Activity</figcaption></figure>
+      <figure><div class="ph"><img src="families/app-pair.jpg" alt="Pair: the pairing code and steps" loading="lazy"></div><figcaption>Pair</figcaption></figure>
+      <figure><div class="ph"><img src="families/app-settings.jpg" alt="Settings: alerts, children, account" loading="lazy"></div><figcaption>Settings</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="get">
+    <div class="head rv"><p class="eyebrow">Get it</p><h2>Two apps, <em>one family</em>.</h2></div>
+    <div class="dls">
+      <div class="card dl2 rv"><div class="top"><div class="ico"><div class="dog proud" id="kidDog" style="width:64px"></div></div><div><div class="who">For your child</div><h3>Think First for Families</h3></div></div>
+        <p>The Mac app, with the Family page. Same Noodle, for AI apps and AI websites.</p>
+        <div class="acts"><a class="fbtn ink" href="https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.1/Think-First-for-Families-0.1.1.dmg">Download for Mac</a><small style="color:var(--fi3)">Apple Silicon · free</small></div></div>
+      <div class="card dl2 rv"><div class="top"><div class="ico"><img src="families/iphone-app.png" alt=""></div><div><div class="who">For you</div><h3>Think First Family</h3></div></div>
+        <p>The parent app for iPhone, coming soon to the App Store. Works in any browser today.</p>
+        <div class="acts"><a class="fbtn ink" href="parent/">Open in your browser</a><a class="fbtn out" href="parent/?demo">Sample</a></div></div>
     </div>
   </section>
 
