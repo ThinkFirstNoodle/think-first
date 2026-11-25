@@ -25,9 +25,10 @@ nav{margin-bottom:28px;font-size:15px}
 </head><body><main>
 <nav><a href="./">← Think First</a></nav>
 <h1>Privacy Policy</h1>
-<p class="meta">Last updated 28 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:hello@trythinkfirst.com">hello@trythinkfirst.com</a></p>
+<p class="meta">Last updated 25 November 2026. Think First is made by Yunseong Kim, Republic of Korea. Contact: <a href="mailto:hello@trythinkfirst.com">hello@trythinkfirst.com</a></p>
 <p>Think First comes in two editions. Both keep everything on your Mac. The <a href="#app-store">Mac App Store edition</a> doesn't connect to the internet at all; the <a href="#download">edition downloaded from this site</a> only checks GitHub for updates.</p>
 <p>There is also a separate classroom edition, <a href="#schools">Think First for Schools</a>, with a Teacher Dashboard. It works differently: if a student joins a class, numbers about their AI use are shared with their teacher. It's described in its own section below.</p>
+<p>And there is a family edition, <a href="#families">Think First for Families</a>, with a parent page and the <strong>Think First Family</strong> iPhone app. If a child and parent both agree, the child's questions are shared with their parent, end-to-end encrypted. It's also described below.</p>
 <h3 id="app-store">Mac App Store edition</h3>
 
     <p class="lede">Think First has no accounts, analytics or ads, and we have no server. What it records stays on your Mac. We can't see it.</p>
@@ -124,4 +125,33 @@ nav{margin-bottom:28px;font-size:15px}
     </ul>
     <h2>Schools and children</h2>
     <p>Think First for Schools is meant to be used with a school's agreement. Joining a class is always the student's own choice. If a student is too young to agree to this where they live, a parent or guardian should agree for them, and their school may also ask for their consent.</p>
+<h3 id="families">Think First for Families, the parent page and the Think First Family iPhone app</h3>
+    <p class="lede">Think First for Families is a separate Mac app for children. Everything works as in the edition above, except that a child can pair with a parent. The parent follows along at trythinkfirst.com/parent or in the Think First Family iPhone app.</p>
+    <h2>Agreement first</h2>
+    <p>A parent creates a family, agreeing that they'll talk to their child first, and gets an 18-character pairing code. Nothing is shared until the child types that code on the Family page of their Mac, reads a screen listing exactly what's shared, and agrees. The child sees everything their parent sees, and can stop sharing at any time; the parent is told when they do.</p>
+    <h2>What the child's Mac shares, after agreeing</h2>
+    <ul>
+      <li>each question they ask an AI, word for word, <strong>end-to-end encrypted</strong> (see below)</li>
+      <li>when they asked, whether they tried first or skipped, the subject it guessed, which AI and whether it was the app or a website</li>
+      <li>how many words their attempt had (not the words), and how close it got: how many of the answer's key points they got and missed, and how many ideas were only theirs (counts only, never the points or the answer)</li>
+      <li>when Think First is opened, paused, turned back on or quit, stops without quitting (a force quit, crash or flat battery), or loses or regains Screen Recording</li>
+      <li>the name they typed when pairing, and when the app was last active</li>
+    </ul>
+    <p>It never shares what they wrote, the AI's answers, window titles, screenshots, or anything from before they agreed. Children get an anonymous sign-in that lives only on their Mac, with no email or password.</p>
+    <h2>End-to-end encryption</h2>
+    <p>Questions are encrypted on the child's Mac (AES-256-GCM) with a key made from the secret part of the pairing code. Our server only ever receives the first six characters of the code, which it uses to find the family, so it stores the questions as scrambled text that we cannot read. Only the child's Mac and the parent's own devices, where the code was made or typed in, can read them. On iPhone the code is kept in the iCloud Keychain so the parent's other Apple devices can read questions too. If the code is lost, old questions can't be recovered, even by us.</p>
+    <h2>What parents share</h2>
+    <p>Parents sign in with Sign in with Apple, Google (on the web), or a code or link sent to their email. We keep their email address, the name they choose (shown to their child), the family's name and code, and whether they want alerts. If a parent turns on notifications in the iPhone app, we also keep a push notification token for their iPhone, used only to send their alerts through Apple.</p>
+    <h2>Alerts</h2>
+    <p>When Think First is paused, quit, stops unexpectedly, loses Screen Recording, or sharing stops, the parent gets an email (sent with Resend) and, in the iPhone app, a notification (sent through Apple Push Notification service). At most one email per kind every 30 minutes. Alerts never include a question. Parents can turn alerts off at any time.</p>
+    <h2>Where it's stored and who can see it</h2>
+    <p>This data is stored in the same Supabase database as Think First for Schools (hosted in Seoul, Republic of Korea). Database rules ensure that a child can only add and read their own events, and a parent can only see their own family. We don't sell this data or use it for advertising, there are no analytics or ads, and nothing is used for tracking.</p>
+    <h2>Stopping and deleting</h2>
+    <ul>
+      <li>Children can stop sharing at any time from the Family page.</li>
+      <li>Parents can remove a child, delete the family and all its history, or delete their whole account, in the iPhone app's Settings or on the parent page. Deleting is immediate and can't be undone.</li>
+      <li>To have anything else deleted, email us at the address above.</li>
+    </ul>
+    <h2>Families and children</h2>
+    <p>Think First for Families is meant to be used together, with the child's knowledge and agreement; it is not for secret monitoring. The parent or guardian is responsible for agreeing on their child's behalf where the child is too young to agree themselves.</p>
 </main></body></html>
