@@ -682,6 +682,8 @@ footer .sp{margin-left:auto;color:var(--ink3)}
 nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-space:nowrap}
 @media (max-width:700px){nav .links a.sch-link .lw,nav .links a.sch-link .nw{display:none}nav .links a.sch-link{padding:6px 10px;font-size:13px}nav .links{gap:5px}}
 @media (max-width:440px){nav .pill.dl{display:none}nav .links a.sch-link .lt{display:none}nav .links a.sch-link{padding:6px 9px;font-size:15px}}
+
+nav .links a.home-link{background:transparent;border-color:var(--rule,#E5E5EA)}nav .links a.home-link:hover{background:rgba(127,127,127,.08)}
 </style>
 <script>
 /* Theme: follows the Mac unless the visitor picks light or dark. Flips the page's own dark-mode rules. */
@@ -727,7 +729,7 @@ nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-s
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="./"><span class="dog proud" id="navDog"></span>Think First</a>
-    <div class="links"><a href="schools.html" title="For schools" class="sch-link" aria-current="page">🎓 <span class="lw">For </span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link">👪 <span class="lw">For </span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
+    <div class="links"><a href="./" title="Home" class="sch-link home-link">🏠 <span class="lt">Home</span></a> <a href="schools.html" title="For schools" class="sch-link" aria-current="page">🎓 <span class="lw">For </span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link">👪 <span class="lw">For </span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
