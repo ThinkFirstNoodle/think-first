@@ -768,6 +768,15 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
 .fam .head h2{font-family:var(--fs);font-weight:400}
 .fam .sfaq details{background:var(--fc);border:1.5px solid var(--fr);border-radius:16px}
 .fam .log .ver{background:var(--fc);border:1.5px solid var(--fr)}
+
+/* Families: each section fills the screen and snaps (wide screens), until "What's new". */
+@media (min-width:900px) and (min-height:700px){
+  html.fsnap{scroll-snap-type:y mandatory}
+  .fam main section.fs{min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding:96px 0 40px;scroll-snap-align:start;scroll-snap-stop:always}
+  .fam main section.fhero.fs{display:grid;scroll-margin-top:65px;min-height:calc(100vh - 65px)}
+  .fam #changes{scroll-snap-align:start}
+}
+@media (min-width:900px) and (min-height:700px) and (prefers-reduced-motion:reduce){html.fsnap{scroll-snap-type:y proximity}}
 </style>
 <script>
 /* Theme: follows the Mac unless the visitor picks light or dark. Flips the page's own dark-mode rules. */
@@ -820,7 +829,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
 </header>
 <main>
 <div class="wrap">
-  <section class="fhero" id="families" style="padding-top:70px">
+  <section class="fhero fs" id="families" style="padding-top:70px">
     <div class="rv">
       <p class="lbl">Think First for Families · new</p>
       <h1>Did they <span class="hl">try first</span>,<br><i>before asking AI?</i></h1>
@@ -840,7 +849,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
     </div>
   </section>
 
-  <section>
+  <section class="fs">
     <div class="head rv"><p class="eyebrow">What you'll see</p><h2>A quiet window into <em>how they learn</em>.</h2><p class="lede">Not a spy app. A shared view of a habit you're building together.</p></div>
     <div class="moments">
       <div class="card mo rv"><span class="lbl">Every question</span><h3>Word for word.</h3><p>What they asked ChatGPT, Claude or Gemini, and whether they tried it themselves first.</p>
@@ -852,7 +861,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
     </div>
   </section>
 
-  <section>
+  <section class="fs">
     <div class="head rv"><p class="eyebrow">Privacy</p><h2>Shared <em>together</em>, locked tight.</h2></div>
     <div class="together">
       <div class="card y rv"><span class="lbl">You see, after you both agree</span><ul><li>Every question they ask an AI, word for word</li><li>Whether they tried first or skipped</li><li>The subject and which AI</li><li>How close they got: key points got and missed</li><li>When Think First is paused, quit or stops</li></ul></div>
@@ -861,7 +870,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
     <div class="card lock rv"><span class="k">K7Q2MD-<s>X9TP-4WRN-8HJA</s></span><p style="margin:0;color:var(--fi2)">Questions are <b style="color:var(--fi)">end-to-end encrypted</b> with the secret part of your pairing code. Our server only ever sees the first six letters, so it stores scrambled text that not even we can read. Your child sees everything you see, and can stop sharing any time.</p></div>
   </section>
 
-  <section>
+  <section class="fs">
     <div class="head rv"><p class="eyebrow">Getting started</p><h2>Set up in <em>five minutes</em>.</h2></div>
     <div class="steps3">
       <div class="card rv"><div class="n">1</div><div><div class="when">At dinner</div><h3>Talk about it</h3><p>Tell them what you'll see and why. Think First works best as a habit you share, not a secret.</p></div></div>
@@ -870,7 +879,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
     </div>
   </section>
 
-  <section>
+  <section class="fs">
     <div class="head rv"><p class="eyebrow">The parent app</p><h2>Made like <em>Think First</em>.</h2></div>
     <div class="gal rv">
       <figure><div class="ph"><img src="families/app-signin.jpg" alt="Sign in screen with Noodle" loading="lazy"></div><figcaption>Sign in</figcaption></figure>
@@ -880,7 +889,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
     </div>
   </section>
 
-  <section id="get">
+  <section class="fs" id="get">
     <div class="head rv"><p class="eyebrow">Get it</p><h2>Two apps, <em>one family</em>.</h2></div>
     <div class="dls">
       <div class="card dl2 rv"><div class="top"><div class="ico"><div class="dog proud" id="kidDog" style="width:64px"></div></div><div><div class="who">For your child</div><h3>Think First for Families</h3></div></div>
@@ -1123,6 +1132,10 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
       'Parents are told when Think First is paused, quit, stops unexpectedly or loses Screen Recording. Your child can stop sharing any time, and the parent is told.'
     ]]
   ];
+  // Snap section by section until "What's new" (wide screens only; CSS decides).
+  var stop = $('changes');
+  function fsnap() { document.documentElement.classList.toggle('fsnap', stop.getBoundingClientRect().top > 2); }
+  addEventListener('scroll', fsnap, { passive: true }); fsnap();
   var SHOW = 4, fmt = function (d) { return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
   function drawLog(all) {
     $('log').innerHTML = CHANGES.slice(0, all ? CHANGES.length : SHOW).map(function (c, i) {
