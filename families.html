@@ -767,7 +767,7 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
 .dl2 p{margin:4px 0 8px;color:var(--fi2)}
 .fam .head h2{font-family:var(--fs);font-weight:400}
 .fam .sfaq details{background:var(--fc);border:1.5px solid var(--fr);border-radius:16px}
-.fam .log .ver{background:var(--fc);border:1.5px solid var(--fr)}
+
 
 /* Families: each section fills the screen and snaps (wide screens), until "What's new". */
 @media (min-width:900px) and (min-height:700px){
@@ -1150,5 +1150,25 @@ body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
   document.querySelectorAll('.rv').forEach(function (e) { io.observe(e); });
 })();
 </script>
+<style>
+/* Families: same type as the home page (SF Pro), and a proper FAQ. */
+body.fam{--fs:var(--serif)}
+.fam h1,.fam .fhero h1{font:700 clamp(44px,5.4vw,78px)/1.02 var(--serif);letter-spacing:-.04em}
+.fam .fhero h1 i{font-style:normal;color:var(--fi2)}
+.fam .mo h3,.fam .steps3 h3,.fam .dl2 h3,.fam .gal figcaption{font-family:var(--serif);font-weight:650;letter-spacing:-.02em}
+.fam .steps3 .n{font:700 20px var(--serif)}
+.fam .qq{font:500 17px/1.4 var(--sans)}
+.fam .days span b{font:600 18px var(--serif)}
+.fam .head h2{font-family:var(--serif);font-weight:700;letter-spacing:-.035em}
+.fam .sfaq{max-width:860px;margin:0 auto;display:grid;gap:12px}
+.fam .sfaq details{background:var(--fc);border:1.5px solid var(--fr);border-radius:18px;padding:0;transition:border-color .2s,box-shadow .2s}
+.fam .sfaq details:hover{border-color:var(--fi3)}
+.fam .sfaq details[open]{border-color:var(--fe)}
+.fam .sfaq summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;font:600 18px/1.35 var(--sans);color:var(--fi)}
+.fam .sfaq summary:after{content:"+";flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--fr);font:500 20px/1 var(--sans);color:var(--fi2);transition:transform .25s,background .2s}
+.fam .sfaq details[open] summary:after{content:"–";background:#CFDD3C;border-color:#1F1B16;color:#1F1B16}
+.fam .sfaq p{margin:-4px 0 0;padding:0 24px 22px;color:var(--fi2);font-size:16px;line-height:1.6}
+@media (max-width:600px){.fam .sfaq summary{padding:17px 18px;font-size:16.5px}.fam .sfaq p{padding:0 18px 18px}}
+</style>
 </body>
 </html>
