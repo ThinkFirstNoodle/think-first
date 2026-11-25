@@ -162,7 +162,7 @@ h2{font:600 18px/1.2 var(--serif);letter-spacing:-.01em;margin:0 0 10px}
       <div style="display:flex;align-items:center;gap:10px;color:var(--ink3);font-size:12px;margin:0 0 12px"><span style="flex:1;height:1px;background:var(--line)"></span>or<span style="flex:1;height:1px;background:var(--line)"></span></div>
       <div class="field" style="text-align:left"><label for="em">Email</label><input id="em" type="email" autocomplete="email" placeholder="you@example.com"></div>
       <button class="btn pri wide" id="send">Email me a sign-in link</button>${msg ? `<p class="small" style="margin-top:12px">${esc(msg)}</p>` : ''}
-      <p class="privacy">Your child's questions are encrypted on their Mac with a code only you two have, so not even Think First can read them. <a href="?demo">See a sample →</a></p></div>`;
+      <p class="privacy">Your child's questions are encrypted on their Mac with a code only you two have, so not even Think First can read them. <a href="?demo">See a sample →</a> · <a href="/families.html">What’s Think First for Families?</a></p></div>`;
     const back = location.href.split('#')[0].split('?')[0];
     $('google').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: back, queryParams: { prompt: 'select_account' } } }); if (error) screenLogin(error.message); };
     $('send').onclick = async () => { const em = $('em').value.trim(); if (!em) return; const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: back } }); screenLogin(error ? error.message : `Check ${em} for the sign-in link.`); };
