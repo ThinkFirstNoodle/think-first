@@ -1,6 +1,6 @@
 // Think First Family: lets the parent page install as an app. Pages always come from the network
 // (so data is fresh); this only keeps a copy of the page itself for when the phone is offline.
-const CACHE = 'tf-parent-v2';
+const CACHE = 'tf-parent-v3';
 self.addEventListener('install', (e) => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['/parent/']))); });
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (e) => {
