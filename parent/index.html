@@ -146,7 +146,7 @@ h2{font:700 20px/1.2 var(--disp);letter-spacing:-.02em;margin:0 0 10px}
   const C = window.TF_SCHOOL || {};
   const DEMO = new URLSearchParams(location.search).has('demo') || !(C.url && C.anonKey);
   const sb = !DEMO && window.supabase ? window.supabase.createClient(C.url, C.anonKey) : null;
-  const DOWNLOAD = 'https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.1/Think-First-for-Families-0.1.1.dmg';
+  const DOWNLOAD = 'https://github.com/ThinkFirstNoodle/think-first/releases/download/family-v0.1.2/Think-First-for-Families-0.1.2.dmg';
   const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
