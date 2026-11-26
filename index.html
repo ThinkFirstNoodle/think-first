@@ -724,6 +724,13 @@ nav .links a.sch-link .nw{margin-left:7px;padding:2px 6px;border-radius:999px;ba
 @media (max-width:700px){nav .links a.sch-link{padding:6px 11px;font-size:13px}nav .links a.sch-link .nw{display:none}}
 @media (max-width:440px){nav .links{padding:3px}nav .links .seg-ind{top:3px;bottom:3px}nav .links a.sch-link{padding:5px 9px;font-size:12.5px}}
 </style>
+<style>
+.mas.big img{height:56px;width:auto}
+.dl-opt.main{gap:8px}
+.dl-opt .gh-alt{margin-top:6px;font-size:14px;font-weight:600;color:var(--ink2);text-decoration:underline;text-decoration-color:#CFDD3C;text-decoration-thickness:2px;text-underline-offset:3px}
+.dl-opt .gh-alt:hover{color:var(--ink)}
+.dl-opt .gh-note{font-size:12px;margin-top:-4px}
+</style>
 </head>
 <body>
 <header id="top">
@@ -731,7 +738,7 @@ nav .links a.sch-link .nw{margin-left:7px;padding:2px 6px;border-radius:999px;ba
     <a class="brand" href="#"><span class="dog proud" id="navDog"></span>Think First</a>
     <div class="links"><a href="./" title="Home" class="sch-link home-link" aria-current="page"><span class="lt">Home</span></a> <a href="schools.html" title="For schools" class="sch-link"><span class="lw">For&nbsp;</span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link"><span class="lw">For&nbsp;</span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
-    <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
+    <a class="pill dl" href="https://apps.apple.com/app/think-first-noodle/id6834817114">Download</a>
   </nav>
 </header>
 
@@ -746,8 +753,7 @@ nav .links a.sch-link .nw{margin-left:7px;padding:2px 6px;border-radius:999px;ba
       <p class="lede">Noodle is a small dog who lives on your Mac. Ask ChatGPT, Claude or Gemini something and he holds the answer until you’ve had a go. Then he shows you what you knew on your own, and what you missed.</p>
       <p class="phone" id="phone" hidden>Think First is a Mac app. Open this page on your Mac to download it.</p>
       <div class="cta">
-        <span class="dl-opt"><a class="btn dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3-1.5z"/></svg>Download from GitHub</a><small>For AI apps and AI websites in your browser</small></span>
-        <span class="dl-opt"><a class="mas" href="https://apps.apple.com/app/think-first-noodle/id6834817114" aria-label="Download on the Mac App Store"><img class="b-light" src="badges/mac-app-store-black.svg" alt="Download on the Mac App Store" width="156" height="40"><img class="b-dark" src="badges/mac-app-store-white.svg" alt="" width="156" height="40"></a><small>For the ChatGPT, Claude &amp; Gemini apps</small></span>
+        <span class="dl-opt main"><a class="mas big" href="https://apps.apple.com/app/think-first-noodle/id6834817114" aria-label="Download on the Mac App Store"><img class="b-light" src="badges/mac-app-store-black.svg" alt="Download on the Mac App Store" width="156" height="40"><img class="b-dark" src="badges/mac-app-store-white.svg" alt="" width="156" height="40"></a><small>Free · For the ChatGPT, Claude &amp; Gemini apps</small><a class="gh-alt" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Or get the full version from GitHub</a><small class="gh-note">Also works with AI websites in your browser, and updates itself</small></span>
         <a class="ghost" href="#how">See how it works →</a>
       </div>
       <p class="meta" id="meta">Free · Apple Silicon (M1 or newer)</p>
@@ -918,7 +924,7 @@ Colder weather plays a part.</textarea>
       <div class="ins rv"><b>3</b><p><strong>Open it.</strong> Noodle’s welcome guide walks you through the rest.</p></div>
       <div class="ins rv"><b>4</b><p><strong>Allow</strong> the two permissions he asks for, then ask an AI anything.</p></div>
     </div>
-    <p class="req">macOS on Apple Silicon (M1 or newer) · Updates itself · Or <a href="https://apps.apple.com/app/think-first-noodle/id6834817114">get it on the Mac App Store</a></p>
+    <p class="req">These steps are for the <a href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">GitHub version</a>. From the <a href="https://apps.apple.com/app/think-first-noodle/id6834817114">Mac App Store</a>, just click Get. · macOS on Apple Silicon (M1 or newer)</p>
   </section>
 
   <section id="changes">
@@ -954,7 +960,7 @@ Colder weather plays a part.</textarea>
   <p class="eyebrow">Free for Mac</p>
   <h2>Your brain first. <em>Then</em> the AI.</h2>
   <p class="sub">Give Noodle a home on your Mac. He’s been practising his “wait”.</p>
-  <div class="cta"><span class="dl-opt"><a class="btn dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download from GitHub</a><small>For AI apps and AI websites in your browser</small></span><span class="dl-opt"><a class="mas" href="https://apps.apple.com/app/think-first-noodle/id6834817114" aria-label="Download on the Mac App Store"><img class="b-light" src="badges/mac-app-store-black.svg" alt="Download on the Mac App Store" width="156" height="40"><img class="b-dark" src="badges/mac-app-store-white.svg" alt="" width="156" height="40"></a><small>For the ChatGPT, Claude &amp; Gemini apps</small></span><span class="cta-spacer" aria-hidden="true"></span></div>
+  <div class="cta"><span class="dl-opt main"><a class="mas big" href="https://apps.apple.com/app/think-first-noodle/id6834817114" aria-label="Download on the Mac App Store"><img class="b-light" src="badges/mac-app-store-black.svg" alt="Download on the Mac App Store" width="156" height="40"><img class="b-dark" src="badges/mac-app-store-white.svg" alt="" width="156" height="40"></a><small>Free · For the ChatGPT, Claude &amp; Gemini apps</small><a class="gh-alt" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Or get the full version from GitHub</a><small class="gh-note">Also works with AI websites in your browser, and updates itself</small></span><span class="cta-spacer" aria-hidden="true"></span></div>
   <p class="meta" id="meta2">Free · Apple Silicon (M1 or newer)</p>
   <p class="fetch-hint">Click anywhere here to throw Noodle a ball.</p>
   <div class="track"><div class="dog run carry-ball" id="trackDog"></div></div>
