@@ -825,7 +825,6 @@ nav .links a.home-link{background:transparent;border-color:var(--rule,#E5E5EA)}n
   <nav class="wrap">
     <a class="brand" href="./"><span class="dog proud" id="navDog"></span>Think First</a>
     <div class="links"><a href="./" title="Home" class="sch-link home-link">🏠 <span class="lt">Home</span></a> <a href="schools.html" title="For schools" class="sch-link">🎓 <span class="lw">For </span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link" aria-current="page">👪 <span class="lw">For </span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
-    <button class="theme snd" id="sndBtn" type="button" aria-pressed="false" aria-label="Turn sound on" title="Turn sound on"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor"/><path class="on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="off" d="M16 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>
@@ -1352,77 +1351,6 @@ body.fam{--fs:var(--serif)}
   addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); frame();
 })();
 </script>
-<style>
-.theme.snd{margin-right:6px}.theme.snd svg{width:18px;height:18px}
-.theme.snd .on{display:none}.theme.snd[aria-pressed=true] .on{display:block}.theme.snd[aria-pressed=true] .off{display:none}
-.theme.snd[aria-pressed=true]{background:#CFDD3C;border-color:#1F1B16;color:#1F1B16}
-.snd-hint{position:fixed;right:18px;top:74px;z-index:60;font:600 13px var(--sans);background:#1F1B16;color:#F7F3EA;padding:9px 13px;border-radius:999px;opacity:0;transform:translateY(-6px);transition:.3s;pointer-events:none}
-.snd-hint.show{opacity:1;transform:none}
-</style>
-<script>
-// Sound for the Families page. Off until the visitor turns it on (browsers require a click).
-// Music: "Entenca" by Bensound (families/theme.mp3), looped quietly. Effects: Web Audio.
-(function () {
-  var btn = document.getElementById('sndBtn'); if (!btn) return;
-  var ctx = null, master = null, music = null, musicGain = null, on = false, noiseBuf = null;
-  function setup() {
-    if (ctx) return;
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    master = ctx.createGain(); master.gain.value = .9; master.connect(ctx.destination);
-    noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-    var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    music = new Audio('families/theme.mp3'); music.loop = true; music.preload = 'auto';
-    var src = ctx.createMediaElementSource(music); musicGain = ctx.createGain(); musicGain.gain.value = 0;
-    src.connect(musicGain); musicGain.connect(master);
-  }
-  function fade(g, to, sec) { var n = ctx.currentTime; g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value, n); g.gain.linearRampToValueAtTime(to, n + sec); }
-  function noise(dur) { var s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true; s.start(); s.stop(ctx.currentTime + dur + .05); return s; }
-  var SFX = {
-    charge: function () { var n = ctx.currentTime, o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
-      o.type = 'sawtooth'; o.frequency.setValueAtTime(70, n); o.frequency.exponentialRampToValueAtTime(420, n + .7);
-      f.type = 'lowpass'; f.frequency.setValueAtTime(300, n); f.frequency.exponentialRampToValueAtTime(2600, n + .7); f.Q.value = 6;
-      g.gain.setValueAtTime(0, n); g.gain.linearRampToValueAtTime(.16, n + .6); g.gain.linearRampToValueAtTime(0, n + .78);
-      o.connect(f); f.connect(g); g.connect(master); o.start(n); o.stop(n + .8); },
-    boom: function () { var n = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.setValueAtTime(140, n); o.frequency.exponentialRampToValueAtTime(32, n + .9);
-      g.gain.setValueAtTime(.0001, n); g.gain.exponentialRampToValueAtTime(.9, n + .015); g.gain.exponentialRampToValueAtTime(.0001, n + 1.2);
-      o.connect(g); g.connect(master); o.start(n); o.stop(n + 1.25);
-      var s = noise(1), f = ctx.createBiquadFilter(), g2 = ctx.createGain();
-      f.type = 'lowpass'; f.frequency.setValueAtTime(4000, n); f.frequency.exponentialRampToValueAtTime(200, n + .9);
-      g2.gain.setValueAtTime(.0001, n); g2.gain.exponentialRampToValueAtTime(.45, n + .01); g2.gain.exponentialRampToValueAtTime(.0001, n + .95);
-      s.connect(f); f.connect(g2); g2.connect(master);
-      var sp = ctx.createOscillator(), gs = ctx.createGain(); sp.type = 'triangle'; sp.frequency.setValueAtTime(1760, n + .05); sp.frequency.exponentialRampToValueAtTime(2640, n + .4);
-      gs.gain.setValueAtTime(.0001, n); gs.gain.exponentialRampToValueAtTime(.05, n + .08); gs.gain.exponentialRampToValueAtTime(.0001, n + .6);
-      sp.connect(gs); gs.connect(master); sp.start(n); sp.stop(n + .65); },
-    whoosh: function () { var n = ctx.currentTime, s = noise(.6), f = ctx.createBiquadFilter(), g = ctx.createGain();
-      f.type = 'bandpass'; f.Q.value = 1.4; f.frequency.setValueAtTime(350, n); f.frequency.exponentialRampToValueAtTime(2800, n + .28); f.frequency.exponentialRampToValueAtTime(600, n + .55);
-      g.gain.setValueAtTime(.0001, n); g.gain.exponentialRampToValueAtTime(.22, n + .2); g.gain.exponentialRampToValueAtTime(.0001, n + .58);
-      s.connect(f); f.connect(g); g.connect(master);
-      var o = ctx.createOscillator(), g3 = ctx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(880, n + .3); o.frequency.exponentialRampToValueAtTime(1320, n + .38);
-      g3.gain.setValueAtTime(.0001, n + .3); g3.gain.exponentialRampToValueAtTime(.06, n + .32); g3.gain.exponentialRampToValueAtTime(.0001, n + .6);
-      o.connect(g3); g3.connect(master); o.start(n + .3); o.stop(n + .62); },
-    lock: function () { var n = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'square'; o.frequency.setValueAtTime(220, n); o.frequency.exponentialRampToValueAtTime(70, n + .16);
-      g.gain.setValueAtTime(.0001, n); g.gain.exponentialRampToValueAtTime(.25, n + .005); g.gain.exponentialRampToValueAtTime(.0001, n + .22);
-      var f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 1200;
-      o.connect(f); f.connect(g); g.connect(master); o.start(n); o.stop(n + .25);
-      var s = noise(.05), g2 = ctx.createGain(); g2.gain.setValueAtTime(.3, n); g2.gain.exponentialRampToValueAtTime(.0001, n + .04); s.connect(g2); g2.connect(master); }
-  };
-  window.TFSound = { play: function (name) { if (on && ctx && SFX[name]) { try { SFX[name](); } catch (e) {} } } };
-  function render() { btn.setAttribute('aria-pressed', on); var l = on ? 'Turn sound off' : 'Turn sound on'; btn.setAttribute('aria-label', l); btn.title = l; }
-  btn.onclick = function () {
-    setup(); on = !on; render();
-    if (ctx.state === 'suspended') ctx.resume();
-    if (on) music.play().then(function () { fade(musicGain, .35, 1.5); }).catch(function () {});
-    else { fade(musicGain, 0, .4); setTimeout(function () { if (!on) music.pause(); }, 450); }
-    try { localStorage.setItem('tf-sound', on ? '1' : '0'); } catch (e) {}
-  };
-  document.addEventListener('visibilitychange', function () { if (!music || !on) return; if (document.hidden) music.pause(); else music.play().catch(function () {}); });
-  var want = false; try { want = localStorage.getItem('tf-sound') === '1'; } catch (e) {}
-  if (want) { var hint = document.createElement('div'); hint.className = 'snd-hint'; hint.textContent = 'Tap 🔈 for music'; document.body.appendChild(hint);
-    setTimeout(function () { hint.classList.add('show'); }, 800); setTimeout(function () { hint.classList.remove('show'); }, 4200); }
-  render();
-})();
-</script>
+<script src="sound.js" defer></script>
 </body>
 </html>
