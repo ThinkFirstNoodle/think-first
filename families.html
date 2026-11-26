@@ -686,7 +686,7 @@ nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-s
 /* ---------- Families: the Think First Family app's look (paper, ink outlines, serif, lime) ---------- */
 body.fam{--fp:#F7F3EA;--fc:#FBF8F1;--fi:#1F1B16;--fi2:#5E574C;--fi3:#8A8275;--fr:#DED6C6;--fe:#1F1B16;--fs:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:var(--fp);color:var(--fi)}
 @media (prefers-color-scheme:dark){body.fam{--fp:#24211C;--fc:#2E2A24;--fi:#F4EFE5;--fi2:#CFC7B8;--fi3:#A0988A;--fr:#3F3A31;--fe:#5A5346}}
-body.fam header nav{background:transparent}
+body.fam > header nav{background:transparent}
 body.fam header{background:color-mix(in srgb,var(--fp) 85%,transparent)}
 .fam .card{background:var(--fc);border:1.5px solid var(--fe);border-radius:20px}
 .fam .lbl{font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fi2)}
@@ -1420,7 +1420,15 @@ body.fam{--fs:var(--serif)}
 .xp-dots i{border-color:#1F1B16!important}
 .xp-dots i.on{background:#1F1B16!important;box-shadow:none!important}
 .xp-hud{color:#1F1B16!important;border:1.5px solid #1F1B16!important;background:#F7F3EA!important}
-@media (prefers-color-scheme:dark){.xp-pin{background:#2E2A24!important;color:#F4EFE5!important}.xp-copy h2{color:#F4EFE5!important}.xp-copy p,.xp-copy .xp-k{color:#CFC7B8!important}.xp-grid{background-image:radial-gradient(rgba(244,239,229,.18) 1.2px,transparent 1.3px)!important}.xp-dots i{border-color:#F4EFE5!important}.xp-dots i.on{background:#F4EFE5!important}.xp-scan{border-color:#F4EFE5}}
+html[data-theme=dark] .xp-pin{background:#2E2A24!important;color:#F4EFE5!important}html[data-theme=dark] .xp-copy h2{color:#F4EFE5!important}html[data-theme=dark] .xp-copy p,html[data-theme=dark] .xp-copy .xp-k{color:#CFC7B8!important}html[data-theme=dark] .xp-grid{background-image:radial-gradient(rgba(244,239,229,.18) 1.2px,transparent 1.3px)!important}html[data-theme=dark] .xp-dots i{border-color:#F4EFE5!important}html[data-theme=dark] .xp-dots i.on{background:#F4EFE5!important}html[data-theme=dark] .xp-scan{border-color:#F4EFE5}
+/* smoother: no per-frame repaints of big areas */
+.xp-grid{opacity:.5!important;will-change:auto}
+.xp-scr .f{box-shadow:0 0 0 1.5px #1F1B16,6px 8px 0 rgba(31,27,22,.16)!important}
+.xp-scr{will-change:transform,opacity;backface-visibility:hidden}
+.xp-rig{will-change:transform}
+body.fam > header{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--fp)!important}
+body.fam > header nav{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
 </style>
 </body>
 </html>
