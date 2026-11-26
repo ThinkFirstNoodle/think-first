@@ -6,8 +6,9 @@
   var un = function () { document.documentElement.classList.remove('tfi-pre'); };
   if (!window.TF || !TF.dogSVG) return un();
   var page = location.pathname.replace(/\/$/, '/index.html').split('/').pop();
-  var SUB = { 'families.html': 'Family', 'schools.html': 'for Schools' }[page] || 'Try first, then ask AI';
+  var SUB = 'Family';
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (page !== 'families.html') { if (window.TFIntroPages) return TFIntroPages[page === 'schools.html' ? 'school' : 'home'](un, still); return un(); }
   var css = document.createElement('style');
   css.textContent = [
     '.tfi{position:fixed;inset:0;z-index:9999;background:#F7F3EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;cursor:pointer;transition:opacity .45s ease,transform .45s ease;overflow:hidden}',
