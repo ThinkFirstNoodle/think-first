@@ -1393,5 +1393,34 @@ body.fam{--fs:var(--serif)}
   to(cur, true);
 })();
 </script>
+<style>
+/* Exploded phone: printed-diagram look. Flat paper, ink lines, flat lime. No glows or gradients. */
+.xp-pin{background:#EFE9DC!important;color:#1F1B16!important}
+.xp-grid{background-image:radial-gradient(rgba(31,27,22,.22) 1.2px,transparent 1.3px)!important;background-size:26px 26px!important;-webkit-mask-image:none!important;mask-image:none!important;transform:none!important;inset:0!important;opacity:calc(.35 + var(--e,0)*.4)!important}
+.xp-scan{background:none!important;height:0!important;border-top:2px dashed #1F1B16;mix-blend-mode:normal!important;opacity:calc(var(--scanO,0)*.8)!important}
+.xp-flash{z-index:0!important;background:#CFDD3C!important;mix-blend-mode:normal!important;clip-path:circle(calc(var(--flash,0)*75%) at 57% 53%);opacity:calc(var(--flash,0)*.9)!important}
+@media (max-width:900px){.xp-flash{clip-path:circle(calc(var(--flash,0)*75%) at 50% 38%)}}
+.xp-wave{border:2px solid #1F1B16!important;box-shadow:none!important}
+.xp-wave.w2{border:1.5px dashed #1F1B16!important}
+.xp-shell{background:#1F1B16!important;outline:none!important;border:1.5px solid #1F1B16!important;box-shadow:6px 8px 0 rgba(31,27,22,.18)!important}
+.xp-shell:before{border:1px dashed rgba(247,243,234,calc(var(--wire,0)*.8))!important}
+.xp-scr .f{box-shadow:0 0 0 1.5px #1F1B16,calc(var(--glow,0)*8px) calc(var(--glow,0)*10px) 0 rgba(31,27,22,.2)!important}
+.xp-scr .f:after{display:none}
+.xp-scr .b{background:#F7F3EA!important;border:1.5px solid #1F1B16!important;background-image:radial-gradient(rgba(31,27,22,.25) 1.2px,transparent 1.3px)!important;background-size:16px 16px!important}
+.xp-scr .b span{color:#1F1B16!important;text-shadow:none!important;font-family:var(--serif)!important;font-weight:700!important}
+.xp-tag{color:#1F1B16!important;background:#CFDD3C!important;border:1.5px solid #1F1B16!important}
+.xp-core i{border-color:#1F1B16!important}
+.xp-core i:nth-child(2){border-color:rgba(31,27,22,.25) #1F1B16 rgba(31,27,22,.25) #1F1B16!important}
+.xp-core b{background:#CFDD3C!important;border:2px solid #1F1B16;box-shadow:none!important}
+.xp-sparks i{background:#CFDD3C!important;border:1.2px solid #1F1B16;box-shadow:none!important}
+.xp-sparks i:nth-child(3n){background:#1F1B16!important;border:0;box-shadow:none!important}
+.xp-copy .xp-k{color:#5E574C!important}
+.xp-copy h2{color:#1F1B16!important}
+.xp-copy p{color:#5E574C!important}
+.xp-dots i{border-color:#1F1B16!important}
+.xp-dots i.on{background:#1F1B16!important;box-shadow:none!important}
+.xp-hud{color:#1F1B16!important;border:1.5px solid #1F1B16!important;background:#F7F3EA!important}
+@media (prefers-color-scheme:dark){.xp-pin{background:#2E2A24!important;color:#F4EFE5!important}.xp-copy h2{color:#F4EFE5!important}.xp-copy p,.xp-copy .xp-k{color:#CFC7B8!important}.xp-grid{background-image:radial-gradient(rgba(244,239,229,.18) 1.2px,transparent 1.3px)!important}.xp-dots i{border-color:#F4EFE5!important}.xp-dots i.on{background:#F4EFE5!important}.xp-scan{border-color:#F4EFE5}}
+</style>
 </body>
 </html>
