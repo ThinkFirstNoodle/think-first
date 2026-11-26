@@ -704,7 +704,7 @@ nav .links{display:flex;gap:8px;align-items:center}nav .links a.sch-link{white-s
     reapply:function(){apply(document.documentElement.dataset.theme||'light')}};
 })();
 </script>
-<style>html.tfi-pre body{visibility:hidden}</style><script>try{if(!sessionStorage.getItem("tf-intro"))document.documentElement.classList.add("tfi-pre")}catch(e){}setTimeout(function(){document.documentElement.classList.remove("tfi-pre")},3000)</script>
+<style>html.tfi-pre body{visibility:hidden}</style><script>document.documentElement.classList.add("tfi-pre");setTimeout(function(){document.documentElement.classList.remove("tfi-pre")},3000)</script>
 </head>
 <body>
 <header id="top">
