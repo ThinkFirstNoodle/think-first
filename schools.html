@@ -724,13 +724,21 @@ nav .links a.home-link{background:transparent;border-color:var(--rule,#E5E5EA)}n
 .sfaq p{color:var(--ink2);margin:10px 0 0}
 .nav-on{color:var(--ink)!important;font-weight:600}
 </style>
-<style>html.tfi-pre body{visibility:hidden}</style><script>document.documentElement.classList.add("tfi-pre");setTimeout(function(){document.documentElement.classList.remove("tfi-pre")},3000)</script>
+<style>html.tfi-pre body{visibility:hidden}</style><script>try{var p=location.pathname.replace(/\/$/,"/index.html").split("/").pop()||"index.html";if(!localStorage.getItem("tf-intro-seen-"+p))document.documentElement.classList.add("tfi-pre")}catch(e){}setTimeout(function(){document.documentElement.classList.remove("tfi-pre")},3000)</script>
+<style>
+/* Top-bar buttons: text only, even spacing */
+nav .links{gap:8px}
+nav .links a.sch-link{gap:0;padding:7px 15px;font-weight:600;letter-spacing:-.01em}
+nav .links a.sch-link .nw{margin-left:8px}
+@media (max-width:700px){nav .links a.sch-link{padding:6px 11px;font-size:13px}nav .links a.sch-link .lt{display:inline}nav .links a.sch-link .lt:first-letter{text-transform:uppercase}}
+@media (max-width:440px){nav .links a.sch-link .lt{display:inline}nav .links a.sch-link{padding:5px 9px;font-size:12.5px}nav .links{gap:5px}}
+</style>
 </head>
 <body class="sp-page">
 <header id="top">
   <nav class="wrap">
     <a class="brand" href="./"><span class="dog proud" id="navDog"></span>Think First</a>
-    <div class="links"><a href="./" title="Home" class="sch-link home-link">🏠 <span class="lt">Home</span></a> <a href="schools.html" title="For schools" class="sch-link" aria-current="page">🎓 <span class="lw">For </span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link">👪 <span class="lw">For </span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
+    <div class="links"><a href="./" title="Home" class="sch-link home-link"><span class="lt">Home</span></a> <a href="schools.html" title="For schools" class="sch-link" aria-current="page"><span class="lw">For&nbsp;</span><span class="lt">schools</span></a> <a href="families.html" title="For families" class="sch-link"><span class="lw">For&nbsp;</span><span class="lt">families</span> <span class="nw">NEW</span></a></div>
     <button class="theme" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     <a class="pill dl" href="https://github.com/ThinkFirstNoodle/think-first/releases/latest">Download</a>
   </nav>

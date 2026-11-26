@@ -1,11 +1,14 @@
 // The opening, as in the Think First Family app: Noodle chases his tennis ball along the ground
 // line, leaps and catches it in a lime flash and a burst of balls and sparkles, while "Think First"
-// pops up letter by letter. About 3 seconds, on every page load. Click, tap, a key or scrolling skips it.
+// pops up letter by letter. About 3 seconds, the first time each page is opened. Click, tap, a key or scrolling skips it.
 // Reduce Motion: a short, still version.
 (function () {
   var un = function () { document.documentElement.classList.remove('tfi-pre'); };
   if (!window.TF || !TF.dogSVG) return un();
   var page = location.pathname.replace(/\/$/, '/index.html').split('/').pop();
+  // Each page's opening plays the first time it's opened in this browser, then not again.
+  var KEY = 'tf-intro-seen-' + (page || 'index.html');
+  try { if (localStorage.getItem(KEY)) return un(); localStorage.setItem(KEY, '1'); } catch (e) {}
   var SUB = 'Family';
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (page !== 'families.html') { if (window.TFIntroPages) return TFIntroPages[page === 'schools.html' ? 'school' : 'home'](un, still); return un(); }
