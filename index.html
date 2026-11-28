@@ -1619,8 +1619,9 @@ Colder weather plays a part.</textarea>
     .then(function (rel) {
       var total = 40; // downloads from before the releases moved here
       // Only the .dmg counts: the .zip is what installed apps fetch when they update themselves.
+      var APP_STORE = 20; // Mac App Store downloads (App Store Connect; update by hand)
       rel.forEach(function (x) { x.assets.forEach(function (a) { if (/\.dmg$/.test(a.name) && !/Schools/.test(a.name)) total += a.download_count; }); });
-      $('count').textContent = total.toLocaleString();
+      $('count').textContent = (total + APP_STORE).toLocaleString();
       $('countBox').hidden = false;
       var latest = rel.find(function (x) { return !x.draft && !x.prerelease && !/^school-/.test(x.tag_name); });
       var dmg = latest && latest.assets.find(function (a) { return /\.dmg$/.test(a.name); });
